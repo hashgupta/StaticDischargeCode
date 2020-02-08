@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## NOTICE
 
 This repository contains the public FTC SDK for the SKYSTONE (2019-2020) competition season.  
@@ -924,3 +925,11 @@ In this latest version of the FTC SDK (20150803_001) the following changes shoul
 
 T. Eng
 August 3, 2015
+=======
+# StaticDischargeCode
+This team team 11172 Static Discharge's code. Feel free to copy, explore, learn and have fun.
+
+
+# Contributions or Suggestions
+Please open an issue or something. I like fixing stuff :)
+>>>>>>> 5d743ac53cdf5ca071fa0c4a555db5240217b5ad
