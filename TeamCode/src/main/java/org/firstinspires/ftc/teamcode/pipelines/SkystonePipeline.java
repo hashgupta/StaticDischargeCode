@@ -1,8 +1,11 @@
+
 package org.firstinspires.ftc.teamcode.pipelines;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -17,6 +20,7 @@ public class SkystonePipeline extends OpenCvPipeline {
     Mat contoursOnFrameMat = new Mat();
     List<MatOfPoint> contoursList = new ArrayList<>();
     int numContoursFound;
+    double avg;
 
     enum Stage {
         HSVMAT,
@@ -65,7 +69,26 @@ public class SkystonePipeline extends OpenCvPipeline {
 //
         Imgproc.cvtColor(input, HSVmat, Imgproc.COLOR_RGB2HSV);
         Core.extractChannel(HSVmat, HSVmat, 1);
+        Imgproc.rectangle(HSVmat, new Point(
+                        input.cols()/4.0,
+                        input.rows()/4.0),
+                new Point(
+                        input.cols()*(3f/4f),
+                        input.rows()*(3f/4f)),
+                new Scalar(0, 255, 0), 4);
+        Mat mask = new Mat(input.rows(), input.cols(), 0, new Scalar(255));
+        Imgproc.rectangle(mask, new Point(
+                        mask.cols()/4.0,
+                        mask.rows()/4.0),
+                new Point(
+                        mask.cols()*(3f/4f),
+                        mask.rows()*(3f/4f)),
+                new Scalar(0), Imgproc.FILLED);
+        avg = Core.mean(HSVmat, mask).val[0];
+        return HSVmat;
+    }
 
-        return input;
+    public double average() {
+        return avg;
     }
 }

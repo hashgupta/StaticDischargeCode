@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: :tfod-release:@aar">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/212edd29ffa1fbec9e2a9f98ea6da52b/res" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/212edd29ffa1fbec9e2a9f98ea6da52b/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

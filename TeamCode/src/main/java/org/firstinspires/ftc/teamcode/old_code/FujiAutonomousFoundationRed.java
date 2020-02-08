@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.old_code;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+@Disabled
 @Autonomous(name = "FujiFoundationRed", group = "PatentPending")
 public class FujiAutonomousFoundationRed extends FujiAutonomous {
 

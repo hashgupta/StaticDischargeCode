@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.old_code;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
@@ -9,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@Disabled
 @Autonomous(name = "FujiStonesTensorflow", group = "PatentPending")
 public class FujiAutonomousStonesTensorflow extends FujiAutonomous {
 

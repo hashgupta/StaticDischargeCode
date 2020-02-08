@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+@Autonomous(name="CVAUTOTEST")
 public class FujiAutonomousCV extends FujiAutonomousBase {
 
     @Override
@@ -8,7 +11,8 @@ public class FujiAutonomousCV extends FujiAutonomousBase {
         waitForStart();
         startCV();
         while (opModeIsActive()) {
-            idle();
+            telemetry.addData("average", pipeline.average());
+            telemetry.update();
         }
         stopCV();
     }
