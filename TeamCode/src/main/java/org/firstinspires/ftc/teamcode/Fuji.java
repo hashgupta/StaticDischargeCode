@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
@@ -21,7 +22,7 @@ public final class Fuji {
     // OpMode members
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
-    private final FujiAutonomousBase opMode;
+    private final LinearOpMode opMode;
     public final DriveTrain driveTrain;
     public final Motor lift;
     public final ServoM dropStone;
@@ -36,7 +37,7 @@ public final class Fuji {
     private static final double gyroAdjust = 4;
 
     // initialize robot
-    public Fuji(HardwareMap hardwareMap, Telemetry telemetry, FujiAutonomousBase opMode) {
+    public Fuji(HardwareMap hardwareMap, Telemetry telemetry, LinearOpMode opMode) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
         this.opMode = opMode;

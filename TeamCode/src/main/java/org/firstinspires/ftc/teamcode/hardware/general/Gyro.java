@@ -29,7 +29,7 @@ public class Gyro extends Device<BNO055IMU> implements Input<Double> {
 
 	// sense angle
 	@Override public Double measure() {
-		Orientation angles = device.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+		Orientation angles = device.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 		return checkRange((angles.firstAngle + 180) / 360, 0, 1, name);
 	}
 }
