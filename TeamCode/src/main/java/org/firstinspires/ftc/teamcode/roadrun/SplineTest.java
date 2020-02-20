@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDriveBase drive = new RevSampleMecanumDrive(hardwareMap);
+        MecanumDriveBase drive = new RevMecanumDrive(hardwareMap);
 
         waitForStart();
 

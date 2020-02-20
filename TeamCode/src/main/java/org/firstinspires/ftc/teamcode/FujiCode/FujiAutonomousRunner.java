@@ -1,7 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.FujiCode;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.FujiCode.Fuji;
+import org.firstinspires.ftc.teamcode.FujiCode.FujiAutonomousBase;
 
 @Autonomous(name="RoadRunnerWithBot")
 public class FujiAutonomousRunner extends FujiAutonomousBase {

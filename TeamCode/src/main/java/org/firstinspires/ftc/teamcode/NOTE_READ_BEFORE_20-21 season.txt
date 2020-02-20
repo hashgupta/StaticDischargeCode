@@ -1,2 +1,4 @@
 update code with the latest changes from the common code from patent pending code, there are and will be big fixes in
 the code you share with william, so refresh this with all those changes. February 8th 2020
+
+some changes have been made to this repository but no the old ftcrobotics one because those changes involved new stuff with the 5.4 ftc update, like bulk reading from rev expansion hub in roadrunner

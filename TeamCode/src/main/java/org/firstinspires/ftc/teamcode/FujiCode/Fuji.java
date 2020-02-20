@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.FujiCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -6,15 +6,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.FujiAutonomousBase;
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM;
 import org.firstinspires.ftc.teamcode.hardware.general.Motor;
 import org.firstinspires.ftc.teamcode.hardware.general.Gyro;
 import org.firstinspires.ftc.teamcode.hardware.general.Color;
 import org.firstinspires.ftc.teamcode.hardware.general.Distance;
-import org.firstinspires.ftc.teamcode.roadrun.RevSampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.roadrun.SampleMecanumDriveBase;
+import org.firstinspires.ftc.teamcode.roadrun.RevMecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrun.MecanumDriveBase;
 
 // robot
 public final class Fuji {
@@ -32,7 +31,7 @@ public final class Fuji {
     public final Gyro gyro;
     public final Color stone;
     public final Distance distance;
-    public final SampleMecanumDriveBase RoadRunnerDT;
+    public final MecanumDriveBase RoadRunnerDT;
     // robot constants
     private static final double gyroAdjust = 4;
 
@@ -49,7 +48,7 @@ public final class Fuji {
 
         driveTrain = new DriveTrain(rf, rb, lf, lb);
 
-        RoadRunnerDT = new RevSampleMecanumDrive(hardwareMap);
+        RoadRunnerDT = new RevMecanumDrive(hardwareMap);
 
         lift = new Motor("lift", 1120, 1, 2, hardwareMap);
         pinch = new ServoM("pinch", hardwareMap);

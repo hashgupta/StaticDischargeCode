@@ -44,7 +44,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
     private String catName;
     private CustomVariable catVar;
 
-    private SampleMecanumDriveBase drive;
+    private MecanumDriveBase drive;
 
     private static MotionProfile generateProfile(boolean movingForward) {
         MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
@@ -129,7 +129,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
-        drive = new RevSampleMecanumDrive(hardwareMap);
+        drive = new RevMecanumDrive(hardwareMap);
 
         addPidVariable();
 

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -27,15 +28,19 @@ import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.getMotorVelo
  * Simple mecanum drive hardware implementation for REV hardware. If your hardware configuration
  * satisfies the requirements, SampleMecanumDriveREVOptimized is highly recommended.
  */
-public class RevSampleMecanumDrive extends SampleMecanumDriveBase {
+public class RevOdometryMecanumDrive extends MecanumDriveBase {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
     private BNO055IMU imu;
 
-    public RevSampleMecanumDrive(HardwareMap hardwareMap) {
+    public RevOdometryMecanumDrive(HardwareMap hardwareMap) {
         super();
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
 
         // TODO: adjust the names of the following hardware devices to match your configuration
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -70,7 +75,8 @@ public class RevSampleMecanumDrive extends SampleMecanumDriveBase {
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
+        // for instance,
+         setLocalizer(new TwoWheelRevLocalizer(hardwareMap, imu));
     }
 
     @Override
@@ -98,14 +104,6 @@ public class RevSampleMecanumDrive extends SampleMecanumDriveBase {
         return wheelPositions;
     }
 
-    @Override
-    public List<Double> getWheelVelocities() {
-        List<Double> wheelVelocities = new ArrayList<>();
-        for (DcMotorEx motor : motors) {
-            wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
-        }
-        return wheelVelocities;
-    }
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
