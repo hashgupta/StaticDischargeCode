@@ -15,7 +15,7 @@ public class StraightTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDriveBase drive = new RevMecanumDrive(hardwareMap);
+        MecanumDriveBase drive = new RevMecanumDrive(hardwareMap, false);
 
         Trajectory trajectory = drive.trajectoryBuilder()
                 .forward(DISTANCE)

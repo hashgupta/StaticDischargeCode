@@ -32,9 +32,12 @@ public class RevMecanumDrive extends MecanumDriveBase {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
     private BNO055IMU imu;
+    private boolean odometry;
 
-    public RevMecanumDrive(HardwareMap hardwareMap) {
+    public RevMecanumDrive(HardwareMap hardwareMap, boolean odometry) {
         super();
+
+        this.odometry = odometry;
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
@@ -75,7 +78,10 @@ public class RevMecanumDrive extends MecanumDriveBase {
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
+        // for instance,
+        if (odometry) {
+            setLocalizer(new TwoWheelRevLocalizer(hardwareMap, imu));
+        }
     }
 
     @Override
@@ -93,6 +99,7 @@ public class RevMecanumDrive extends MecanumDriveBase {
         }
     }
 
+    // not used if a different localizer is used
     @NonNull
     @Override
     public List<Double> getWheelPositions() {

@@ -48,7 +48,7 @@ public final class Fuji {
 
         driveTrain = new DriveTrain(rf, rb, lf, lb);
 
-        RoadRunnerDT = new RevMecanumDrive(hardwareMap);
+        RoadRunnerDT = new RevMecanumDrive(hardwareMap, false);
 
         lift = new Motor("lift", 1120, 1, 2, hardwareMap);
         pinch = new ServoM("pinch", hardwareMap);
