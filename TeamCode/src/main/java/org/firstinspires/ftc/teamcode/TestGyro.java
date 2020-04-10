@@ -2,25 +2,22 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.FujiCode.Fuji;
+import org.firstinspires.ftc.teamcode.StaticSparky.SparkyRobot;
 
 public class TestGyro extends LinearOpMode {
-    Fuji robot;
+    SparkyRobot robot;
+
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new Fuji(hardwareMap, telemetry, this);
+        robot = new SparkyRobot(hardwareMap, telemetry, this);
 
 //         turns, gyro sensor
-    while ( opModeIsActive() ) {
-        Orientation angle  = robot.gyro.device.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        telemetry.addData("gyro reading z", angle.firstAngle);
-        telemetry.addData("gyro reading y", angle.secondAngle);
-        telemetry.addData("gyro reading x", angle.thirdAngle);
-        telemetry.update();
-        }
+//    while ( opModeIsActive() ) {
+//        Orientation angle  = robot.gyro.getDevice().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+//        telemetry.addData("gyro reading z", angle.firstAngle);
+//        telemetry.addData("gyro reading y", angle.secondAngle);
+//        telemetry.addData("gyro reading x", angle.thirdAngle);
+//        telemetry.update();
+//        }
     }
 }

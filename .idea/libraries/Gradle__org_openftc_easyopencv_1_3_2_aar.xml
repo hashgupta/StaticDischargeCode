@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: org.openftc:easyopencv:1.3.2@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/6a006e9ba903a16d44bc14c063d262a1/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/6a006e9ba903a16d44bc14c063d262a1/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/63fe3ee48dde42b5679714d493aa4d30/res" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/63fe3ee48dde42b5679714d493aa4d30/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

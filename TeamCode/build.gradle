@@ -12,4 +12,9 @@
 // Custom definitions may go here
 
 // Include common definitions from above.
+
 apply from: '../build.common.gradle'
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'

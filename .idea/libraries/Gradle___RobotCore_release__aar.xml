@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: :RobotCore-release:@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/c073691d110551a5623c7d168e09a8e5/res" />
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/c073691d110551a5623c7d168e09a8e5/jars/libs/Vuforia.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/c073691d110551a5623c7d168e09a8e5/jars/classes.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/c073691d110551a5623c7d168e09a8e5/jars/libs/gson-extras-0.2.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/c073691d110551a5623c7d168e09a8e5/jars/libs/slf4j-handroid-1.7.27.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/c073691d110551a5623c7d168e09a8e5/jars/libs/gson-2.8.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/c073691d110551a5623c7d168e09a8e5/jars/libs/slf4j-api-1.7.26.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/b32a8643d857b29b78a280bf4ce74155/res" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/b32a8643d857b29b78a280bf4ce74155/jars/libs/gson-2.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/b32a8643d857b29b78a280bf4ce74155/jars/libs/slf4j-handroid-1.7.27.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/b32a8643d857b29b78a280bf4ce74155/jars/libs/gson-extras-0.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/b32a8643d857b29b78a280bf4ce74155/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/b32a8643d857b29b78a280bf4ce74155/jars/libs/slf4j-api-1.7.26.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/b32a8643d857b29b78a280bf4ce74155/jars/libs/Vuforia.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.purePursuit.PurePursuitDrive;
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM;
 import org.firstinspires.ftc.teamcode.hardware.general.Motor;
@@ -49,6 +50,9 @@ public final class Fuji {
         driveTrain = new DriveTrain(rf, rb, lf, lb);
 
         RoadRunnerDT = new RevMecanumDrive(hardwareMap, false);
+
+        new PurePursuitDrive(RoadRunnerDT.getLocalizer());
+
 
         lift = new Motor("lift", 1120, 1, 2, hardwareMap);
         pinch = new ServoM("pinch", hardwareMap);
@@ -97,13 +101,13 @@ public final class Fuji {
         driveTrain.setTarget(new DriveTrain.Direction(hori, -vert, 0).speeds());
         driveTrain.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        driveTrain.start(new DriveTrain.Square<Double>(0.8, 0.8, 0.8, 0.8));
+        driveTrain.start(new DriveTrain.Square<>(0.8, 0.8, 0.8, 0.8));
 
         // do gyro adjustment in here |
         //                            v
         while (driveTrain.isBusy() && opMode.opModeIsActive()) {}
         //turn (-headingError(angle)) * gyroAdjust)
-        driveTrain.start(new DriveTrain.Square<Double>(0.0, 0.0, 0.0, 0.0));
+        driveTrain.start(new DriveTrain.Square<>(0.0, 0.0, 0.0, 0.0));
         driveTrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
