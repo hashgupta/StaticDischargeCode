@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain
 
-@TeleOp(name = "SparkyTele", group = "PatentPending")
-class FujiTele : OpMode() {
+@TeleOp(name = "SparkyTele", group = "StaticDischarge")
+class SparkyTele : OpMode() {
 
     // robot
     private lateinit var robot: SparkyRobot
@@ -27,12 +27,7 @@ class FujiTele : OpMode() {
         var vert = gamepad1.left_stick_y.toDouble()
         var hori = gamepad1.left_stick_x.toDouble()
         val turn = gamepad1.right_stick_x.toDouble()
-        val lift = gamepad2.right_stick_y.toDouble()
-
-        val hookUp = gamepad1.left_bumper
-        val hookDown = gamepad1.right_bumper
-        val pinchDown = gamepad2.right_bumper
-        val pinchUp = gamepad2.left_bumper
+//        val lift = gamepad2.right_stick_y.toDouble()
 
         // process input
 
@@ -56,32 +51,20 @@ class FujiTele : OpMode() {
             hori = 0.0
         }
 
-//        try {
+        try {
 //            //output values for robot movement
             robot.driveTrain.start(DriveTrain.Vector(
                     hori * driveSpeed * (if (reverse) -1 else 1).toDouble(),
                     vert * driveSpeed * (if (reverse) -1 else 1).toDouble(),
                     turn * driveSpeed).speeds())
 //            robot!!.lift.start(liftSpeed(lift))
-//            if (hookUp) {
-//                robot!!.hook(0.0)
-//            }
-//            if (hookDown) {
-//                robot!!.hook(0.9)
-//            }
-//
-//            if (pinchDown) {
-//                robot!!.pinch.start(0.0)
-//            } else if (pinchUp) {
-//                robot!!.pinch.start(1.0)
-//            }
-//
-//
-//        } catch (e: Exception) {
-//            telemetry.addData("Error", e.message)
-//            telemetry.addData("info", e.stackTrace[0].toString())
-//            telemetry.update()
-//        }
+
+
+        } catch (e: Exception) {
+            telemetry.addData("Error", e.message)
+            telemetry.addData("info", e.stackTrace[0].toString())
+            telemetry.update()
+        }
 
     }
 

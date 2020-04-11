@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.FujiCode.Fuji;
 import org.firstinspires.ftc.teamcode.FujiCode.FujiAutonomousBase;
 
-@Autonomous(name="FujiTests", group="PatentPending")
+//@Autonomous(name="FujiTests", group="PatentPending")
 public final class FujiAutonomousTests extends FujiAutonomousBase {
 
     @Override

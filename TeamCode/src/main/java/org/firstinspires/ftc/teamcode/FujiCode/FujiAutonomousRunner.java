@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.FujiCode.Fuji;
 import org.firstinspires.ftc.teamcode.FujiCode.FujiAutonomousBase;
 
-@Autonomous(name="RoadRunnerWithBot")
+//@Autonomous(name="RoadRunnerWithBot")
 public class FujiAutonomousRunner extends FujiAutonomousBase {
 
     @Override

@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.FujiCode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-@Autonomous(name="CVAUTOTEST")
 public class FujiAutonomousCV extends FujiAutonomousBase {
 
     @Override

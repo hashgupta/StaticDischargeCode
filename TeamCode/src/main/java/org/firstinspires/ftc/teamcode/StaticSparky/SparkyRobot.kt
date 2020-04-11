@@ -13,6 +13,7 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry, val op
     // OpMode members
     var RoadRunnerDT: MecanumDriveBase
     var driveTrain: DriveTrain
+    var pursuiter: PurePursuitDrive
     //    var lift: Motor
     //    var dropStone: ServoM
     //    var pinch: ServoM
@@ -33,7 +34,7 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry, val op
 
         RoadRunnerDT = RevMecanumDrive(hardwareMap, false)
 
-        PurePursuitDrive(RoadRunnerDT.localizer)
+        pursuiter = PurePursuitDrive(RoadRunnerDT.localizer)
     }
 
     //secondary constructor

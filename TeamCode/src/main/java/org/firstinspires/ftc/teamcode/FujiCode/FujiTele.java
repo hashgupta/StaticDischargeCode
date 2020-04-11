@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.FujiCode.Fuji;
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 
-@TeleOp(name="FujiTele", group="PatentPending")
+//@TeleOp(name="FujiTele", group="PatentPending")
 public final class FujiTele extends OpMode {
 
     // robot
