@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.purePursuit
 
+import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
@@ -14,6 +15,7 @@ import kotlin.math.*
 
 const val TAU = Math.PI * 2
 
+@Config
 class PurePursuitDrive(val localizer: Localizer) {
     val waypoints: MutableList<Pose2d> = mutableListOf()
     val actions: MutableList<Pair<Int, () -> Unit>> = mutableListOf()
@@ -22,23 +24,16 @@ class PurePursuitDrive(val localizer: Localizer) {
     private val translationalTol = 0.5 //inches
     private val angularTol = Math.toRadians(1.0) // one degree angular tolerance
 
-    private val axialCoeffs = PIDCoefficients(1.0, 0.0, 0.0) // no need for axial or lateral pid to be changed
-    private val lateralCoeffs = PIDCoefficients(1.0, 0.0, 0.0) // ^
-    private val headingCoeffs = PIDCoefficients(1.0, 0.0, 0.0) // change how every needed
+    private val wheelErrorPowerPid = PIDCoefficients(1.0, 0.0, 0.0) // no need for axial or lateral pid to be changed
 
-    private val axialController = PIDFController(axialCoeffs)
-    private val lateralController = PIDFController(lateralCoeffs)
-    private val headingController = PIDFController(headingCoeffs)
+    private val wheelErrorPowerController = PIDFController(wheelErrorPowerPid)
 
     private val arcResolution = 6.0  // number of inches per point on arc
     private val speed = 50.0 //travel speed, inches
     private val threshold = 5.0 // distance at which to start reducing speed, inches
 
     init {
-        headingController.setInputBounds(-Math.PI, Math.PI)
-        axialController.update(0.0)
-        lateralController.update(0.0)
-        headingController.update(0.0)
+        wheelErrorPowerController.update(0.0)
     }
 
     fun followSync(drivetrain: DriveTrain, rel: Boolean = false) {
@@ -48,6 +43,7 @@ class PurePursuitDrive(val localizer: Localizer) {
 
         val firstAction = actions.find { it.first == previous }?.second
         if (firstAction != null) firstAction()
+
         waypoints.add(0, localizer.poseEstimate)
 
         while (!Thread.currentThread().isInterrupted) {
@@ -58,7 +54,6 @@ class PurePursuitDrive(val localizer: Localizer) {
                     abs(currentPos.heading - waypoints.last().heading) < angularTol) {
                 // at last waypoint
                 break
-
             } else if (currentPos.vec() distTo waypoints[goal].vec() < translationalTol &&
                     abs(currentPos.heading - waypoints[goal].heading) < angularTol) {
                 // go to next waypoint
@@ -78,12 +73,14 @@ class PurePursuitDrive(val localizer: Localizer) {
             val multiplier = if (goal == waypoints.size - 1) {
                 0.0
             } else {
-                cos(waypoints[goal+1].vec() - waypoints[goal].vec()
-                        angleBetween waypoints[goal].vec() - waypoints[previous].vec()) // calculate how similar the
+                cos((waypoints[goal+1].vec() - waypoints[goal].vec())
+                        angleBetween (waypoints[goal].vec() - waypoints[previous].vec())) // calculate how similar the
             }
 
-            val wheelVel = getWheelVelocityFromTarget(target, currentPos, waypoints[goal].vec() distTo currentPos.vec(), multiplier,
-                    calculateTRelative(currentPos.vec(), waypoints[previous].vec(), waypoints[goal].vec()) )
+            val wheelVel = getWheelVelocityFromTarget(target = target, currentPos = currentPos,
+                    length = waypoints[goal].vec() distTo currentPos.vec(),
+                    speedMultiplier = multiplier,
+                    t = calculateTRelative(currentPos.vec(), waypoints[previous].vec(), waypoints[goal].vec()))
 
             drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
 
@@ -153,10 +150,8 @@ class PurePursuitDrive(val localizer: Localizer) {
             speed * length / threshold
         }
 
-        val robotVelocity= getCorrectionVelocity(error).times(adjustedSpeed).times(0.0254) // to appropriate speed and meters as unit
-
-        var wheelVel = MecanumKinematics.robotToWheelVelocities(robotVelocity, constants.trackwidth * 0.0254, constants.wheelBase * 0.0254)
-                .map {it*constants.WheelVelToPowerConst}
+        var wheelVel = MecanumKinematics.robotToWheelVelocities(error.times(adjustedSpeed), Constants.trackwidth, Constants.wheelBase, lateralMultiplier = 0.9)
+                .map {wheelErrorToPower(it)}
 
 
         val wheelCopy = wheelVel.map {abs(it)}
@@ -182,14 +177,10 @@ class PurePursuitDrive(val localizer: Localizer) {
         val t = calculateTRelative(currentPose.vec(), start.vec(), end.vec())
         return getPointfromT(t, start, end)
     }
-    internal fun getCorrectionVelocity(poseError: Pose2d): Pose2d {
-        axialController.targetPosition = poseError.y
-        lateralController.targetPosition = poseError.x
-        headingController.targetPosition = poseError.heading
-        val axialCorrection = axialController.update(0.0)
-        val lateralCorrection = lateralController.update(0.0)
-        val headingCorrection = headingController.update(0.0)
-        return Pose2d(lateralCorrection, axialCorrection, headingCorrection)
+
+    internal fun wheelErrorToPower(error: Double):Double {
+        wheelErrorPowerController.targetPosition = error
+        return wheelErrorPowerController.update(0.0)
     }
 
     internal fun calculateT(currentVec: Vector2d, start: Vector2d, end: Vector2d): Double {

@@ -1,16 +1,27 @@
 package org.firstinspires.ftc.teamcode.purePursuit
 
-object constants {
-    val m = 15;
-    val g = 9.8;
-    val mu = 0.6;
-    val maxMotorAmps = 20;
-    val motorVolts = 3.3;
-     val trackwidth = 18.0;
-    val wheelBase = 18.0;
-    val maxMotorPower = maxMotorAmps * motorVolts
-    val numOfWheels = 4 // put in to scale the power to distribute it over the wheels
-    val WheelVelToPowerConst =(m*g*mu / numOfWheels) / maxMotorPower
+import com.acmerobotics.dashboard.config.Config
+
+@Config
+object Constants {
+//    const val m = 15
+//    const val g = 9.8
+//    const val mu = 0.6
+//    const val maxMotorAmps = 20
+//    const val motorVolts = 3.3
+    const val trackwidth = 18.0
+    const val wheelBase = 18.0
+//    const val maxMotorPower = maxMotorAmps * motorVolts
+//    const val numOfWheels = 4 // put in to scale the power to distribute it over the wheels
+//    const val WheelVelToPowerConst =(m*g*mu / numOfWheels) / maxMotorPower
+    const val TICKS_PER_REV = 0.0
+    const val WHEEL_RADIUS = 2.0 // in
+    const val GEAR_RATIO = 1.0 // output (wheel) speed / input (encoder) speed
+    const val LATERAL_DISTANCE = 10.0 // in; distance between the left and right wheels (ie trackwidth)
+    const val FORWARD_OFFSET = 4.0 // in; offset of the front/back wheel
+    fun encoderTicksToInches(ticks: Int): Double {
+        return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV
+    }
     // formula is power = force * velocity
     // what we want to do is get a net power of zero, so the velocity of the body is at the desired vel
     // so the power supplied has to equal the power lost to friction

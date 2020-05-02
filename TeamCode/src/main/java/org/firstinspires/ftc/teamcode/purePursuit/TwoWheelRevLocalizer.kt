@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
+import org.firstinspires.ftc.teamcode.purePursuit.Constants.FORWARD_OFFSET
+import org.firstinspires.ftc.teamcode.purePursuit.Constants.LATERAL_DISTANCE
+import org.firstinspires.ftc.teamcode.purePursuit.Constants.encoderTicksToInches
 
 /*
  * Sample tracking wheel localizer implementation assuming the standard configuration:
@@ -43,16 +46,6 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer
         return imuSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
     }
 
-    companion object {
-        var TICKS_PER_REV = 0.0
-        var WHEEL_RADIUS = 2.0 // in
-        var GEAR_RATIO = 1.0 // output (wheel) speed / input (encoder) speed
-        var LATERAL_DISTANCE = 10.0 // in; distance between the left and right wheels
-        var FORWARD_OFFSET = 4.0 // in; offset of the lateral wheel
-        fun encoderTicksToInches(ticks: Int): Double {
-            return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV
-        }
-    }
 
     init {
         lateralEncoder = hardwareMap.dcMotor["lateralEncoder"]

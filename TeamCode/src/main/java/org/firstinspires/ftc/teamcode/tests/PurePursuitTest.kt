@@ -3,15 +3,9 @@ package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.roadrunner.drive.MecanumDrive
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
-import com.acmerobotics.roadrunner.kinematics.Kinematics
-import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import org.firstinspires.ftc.teamcode.purePursuit.PurePursuitDrive
-import org.firstinspires.ftc.teamcode.purePursuit.constants
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import kotlin.math.PI
-import kotlin.math.abs
 
 private val INITIAL_POSE = Pose2d(13.5, 12.0, 0.0)
 
