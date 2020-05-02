@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.StaticSparky
 
-import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 
 @Autonomous(name = "SparkyTests", group = "StaticDischarge")
@@ -10,8 +9,10 @@ class SparkAutoTests : SparkAutoBase() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
         robot = SparkyRobot(hardwareMap, telemetry)
         waitForStart()
-        robot.pursuiter.addPoint(10.0, 10.0, 3.14).addPoint(5.0, 5.0, 0.0)
-        robot.pursuiter.AutofollowSync(robot.driveTrain)
+        robot.pursuiter
+                .addPoint(10.0, 10.0, 3.14)
+                .addPoint(5.0, 5.0, 0.0)
+        robot.pursuiter.followSync(robot.driveTrain)
 
     }
 }

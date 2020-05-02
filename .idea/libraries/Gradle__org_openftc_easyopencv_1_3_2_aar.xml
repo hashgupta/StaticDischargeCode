@@ -1,10 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: org.openftc:easyopencv:1.3.2@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/63fe3ee48dde42b5679714d493aa4d30/res" />
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/63fe3ee48dde42b5679714d493aa4d30/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/9519745ca4f70a6beba0825f38e755ea/easyopencv-1.3.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/9519745ca4f70a6beba0825f38e755ea/easyopencv-1.3.2/res" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.openftc/easyopencv/1.3.2/e44e4677991b120ef61c657c222382b60599cd8e/easyopencv-1.3.2-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.openftc/easyopencv/1.3.2/38e7600502175273d9916bf0448c13db11a8207a/easyopencv-1.3.2-sources.jar!/" />
     </SOURCES>

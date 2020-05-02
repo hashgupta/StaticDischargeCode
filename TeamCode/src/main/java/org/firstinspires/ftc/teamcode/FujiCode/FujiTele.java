@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.FujiCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.FujiCode.Fuji;
-import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
+import org.firstinspires.ftc.teamcode.Controllers.DriveTrain;
 
 //@TeleOp(name="FujiTele", group="PatentPending")
 public final class FujiTele extends OpMode {

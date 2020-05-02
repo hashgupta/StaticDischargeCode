@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 
-import org.firstinspires.ftc.teamcode.hardware.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 
 @TeleOp(name = "LilBot", group = "PatentPending")

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.StaticSparky
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
-import org.firstinspires.ftc.teamcode.hardware.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
 class SparkyTele : OpMode() {

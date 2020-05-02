@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.StaticSparky
 
+import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.hardware.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.purePursuit.PurePursuitDrive
-import org.firstinspires.ftc.teamcode.roadrun.MecanumDriveBase
-import org.firstinspires.ftc.teamcode.roadrun.RevMecanumDrive
+import org.firstinspires.ftc.teamcode.purePursuit.ThreeWheelRevLocalizer
+
 
 class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry, val opMode: LinearOpMode?) {
     // OpMode members
-    var RoadRunnerDT: MecanumDriveBase
     var driveTrain: DriveTrain
     var pursuiter: PurePursuitDrive
     //    var lift: Motor
@@ -32,12 +32,15 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry, val op
 
         driveTrain = DriveTrain(rf, rb, lf, lb)
 
-        RoadRunnerDT = RevMecanumDrive(hardwareMap, false)
+        pursuiter = PurePursuitDrive(ThreeWheelRevLocalizer(hardwareMap))
 
-        pursuiter = PurePursuitDrive(RoadRunnerDT.localizer)
+        val allHubs = hardwareMap.getAll(LynxModule::class.java)
+        for (module in allHubs) {
+            module.bulkCachingMode = LynxModule.BulkCachingMode.AUTO
+        }
     }
 
     //secondary constructor
     constructor(hardwareMap: HardwareMap, telemetry: Telemetry) : this(hardwareMap, telemetry, null)
-//    {} add code here as contructor body if code for this specific case is needed
+//    {} add code here as constructor body if code for this specific case is needed
 }

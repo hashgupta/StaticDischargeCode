@@ -18,3 +18,12 @@ apply from: '../build.common.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+dependencies {
+//         Required -- JUnit 4 framework
+    implementation 'junit:junit:4.12'
+    implementation "org.junit.jupiter:junit-jupiter-api:5.2.0"
+// Optional -- Robolectric environment
+    implementation 'androidx.test:core:1.2.0'
+// Optional -- Mockito framework
+    implementation 'org.mockito:mockito-core:1.10.19'
+}
