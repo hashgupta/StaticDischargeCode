@@ -8,8 +8,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
-import org.apache.commons.math3.linear.Array2DRowRealMatrix
-import org.apache.commons.math3.linear.LUDecomposition
+import com.acmerobotics.roadrunner.util.epsilonEquals
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import kotlin.math.*
 
@@ -17,120 +16,93 @@ const val TAU = Math.PI * 2
 
 @Config
 class PurePursuitDrive(val localizer: Localizer) {
-    val waypoints: MutableList<Pose2d> = mutableListOf()
+    val waypoints: MutableList<Path> = mutableListOf()
     val actions: MutableList<Pair<Int, () -> Unit>> = mutableListOf()
 
-    private val lookAhead = 5.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
-    private val translationalTol = 0.5 //inches
+    private val lookAhead = 10.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+
+    private val translationalTol = 0.2 //inches
     private val angularTol = Math.toRadians(1.0) // one degree angular tolerance
 
-    private val wheelErrorPowerPid = PIDCoefficients(1.0, 0.0, 0.0) // no need for axial or lateral pid to be changed
+    private val translationalCoeffs: PIDCoefficients = PIDCoefficients()
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.0)
 
-    private val wheelErrorPowerController = PIDFController(wheelErrorPowerPid)
+    private val kV = 0.1
+    private val kStatic = 0.1
 
-    private val arcResolution = 6.0  // number of inches per point on arc
+    private val axialController = PIDFController(translationalCoeffs, kV = kV, kStatic = kStatic)
+    private val lateralController = PIDFController(translationalCoeffs, kV = kV, kStatic = kStatic)
+    private val headingController = PIDFController(headingCoeffs, kV = kV, kStatic = kStatic)
+
     private val speed = 50.0 //travel speed, inches
-    private val threshold = 5.0 // distance at which to start reducing speed, inches
+    private val threshold = 10.0 // distance at which to start reducing speed, inches
 
     init {
-        wheelErrorPowerController.update(0.0)
+        axialController.update(0.0)
+        lateralController.update(0.0)
+        headingController.update(0.0)
     }
 
-    fun followSync(drivetrain: DriveTrain, rel: Boolean = false) {
+    fun followSync(drivetrain: DriveTrain) {
 
-        var previous = 0
-        var goal = 1
+        var index = 0
 
-        val firstAction = actions.find { it.first == previous }?.second
-        if (firstAction != null) firstAction()
-
-        waypoints.add(0, localizer.poseEstimate)
+        runAction(0)
 
         while (!Thread.currentThread().isInterrupted) {
             localizer.update()
+
+
             val currentPos = localizer.poseEstimate
 
-            if (currentPos.vec() distTo waypoints.last().vec() < translationalTol &&
-                    abs(currentPos.heading - waypoints.last().heading) < angularTol) {
-                // at last waypoint
-                break
-            } else if (currentPos.vec() distTo waypoints[goal].vec() < translationalTol &&
-                    abs(currentPos.heading - waypoints[goal].heading) < angularTol) {
+            val currentPath = waypoints[index]
+
+            val speedMultiplier = getSpeedMultiplier(index)
+
+            val translationErrorMargin = lerp(translationalTol, translationalTol * 5, speedMultiplier)
+
+            if (currentPos.vec() distTo waypoints[index].end.vec() < translationErrorMargin &&
+                    abs(currentPos.heading - waypoints[index].end.heading) < angularTol) {
                 // go to next waypoint
-                val action = actions.find { it.first == previous }?.second
-                if (action != null) action()
-                previous = goal
-                goal += 1
-                continue
+                runAction(index)
+                if (index == waypoints.size-1) {
+                    break
+                } else {
+                    index += 1
+                    continue
+                }
             }
+            val target = findGoalPointRelative(currentPos, currentPath)
 
-             val target = if (rel) {
-                findGoalPointRelative(currentPos, this.waypoints[previous], this.waypoints[goal])
-            } else {
-                findGoalPointAbsolute(currentPos, this.waypoints[previous], this.waypoints[goal])
-            }
-
-            val multiplier = if (goal == waypoints.size - 1) {
-                0.0
-            } else {
-                cos((waypoints[goal+1].vec() - waypoints[goal].vec())
-                        angleBetween (waypoints[goal].vec() - waypoints[previous].vec())) // calculate how similar the
-            }
-
-            val wheelVel = getWheelVelocityFromTarget(target = target, currentPos = currentPos,
-                    length = waypoints[goal].vec() distTo currentPos.vec(),
-                    speedMultiplier = multiplier,
-                    t = calculateTRelative(currentPos.vec(), waypoints[previous].vec(), waypoints[goal].vec()))
+            val wheelVel = getWheelVelocityFromTarget(target = target, currentPos = currentPos, path = currentPath, index = index)
 
             drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
-
-//            drivetrain.start(DriveTrain.Vector(robotVelocity.x, robotVelocity.y, -robotVelocity.heading).speeds()) // negative heading because the drive train module goes right on positive omega when real math would go left
         }
         this.waypoints.clear()
     }
 
     fun addPoint(point: Pose2d):PurePursuitDrive {
-        waypoints.add(point)
+        if (waypoints.size > 0) {
+            waypoints.add(LinearPath(waypoints.last().end, point))
+        } else {
+            waypoints.add(LinearPath(localizer.poseEstimate, point))
+        }
         return this
     }
-
 
     fun addPoint(x: Double, y: Double, heading: Double): PurePursuitDrive {
-        waypoints.add(Pose2d(x, y, heading))
-        return this
+        return addPoint(Pose2d(x, y, heading))
     }
 
-    fun addArc(start: Pose2d, mid: Vector2d, end: Pose2d): PurePursuitDrive {
-        val denomMat = Array2DRowRealMatrix(arrayOf(
-                doubleArrayOf(start.x, start.y, 1.0),
-                doubleArrayOf(mid.x, mid.y, 1.0),
-                doubleArrayOf(end.x, end.y, 1.0)
-        ))
-        if (LUDecomposition(denomMat).determinant == 0.0) {
-            this.addPoint(Pose2d(mid, lerpAngle(start.heading, end.heading, 0.5))).addPoint(end)
-            return this
-        }
-        val segment = ArcSegment.fromThreePoints(start.vec(), mid, end.vec())
-        val numOfPoints = segment.length() / arcResolution
-        for (i in 0..numOfPoints.toInt()) {
-            val t = i / numOfPoints
-            val vector = segment.r(t)
-            waypoints.add(Pose2d(vector, lerp(start.heading, end.heading, t)))
-        }
+    fun setPose(start: Pose2d): PurePursuitDrive{
+        localizer.poseEstimate = start
         return this
-    }
-
-    fun addArc(mid: Vector2d, end: Pose2d): PurePursuitDrive {
-        return if (waypoints.size > 0) {
-            addArc(waypoints.last(), mid, end)
-        } else {
-            addArc(localizer.poseEstimate, mid, end)
-        }
     }
 
     fun addTurn(theta: Double): PurePursuitDrive {
         val last = waypoints.last()
-        waypoints.add(Pose2d(last.vec(), last.heading + theta))
+        val next = Pose2d(last.end.vec(), last.end.heading + theta)
+        waypoints.add(LinearPath(last.end, next))
         return this
     }
 
@@ -139,137 +111,129 @@ class PurePursuitDrive(val localizer: Localizer) {
         return this
     }
 
-    internal fun getWheelVelocityFromTarget(target:Pose2d, currentPos:Pose2d, length:Double, speedMultiplier: Double, t:Double): List<Double> {
-        print(length)
-        var error = Kinematics.calculatePoseError(target, currentPos)
-        error = error.div(error.vec().norm()) // turn error into direction
-        val adjustedSpeed: Double = if (speedMultiplier > 0) {
+    fun runAction(index:Int) {
+        val action = actions.find { it.first == index }?.second
+        if (action != null) action()
+    }
+
+    fun estimateTime(start: Pose2d):Double{
+        var time = 0.0
+        val copyWaypoints = waypoints.toMutableList()
+        copyWaypoints.add(0, LinearPath(start, waypoints[0].start))
+        for ((index, waypoint) in copyWaypoints.withIndex()) {
+            if (index == copyWaypoints.size - 1) {
+                continue
+            }
+            val path = (waypoint.end - waypoint.start).vec()
+
+            if (path.norm() epsilonEquals  0.0) {
+                continue
+            }
+
+            // cant use speed multiplier function because this set of waypoints is different than the waypoints stored in the object
+            val speedMultiplier = if (index == copyWaypoints.size - 2 ) {
+                0.0
+            } else {
+                cos( ( (copyWaypoints[index+1].end - copyWaypoints[index+1].start).vec()
+                        angleBetween path ) ) // calculate how similar the next path and the current are
+            }
+
+
+            if (speedMultiplier <= 0.0) {
+                time += (path.norm() - threshold) / (speed)
+                time += threshold / (speed * 0.55)
+            } else {
+                time += path.norm() / ((2 * speed) / (1 + speedMultiplier))
+            }
+        }
+        return time
+    }
+
+    fun getWheelVelocityFromTarget(target:Pose2d, currentPos:Pose2d, path:Path, index:Int): List<Double> {
+
+        val speedMultiplier = getSpeedMultiplier(index)
+
+        val left = (path.end.vec() - currentPos.vec()).norm()
+
+        val pathVector = (path.end - path.start).vec()
+
+        val t = path.findClosestT(currentPos)
+
+        val error = Kinematics.calculatePoseError(target, currentPos)
+
+        val adjustedSpeed: Double = if (speedMultiplier > 0.1) {
             val final = speed * speedMultiplier
             lerp(speed, final, t)
         } else {
-            speed * length / threshold
+            if (left > threshold)
+                speed
+            else {
+                max(speed * left / threshold, 0.1 * speed)
+
+            }
         }
 
-        var wheelVel = MecanumKinematics.robotToWheelVelocities(error.times(adjustedSpeed), Constants.trackwidth, Constants.wheelBase, lateralMultiplier = 0.9)
-                .map {wheelErrorToPower(it)}
 
 
-        val wheelCopy = wheelVel.map {abs(it)}
-        if (wheelCopy.max()!! > 1.0) {
-            wheelVel = wheelVel.map {it/wheelCopy.max()!!}
+        val targetVelocity = Pose2d(pathVector.div(pathVector.norm()).times(adjustedSpeed), 0.0) // turn speed into velocity in direction of goal
+
+
+        val power = errorToPower(error, targetVelocity)
+
+        var wheelPow = MecanumKinematics.robotToWheelVelocities(power, Constants.trackwidth, Constants.wheelBase, lateralMultiplier = 1.0)
+
+
+        val wheelCopy = wheelPow.map {abs(it)}
+
+        if (wheelCopy.max() != null && wheelCopy.max()!! > 1) {
+            wheelPow = wheelPow.map {it/wheelCopy.max()!!}
         }
-        return wheelVel
+
+        return wheelPow
     }
 
-    fun findGoalPointAbsolute(currentPose: Pose2d, start: Pose2d, end: Pose2d): Pose2d {
-        if (currentPose.vec() distTo end.vec() < lookAhead) {
-            return end
+
+    fun findGoalPointRelative(currentPose: Pose2d, path:Path): Pose2d {
+        if (currentPose.vec() distTo path.end.vec() < lookAhead) {
+            return path.end
         }
-        val t = calculateT(currentPose.vec(), start.vec(), end.vec())
-        return getPointfromT(t, start, end)
+        val t = path.findClosestT(currentPose)
+        return path.getPointfromT(t)
     }
 
+    fun errorToPower(poseError: Pose2d, targetVelocity : Pose2d?): Pose2d {
+        axialController.targetPosition = poseError.x
+        lateralController.targetPosition = poseError.y
+        headingController.targetPosition = poseError.heading
 
-    internal fun findGoalPointRelative(currentPose: Pose2d, start: Pose2d, end: Pose2d): Pose2d {
-        if (currentPose.vec() distTo end.vec() < lookAhead) {
-            return end
+        if (targetVelocity != null) {
+            axialController.targetVelocity = targetVelocity.x
+            lateralController.targetVelocity = targetVelocity.y
+            headingController.targetVelocity = targetVelocity.heading
         }
-        val t = calculateTRelative(currentPose.vec(), start.vec(), end.vec())
-        return getPointfromT(t, start, end)
+
+        // note: feedforward is processed at the wheel level
+        val axialCorrection = axialController.update(0.0)
+        val lateralCorrection = lateralController.update(0.0)
+        val headingCorrection = headingController.update(0.0)
+
+        val correctedVelocity = Pose2d(
+                axialCorrection,
+                lateralCorrection,
+                headingCorrection
+        )
+
+        return correctedVelocity
     }
 
-    internal fun wheelErrorToPower(error: Double):Double {
-        wheelErrorPowerController.targetPosition = error
-        return wheelErrorPowerController.update(0.0)
-    }
-
-    internal fun calculateT(currentVec: Vector2d, start: Vector2d, end: Vector2d): Double {
-        val d = end.minus(start)
-        val f = start.minus(currentVec)
-        val o = d.dot(f)
-
-        val v = end.minus(start)
-        val u = start.minus(currentVec)
-
-
-        val discriminant = d.dot(d) * (lookAhead * lookAhead - f.dot(f)) + o * o
-
-        return if (discriminant < 0) {
-            // line segment to point as the look ahead circle doesnt intersect
-            val t = -v.dot(u) / u.dot(u)
-            limit(t, 0.0, 1.0)
+    fun getSpeedMultiplier(index: Int):Double {
+        return if (index == waypoints.size - 1) {
+            0.0
         } else {
-            val t = (sqrt(discriminant) - o) / d.dot(d)
-            limit(t, 0.0, 1.0)
+            cos( ( (waypoints[index+1].end.vec() - waypoints[index+1].start.vec())
+                    angleBetween (waypoints[index].end.vec() - waypoints[index].start.vec()) ) ) // calculate how similar the next path and the current are
         }
     }
-
-    internal fun calculateTRelative(currentVec: Vector2d, start: Vector2d, end: Vector2d): Double {
-        val v = end.minus(start)
-        val u = start.minus(currentVec)
-
-        val t = -v.dot(u) / u.dot(u)
-        val lineT= limit(t, 0.0, 1.0)
-        val length = end.minus(start).norm()
-        return max(lineT + lookAhead/length, 1.0)
-    }
-
-    internal fun limit(value: Double, min: Double, max: Double): Double {
-        return max(min, min(value, max))
-    }
-
-    internal fun getPointfromT(t: Double, A: Pose2d, B: Pose2d): Pose2d {
-        val x = lerp(A.x, B.x, t)
-        val y = lerp(A.y, B.y, t)
-        val heading = lerpAngle(A.heading, B.heading, t)
-        return Pose2d(x, y, heading)
-    }
-}
-
-open class ArcSegment(private val center: Vector2d, private val radius: Double, private val startAngle: Double, private val endAngle: Double) {
-
-    companion object {
-        fun fromThreePoints(ptBegin: Vector2d, ptMid: Vector2d, ptEnd: Vector2d): ArcSegment {
-            val denomMat = Array2DRowRealMatrix(arrayOf(
-                    doubleArrayOf(ptBegin.x, ptBegin.y, 1.0),
-                    doubleArrayOf(ptMid.x, ptMid.y, 1.0),
-                    doubleArrayOf(ptEnd.x, ptEnd.y, 1.0)
-            ))
-            val hNum = Array2DRowRealMatrix(arrayOf(
-                    doubleArrayOf(ptBegin.dot(ptBegin), ptBegin.y, 1.0),
-                    doubleArrayOf(ptMid.dot(ptMid), ptMid.y, 1.0),
-                    doubleArrayOf(ptEnd.dot(ptEnd), ptEnd.y, 1.0)))
-            val denom = (2 * LUDecomposition(denomMat).determinant)
-            val h = LUDecomposition(hNum).determinant / denom
-
-            val kNum = Array2DRowRealMatrix(arrayOf(
-                    doubleArrayOf(ptBegin.x, ptBegin.dot(ptBegin), 1.0),
-                    doubleArrayOf(ptMid.x, ptMid.dot(ptMid), 1.0),
-                    doubleArrayOf(ptEnd.x, ptEnd.dot(ptEnd), 1.0)
-            ))
-            val k = LUDecomposition(kNum).determinant / denom
-
-            val center = Vector2d(h, k)
-            val radius = center distTo (ptBegin)
-            val beginAngle = (ptBegin - center).angle()
-            val endAngle = (ptEnd - center).angle()
-            return ArcSegment(center, radius, beginAngle, endAngle)
-        }
-    }
-
-    fun r(t: Double): Vector2d {
-        val ang = angleFromT(t)
-        return center + Vector2d(cos(ang), sin(ang)).times(radius)
-    }
-
-    private fun angleFromT(t: Double): Double {
-        return lerp(startAngle, endAngle, t)
-    }
-
-    fun length(): Double {
-        return (endAngle - startAngle).absoluteValue * radius
-    }
-
 }
 
 fun lerp(a: Double, b: Double, t: Double): Double {
@@ -289,4 +253,8 @@ fun lerpAngle(a: Double, b: Double, t: Double): Double {
             lerp(a, b, t) % TAU
         }
     }
+}
+
+fun limit(value: Double, min: Double, max: Double): Double {
+    return max(min, min(value, max))
 }

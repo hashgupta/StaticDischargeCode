@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.hardware.general.Motor
 @TeleOp(name = "LilBot", group = "PatentPending")
 class LilBot : OpMode() {
 
-    private var robot: DriveTrain? = null
+    private lateinit var robot: DriveTrain
 
     override fun init() {
         robot = DriveTrain(
@@ -23,13 +23,13 @@ class LilBot : OpMode() {
     override fun start() {}
 
     override fun loop() {
-        robot!!.start(DriveTrain.Vector(
+        robot.start(DriveTrain.Vector(
                 gamepad1.left_stick_x.toDouble(),
                 gamepad1.left_stick_y.toDouble(),
                 gamepad1.right_stick_x.toDouble()).speeds())
     }
 
     override fun stop() {
-        robot!!.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
+        robot.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
     }
 }

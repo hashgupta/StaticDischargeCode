@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
 import org.firstinspires.ftc.teamcode.hardware.type.Output
+import kotlin.math.PI
 
 // rev motor
 // initialize motor
@@ -15,12 +16,14 @@ class Motor(private val name: String, // motor information
 
     private val c: Double
 
+    val r: Double
     val isBusy: Boolean
         get() = device.isBusy
 
     init {
         device.targetPositionTolerance = 20 // (ticks / cpr) * (circumference * gear ratio) is inches of error from tick tolerance
         c = d * Math.PI
+        r = d / 2
     }
 
     // initialize motor with default diameter

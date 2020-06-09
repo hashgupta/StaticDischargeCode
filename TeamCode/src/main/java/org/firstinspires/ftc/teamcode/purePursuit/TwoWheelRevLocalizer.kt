@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer
 import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
@@ -31,8 +32,8 @@ import org.firstinspires.ftc.teamcode.purePursuit.Constants.encoderTicksToInches
 class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer(listOf(
         Pose2d(0.0, LATERAL_DISTANCE / 2, 0.0),  // lateral
         Pose2d(FORWARD_OFFSET, 0.0, Math.toRadians(90.0)) )) { //front
-    private val lateralEncoder: DcMotor
-    private val frontEncoder: DcMotor
+    private val lateralEncoder: DcMotorEx
+    private val frontEncoder: DcMotorEx
     private val imuSensor: BNO055IMU
 
     override fun getWheelPositions(): List<Double> {
@@ -42,14 +43,21 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer
         )
     }
 
+    override fun getWheelVelocities(): List<Double>? {
+        return listOf(
+                lateralEncoder.getVelocity(AngleUnit.RADIANS) * Constants.ODO_WHEEL_RADIUS,
+                frontEncoder.getVelocity(AngleUnit.RADIANS) * Constants.ODO_WHEEL_RADIUS
+        )
+    }
+
     override fun getHeading(): Double {
         return imuSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
     }
 
 
     init {
-        lateralEncoder = hardwareMap.dcMotor["lateralEncoder"]
-        frontEncoder = hardwareMap.dcMotor["frontEncoder"]
+        lateralEncoder = hardwareMap.dcMotor["lateralEncoder"] as DcMotorEx
+        frontEncoder = hardwareMap.dcMotor["frontEncoder"] as DcMotorEx
         val parameters = BNO055IMU.Parameters()
         parameters.mode = BNO055IMU.SensorMode.IMU
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES

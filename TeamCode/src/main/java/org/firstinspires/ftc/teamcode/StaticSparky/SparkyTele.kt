@@ -16,7 +16,7 @@ class SparkyTele : OpMode() {
 
     override fun init() {
         //initialize and set robot behavior
-        robot = SparkyRobot(hardwareMap, telemetry, null)
+        robot = SparkyRobot(hardwareMap, telemetry)
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
         stop()
     }

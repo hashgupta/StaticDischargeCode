@@ -1,19 +1,23 @@
 package org.firstinspires.ftc.teamcode.StaticSparky
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.localization.Localizer
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
+import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 import org.firstinspires.ftc.teamcode.purePursuit.PurePursuitDrive
 import org.firstinspires.ftc.teamcode.purePursuit.ThreeWheelRevLocalizer
 
 
-class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry, val opMode: LinearOpMode?) {
+class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
     // OpMode members
     var driveTrain: DriveTrain
-    var pursuiter: PurePursuitDrive
+    var pursuiter: FastPurePursuit
+    var localizer: Localizer
     //    var lift: Motor
     //    var dropStone: ServoM
     //    var pinch: ServoM
@@ -32,7 +36,9 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry, val op
 
         driveTrain = DriveTrain(rf, rb, lf, lb)
 
-        pursuiter = PurePursuitDrive(ThreeWheelRevLocalizer(hardwareMap))
+        localizer = ThreeWheelRevLocalizer(hardwareMap)
+
+        pursuiter = FastPurePursuit(localizer, Pose2d())
 
         val allHubs = hardwareMap.getAll(LynxModule::class.java)
         for (module in allHubs) {
@@ -41,6 +47,6 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry, val op
     }
 
     //secondary constructor
-    constructor(hardwareMap: HardwareMap, telemetry: Telemetry) : this(hardwareMap, telemetry, null)
+//    constructor(hardwareMap: HardwareMap, telemetry: Telemetry) : this(hardwareMap, telemetry, null)
 //    {} add code here as constructor body if code for this specific case is needed
 }
