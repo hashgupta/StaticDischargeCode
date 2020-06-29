@@ -27,11 +27,10 @@ class Color// initialize sensor
 
         // hsv values
         private val h: Double = checkRange(h, 0.0, 1.0, "hue")
-        private val s: Double
+        private val s: Double = checkRange(s, 0.0, 1.0, "saturation")
         private val v: Double
 
         init {
-            this.s = checkRange(s, 0.0, 1.0, "saturation")
             this.v = checkRange(v, 0.0, 1.0, "value")
         }
 

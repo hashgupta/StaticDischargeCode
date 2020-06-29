@@ -9,7 +9,7 @@ public class TestGyro extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new SparkyRobot(hardwareMap, telemetry, this);
+        robot = new SparkyRobot(hardwareMap, telemetry);
 
 //         turns, gyro sensor
 //    while ( opModeIsActive() ) {

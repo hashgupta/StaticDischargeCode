@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.type.Input
 import org.firstinspires.ftc.teamcode.hardware.type.Output
+import kotlin.math.abs
+import kotlin.math.max
 
 // Holonomic Mecanum/quad-omni drive train
 class DriveTrain// initialize drive train
@@ -71,17 +73,17 @@ class DriveTrain// initialize drive train
 
         override fun speeds(): Square<Double> {
             val supers = super.speeds()
-            var divisor = Math.max(
-                    Math.max(
-                            Math.abs(supers.rf),
-                            Math.abs(supers.rb)
+            var divisor = max(
+                    max(
+                            abs(supers.rf),
+                            abs(supers.rb)
                     ),
-                    Math.max(
-                            Math.abs(supers.lf),
-                            Math.abs(supers.lb)
+                    max(
+                            abs(supers.lf),
+                            abs(supers.lb)
                     )
             )
-            divisor = Math.max(1.0, divisor)
+            divisor = max(1.0, divisor)
             return Square(
                     supers.rf / divisor,
                     supers.rb / divisor,
@@ -91,7 +93,12 @@ class DriveTrain// initialize drive train
     }
 
     // set of data on four objects arranged in a square
-    class Square<T>// initialize square
-    (// square
-            var rf: T, var rb: T, var lf: T, var lb: T)
+    // square
+    class Square<T> (var rf: T, var rb: T, var lf: T, var lb: T)
+
+    companion object {
+        fun addSquares(first: Square<Double>, second: Square<Double>): Square<Double> {
+            return Square(first.rf + second.rf, first.rb + second.rb, first.lf + second.lf, first.lb + second.lb)
+        }
+    }
 }

@@ -5,7 +5,6 @@ import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.util.epsilonEquals
 import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.LUDecomposition
-import java.lang.Math.random
 import kotlin.math.*
 
 abstract class Path {
@@ -46,12 +45,11 @@ class LinearPath(override val start: Pose2d, override val end:Pose2d) :Path() {
         } else {
             -v.dot(u) / u.dot(u)
         }
-        val lineT= limit(t, 0.0, 1.0)
-        return lineT
+        return limit(t, 0.0, 1.0)
     }
 }
 
-class ArcPath(override val start: Pose2d, override val end:Pose2d, val mid: Vector2d) :Path() {
+class ArcPath(override val start: Pose2d, override val end:Pose2d, mid: Vector2d) :Path() {
 
     lateinit var center: Vector2d
     var radius: Double = 0.0
@@ -121,7 +119,7 @@ class ArcPath(override val start: Pose2d, override val end:Pose2d, val mid: Vect
     }
 }
 
-class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, val startTangent: Double, val endTangent: Double):Path() {
+class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, startTangent: Double, val endTangent: Double):Path() {
 
     override val length:Double
     var lastT: Double? = null
