@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.purePursuit
+package org.firstinspires.ftc.teamcode.localizers
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer
 import com.qualcomm.hardware.bosch.BNO055IMU
-import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
+import org.firstinspires.ftc.teamcode.purePursuit.Constants
 import org.firstinspires.ftc.teamcode.purePursuit.Constants.FORWARD_OFFSET
 import org.firstinspires.ftc.teamcode.purePursuit.Constants.LATERAL_DISTANCE
 import org.firstinspires.ftc.teamcode.purePursuit.Constants.encoderTicksToInches

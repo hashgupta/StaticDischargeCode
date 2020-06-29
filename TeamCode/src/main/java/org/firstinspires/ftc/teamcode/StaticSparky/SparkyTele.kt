@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import kotlin.math.abs
 
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
 class SparkyTele : OpMode() {
@@ -44,10 +45,10 @@ class SparkyTele : OpMode() {
             driveSpeed = 1.0
         }
 
-        if (Math.abs(vert) < 0.1) {
+        if (abs(vert) < 0.1) {
             vert = 0.0
         }
-        if (Math.abs(hori) < 0.1) {
+        if (abs(hori) < 0.1) {
             hori = 0.0
         }
 

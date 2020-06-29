@@ -19,7 +19,7 @@ object Constants {
     const val GEAR_RATIO = 1.0 // output (wheel) speed / input (encoder) speed
     const val LATERAL_DISTANCE = 10.0 // in; distance between the left and right wheels (ie trackwidth)
     const val FORWARD_OFFSET = 4.0 // in; offset of the front/back wheel
-    const val ODO_WHEEL_RADIUS = 1.0;
+    const val ODO_WHEEL_RADIUS = 1.0
 
     fun encoderTicksToInches(ticks: Int): Double {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV

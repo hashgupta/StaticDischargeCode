@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
@@ -173,10 +172,7 @@ class PurePursuitDrive(val localizer: Localizer) {
             }
         }
 
-
-
         val targetVelocity = Pose2d(pathVector.div(pathVector.norm()).times(adjustedSpeed), 0.0) // turn speed into velocity in direction of goal
-
 
         val power = errorToPower(error, targetVelocity)
 
@@ -217,13 +213,11 @@ class PurePursuitDrive(val localizer: Localizer) {
         val lateralCorrection = lateralController.update(0.0)
         val headingCorrection = headingController.update(0.0)
 
-        val correctedVelocity = Pose2d(
+        return Pose2d(
                 axialCorrection,
                 lateralCorrection,
                 headingCorrection
         )
-
-        return correctedVelocity
     }
 
     fun getSpeedMultiplier(index: Int):Double {

@@ -10,14 +10,17 @@ import com.acmerobotics.roadrunner.kinematics.TankKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.sign
+import kotlin.math.sin
 
 
 @Config
-class FastPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
+class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     val waypoints: MutableList<Path> = mutableListOf()
     val actions: MutableList<Pair<Int, () -> Unit>> = mutableListOf()
     var index = 0
+    var start:Pose2d
 
     private val lookAhead = 10.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
@@ -36,8 +39,11 @@ class FastPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
         axialController.update(0.0)
         lateralController.update(0.0)
         headingController.update(0.0)
+
+        start = startPose ?: localizer.poseEstimate
     }
 
+    // follow until path is complete
     fun FollowSync(drivetrain: DriveTrain, mecanum:Boolean = true) {
 
         runAction(0)
@@ -53,7 +59,7 @@ class FastPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
         index = 0
     }
 
-
+    // returns whether the path is done
     fun followStep(drivetrain: DriveTrain, mecanum:Boolean = true):Boolean {
         localizer.update()
 
@@ -65,11 +71,11 @@ class FastPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
                 abs(currentPos.heading - waypoints[index].end.heading) < angularTol) {
             // go to next waypoint
             runAction(index)
-            if (index == waypoints.size-1) {
-                return true
+            return if (index == waypoints.size-1) {
+                true
             } else {
                 index += 1
-                return false
+                false
             }
         }
 
@@ -106,8 +112,21 @@ class FastPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
         if (waypoints.size > 0) {
             waypoints.add(LinearPath(waypoints.last().end, point))
         } else {
-            waypoints.add(LinearPath(startPose, point))
+            waypoints.add(LinearPath(start, point))
         }
+        return this
+    }
+
+    fun addRelativePoint(hori: Double, vert: Double, turn: Double):FastPurePursuit {
+
+        val basis = if (waypoints.size > 0) {
+            waypoints.last().end
+        } else {
+            start
+        }
+        val final = Pose2d(basis.x + (cos(basis.heading)*vert) + (-sin(basis.heading) * hori),
+        basis.y + (sin(basis.heading)*vert) + (-cos(basis.heading)*hori), basis.heading + turn)
+        addPoint(final)
         return this
     }
 
@@ -144,7 +163,7 @@ class FastPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
         val start = if (waypoints.size > 0) {
             waypoints.last().end
         } else {
-            startPose
+            start
         }
         waypoints.add(CubicSplinePath(start, end, startTanAngle, endTanAngle))
 

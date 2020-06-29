@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.hardware.general
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
-
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
 import org.firstinspires.ftc.teamcode.hardware.type.Output
-import kotlin.math.PI
 
 // rev motor
 // initialize motor

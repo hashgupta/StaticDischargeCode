@@ -9,11 +9,10 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
-import kotlin.math.PI
 import kotlin.math.abs
 
 class LiftController (val actuator: Motor, pid: PIDCoefficients, start: Double = 0.0, val maxVel: Double, val maxAcc: Double){
-    var goal: Double = 0.0;
+    var goal: Double = 0.0
     private var controller = PIDFController(pid)
     var current: Double = start
     var profile: MotionProfile = MotionProfileGenerator.generateSimpleMotionProfile(MotionState(0.0, 0.0), MotionState(0.0,0.0), 0.0, 0.0)
@@ -50,8 +49,12 @@ class LiftController (val actuator: Motor, pid: PIDCoefficients, start: Double =
         return controller.update(getPosition(),getVelocity())
     }
 
-    fun run() {
+    fun runToTarget() {
         actuator.start(correctionVelocity())
+    }
+
+    fun runAtSpeed(speed:Double) {
+        actuator.start(speed)
     }
 
     fun isDone() : Boolean {
