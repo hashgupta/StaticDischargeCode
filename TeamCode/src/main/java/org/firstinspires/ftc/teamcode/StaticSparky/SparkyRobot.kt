@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.StaticSparky
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.localization.Localizer
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -19,8 +20,8 @@ import kotlin.math.sign
 class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
     // OpMode members
     val driveTrain: DriveTrain
-    val pursuiter: FastPurePursuit? = null
-    val localizer: Localizer?
+    val pursuiter: FastPurePursuit
+    val localizer: Localizer
     //    var lift: Motor
     //    var dropStone: ServoM
     //    var pinch: ServoM
@@ -43,9 +44,9 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
         driveTrain = DriveTrain(rf, rb, lf, lb)
 
 
-        localizer = MecanumLocalizerRev(hardwareMap, null)
+        localizer = MecanumLocalizerRev(hardwareMap, gyro=null)
 //
-//        pursuiter = FastPurePursuit(localizer!!, Pose2d())
+        pursuiter = FastPurePursuit(localizer, Pose2d())
 
         val allHubs = hardwareMap.getAll(LynxModule::class.java)
         for (module in allHubs) {

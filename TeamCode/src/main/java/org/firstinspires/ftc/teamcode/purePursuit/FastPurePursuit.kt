@@ -91,7 +91,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
                 return false
             }
 
-            waypoints[index+1].getPointfromT(limit(waypoints[index+1].length / excessLength, 0.0, 1.0))
+            waypoints[index+1].getPointfromT(limit(excessLength / waypoints[index+1].length, 0.0, 1.0))
         } else {
             path.getPointfromT(limit(candidateGoal, 0.0, 1.0))
         }

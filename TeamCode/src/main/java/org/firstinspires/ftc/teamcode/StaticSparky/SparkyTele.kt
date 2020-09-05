@@ -8,7 +8,6 @@ import kotlin.math.abs
 
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
 class SparkyTele : OpMode() {
-
     // robot
     private lateinit var robot: SparkyRobot
     private var reverse = false
@@ -57,8 +56,9 @@ class SparkyTele : OpMode() {
             robot.driveTrain.start(DriveTrain.Vector(
                     hori * driveSpeed * (if (reverse) -1 else 1).toDouble(),
                     vert * driveSpeed * (if (reverse) -1 else 1).toDouble(),
-                    turn * driveSpeed).speeds())
-//            robot!!.lift.start(liftSpeed(lift))
+                    turn * driveSpeed)
+                    .speeds())
+//            robot.lift.start(liftSpeed(lift))
 
 
         } catch (e: Exception) {
