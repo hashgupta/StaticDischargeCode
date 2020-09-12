@@ -38,13 +38,14 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
         val rb = Motor("rb", 1120.0, 1.0, 2.95, hardwareMap)
         val lf = Motor("lf", 1120.0, 1.0, 2.95, hardwareMap)
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
+
         gyro = Gyro("gyro", hardwareMap)
         touch = Touch("touch", hardwareMap)
 
         driveTrain = DriveTrain(rf, rb, lf, lb)
 
 
-        localizer = MecanumLocalizerRev(hardwareMap, gyro=null)
+        localizer = MecanumLocalizerRev(hardwareMap, gyro=gyro)
 //
         pursuiter = FastPurePursuit(localizer, Pose2d())
 
@@ -73,7 +74,7 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
         // do gyro adjustment         |
         //                            v
         while (driveTrain.isBusy && !Thread.interrupted()) {
-            localizer?.update()
+            localizer.update()
 
             val turnSquare = if (abs(headingError(orientation)) > 0.02) {
                 DriveTrain.Vector(0.0, 0.0, turnCorrection(orientation)).speeds()
@@ -90,7 +91,7 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
 
     fun turnTo(degrees: Double) {
         while (abs(headingError(degrees/360)) > 0.02 && !Thread.interrupted()) {
-            localizer?.update()
+            localizer.update()
 
             telemetry.addData("Gyro Sensor", "turning")
             telemetry.addData("Angle", gyro.measure())

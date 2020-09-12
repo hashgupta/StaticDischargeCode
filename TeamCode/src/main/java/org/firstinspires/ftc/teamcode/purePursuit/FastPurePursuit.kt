@@ -86,7 +86,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         target = if (candidateGoal > 1.0 && (actions.find { it.first == index } == null) && index < waypoints.size-1) {
             val excessLength = (path.findClosestT(currentPos) + lookAhead / path.length - 1.0) * path.length
 
-            if (excessLength > lookAhead/2) {
+            if (excessLength > lookAhead/4.0) {
                 index += 1
                 return false
             }

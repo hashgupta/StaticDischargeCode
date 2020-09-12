@@ -29,10 +29,11 @@ class MecanumLocalizerRev constructor(
         private set
     private var lastWheelPositions = emptyList<Double>()
     private var lastExtHeading = Double.NaN
-    private val leftFrontEncoder: DcMotorEx
-    private val rightFrontEncoder: DcMotorEx
-    private val leftRearEncoder: DcMotorEx
-    private val rightRearEncoder: DcMotorEx
+
+    private val leftFrontEncoder: Encoder
+    private val rightFrontEncoder: Encoder
+    private val leftRearEncoder: Encoder
+    private val rightRearEncoder: Encoder
 
     override fun update() {
         val wheelPositions = getWheelPositions()
@@ -70,10 +71,10 @@ class MecanumLocalizerRev constructor(
     }
 
     init {
-        leftFrontEncoder = hardwareMap.dcMotor["leftFrontEncoder"] as DcMotorEx
-        rightFrontEncoder = hardwareMap.dcMotor["rightFrontEncoder"] as DcMotorEx
-        leftRearEncoder = hardwareMap.dcMotor["leftRearEncoder"] as DcMotorEx
-        rightRearEncoder = hardwareMap.dcMotor["rightRearEncoder"] as DcMotorEx
+        leftFrontEncoder = Encoder(hardwareMap.dcMotor["leftFrontEncoder"] as DcMotorEx)
+        rightFrontEncoder = Encoder(hardwareMap.dcMotor["rightFrontEncoder"] as DcMotorEx)
+        leftRearEncoder = Encoder(hardwareMap.dcMotor["leftRearEncoder"] as DcMotorEx)
+        rightRearEncoder = Encoder(hardwareMap.dcMotor["rightRearEncoder"] as DcMotorEx)
     }
 
     fun getWheelPositions(): List<Double> {
@@ -87,10 +88,10 @@ class MecanumLocalizerRev constructor(
 
     fun getWheelVelocities(): List<Double>? {
         return listOf(
-                leftFrontEncoder.getVelocity(AngleUnit.RADIANS) * Constants.WHEEL_RADIUS,
-                leftRearEncoder.getVelocity(AngleUnit.RADIANS) * Constants.WHEEL_RADIUS,
-                rightRearEncoder.getVelocity(AngleUnit.RADIANS) * Constants.WHEEL_RADIUS,
-                rightFrontEncoder.getVelocity(AngleUnit.RADIANS) * Constants.WHEEL_RADIUS
+                leftFrontEncoder.rawVelocity * Constants.WHEEL_RADIUS,
+                leftRearEncoder.rawVelocity * Constants.WHEEL_RADIUS,
+                rightRearEncoder.rawVelocity * Constants.WHEEL_RADIUS,
+                rightFrontEncoder.rawVelocity * Constants.WHEEL_RADIUS
 
         )
     }

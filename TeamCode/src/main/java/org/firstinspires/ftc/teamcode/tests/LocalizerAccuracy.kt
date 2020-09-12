@@ -46,8 +46,8 @@ class LocalizerAccuracy : LinearOpMode() {
             }
             val wheelVels = MecanumKinematics.robotToWheelVelocities(vel, 18.0, 18.0,1.0 )
             drive.start(DriveTrain.Square(wheelVels[3], wheelVels[2], wheelVels[0], wheelVels[1]))
-            robot.localizer!!.update()
-            val (x, y, heading) = robot.localizer!!.poseEstimate
+            robot.localizer.update()
+            val (x, y, heading) = robot.localizer.poseEstimate
             telemetry.addData("x", x)
             telemetry.addData("y", y)
             telemetry.addData("heading", heading)
