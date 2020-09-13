@@ -4,6 +4,9 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import org.firstinspires.ftc.teamcode.StaticSparky.SparkyRobot
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
+import kotlin.math.cos
+import kotlin.math.sqrt
+import kotlin.math.tan
 
 const val g = 386.088583 //  g in in/s^2
 
@@ -16,7 +19,7 @@ class Shooter(val flywheel: Motor){
         val shotDistance = targetVector distTo position
         robot.pursuiter.addPoint(Pose2d(robot.localizer.poseEstimate.vec(), shootingHeading))
         robot.pursuiter.FollowSync(robot.driveTrain)
-        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( Math.cos(shooterAngle) * Math.sqrt( shotDistance * Math.tan(shooterAngle) - target.height))
+        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - target.height))
         flywheel.setSpeed(2*requiredVelocity) // remove 2 times if using double flywheel, doesnt account for direction
 
     }
