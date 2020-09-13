@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware.general
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
 import org.firstinspires.ftc.teamcode.hardware.type.Output
@@ -50,5 +51,10 @@ class Motor(private val name: String, // motor information
 
     fun setZeroBehavior(behavior: DcMotor.ZeroPowerBehavior) {
         device.zeroPowerBehavior = behavior
+    }
+
+    fun setSpeed(velocity:Double) {
+        val angularVelocity = velocity/(r*gr)
+        device.setVelocity(angularVelocity, AngleUnit.RADIANS)
     }
 }
