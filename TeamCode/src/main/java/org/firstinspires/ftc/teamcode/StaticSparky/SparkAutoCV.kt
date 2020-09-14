@@ -8,8 +8,8 @@ class SparkAutoCV : SparkAutoBase() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {
         initCV()
-        waitForStart()
         startCV()
+        waitForStart()
         while (opModeIsActive()) {
             telemetry.addData("average", pipeline.average())
             telemetry.update()

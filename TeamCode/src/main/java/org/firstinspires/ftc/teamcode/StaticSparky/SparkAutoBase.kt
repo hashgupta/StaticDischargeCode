@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.StaticSparky
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
+import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 import org.firstinspires.ftc.teamcode.pipelines.SkystonePipeline
 import org.openftc.easyopencv.OpenCvCameraFactory
 import org.openftc.easyopencv.OpenCvCameraRotation
@@ -16,7 +17,7 @@ abstract class SparkAutoBase : LinearOpMode() {
     // OR...  Do Not Activate the Camera Monitor View
     //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-    internal var pipeline = SkystonePipeline() // set pipeline here, after creating it in pipelines folder
+    internal var pipeline = RingPipeline() // set pipeline here, after creating it in pipelines folder
 
 
     fun initCV() {

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.purePursuit
+package org.firstinspires.ftc.teamcode
 
 import com.acmerobotics.dashboard.config.Config
 

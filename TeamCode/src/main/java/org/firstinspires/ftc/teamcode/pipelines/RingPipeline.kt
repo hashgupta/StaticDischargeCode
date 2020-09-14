@@ -86,11 +86,6 @@ class RingPipeline: OpenCvPipeline(){
 
     override fun processFrame(input: Mat): Mat {
 
-        /*
-         * This pipeline finds the contours of yellow blobs such as the Gold Mineral
-         * from the Rover Ruckus game.
-         */
-
         //
 
         inputToCb(input);

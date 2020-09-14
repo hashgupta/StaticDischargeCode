@@ -9,10 +9,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
-import org.firstinspires.ftc.teamcode.purePursuit.Constants
-import org.firstinspires.ftc.teamcode.purePursuit.Constants.FORWARD_OFFSET
-import org.firstinspires.ftc.teamcode.purePursuit.Constants.LATERAL_DISTANCE
-import org.firstinspires.ftc.teamcode.purePursuit.Constants.encoderTicksToInches
+import org.firstinspires.ftc.teamcode.Constants
+import org.firstinspires.ftc.teamcode.Constants.FORWARD_OFFSET
+import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
+import org.firstinspires.ftc.teamcode.Constants.encoderTicksToInches
 
 /*
  * Sample tracking wheel localizer implementation assuming the standard configuration:
@@ -32,8 +32,8 @@ import org.firstinspires.ftc.teamcode.purePursuit.Constants.encoderTicksToInches
 class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer(listOf(
         Pose2d(0.0, LATERAL_DISTANCE / 2, 0.0),  // lateral
         Pose2d(FORWARD_OFFSET, 0.0, Math.toRadians(90.0)) )) { //front
-    private val lateralEncoder: DcMotorEx
-    private val frontEncoder: DcMotorEx
+    private val lateralEncoder: Encoder
+    private val frontEncoder: Encoder
     private val imuSensor: BNO055IMU
 
     override fun getWheelPositions(): List<Double> {
@@ -45,8 +45,8 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer
 
     override fun getWheelVelocities(): List<Double>? {
         return listOf(
-                lateralEncoder.getVelocity(AngleUnit.RADIANS) * Constants.ODO_WHEEL_RADIUS,
-                frontEncoder.getVelocity(AngleUnit.RADIANS) * Constants.ODO_WHEEL_RADIUS
+                lateralEncoder.correctedVelocity * Constants.ODO_WHEEL_RADIUS,
+                frontEncoder.correctedVelocity * Constants.ODO_WHEEL_RADIUS
         )
     }
 
@@ -56,8 +56,8 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer
 
 
     init {
-        lateralEncoder = hardwareMap.dcMotor["lateralEncoder"] as DcMotorEx
-        frontEncoder = hardwareMap.dcMotor["frontEncoder"] as DcMotorEx
+        lateralEncoder = Encoder(hardwareMap.dcMotor["lateralEncoder"] as DcMotorEx)
+        frontEncoder = Encoder(hardwareMap.dcMotor["frontEncoder"] as DcMotorEx)
         val parameters = BNO055IMU.Parameters()
         parameters.mode = BNO055IMU.SensorMode.IMU
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES

@@ -7,9 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.acmerobotics.roadrunner.util.Angle
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.general.Gyro
-import org.firstinspires.ftc.teamcode.purePursuit.Constants
+import org.firstinspires.ftc.teamcode.Constants
 import kotlin.math.PI
 
 class MecanumLocalizerRev constructor(

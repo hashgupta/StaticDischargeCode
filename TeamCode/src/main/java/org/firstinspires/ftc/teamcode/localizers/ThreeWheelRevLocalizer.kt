@@ -6,10 +6,10 @@ import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
-import org.firstinspires.ftc.teamcode.purePursuit.Constants
-import org.firstinspires.ftc.teamcode.purePursuit.Constants.FORWARD_OFFSET
-import org.firstinspires.ftc.teamcode.purePursuit.Constants.LATERAL_DISTANCE
-import org.firstinspires.ftc.teamcode.purePursuit.Constants.encoderTicksToInches
+import org.firstinspires.ftc.teamcode.Constants
+import org.firstinspires.ftc.teamcode.Constants.FORWARD_OFFSET
+import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
+import org.firstinspires.ftc.teamcode.Constants.encoderTicksToInches
 
 @Config
 class ThreeWheelRevLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocalizer(listOf(
