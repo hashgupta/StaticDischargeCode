@@ -24,6 +24,9 @@ object Constants {
     fun encoderTicksToInches(ticks: Int): Double {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV
     }
+    fun odometryEncoderTicksToInches(ticks: Double): Double {
+        return ODO_WHEEL_RADIUS * 2 * Math.PI * ticks / TICKS_PER_REV
+    }
     // formula is power = force * velocity
     // what we want to do is get a net power of zero, so the velocity of the body is at the desired vel
     // so the power supplied has to equal the power lost to friction

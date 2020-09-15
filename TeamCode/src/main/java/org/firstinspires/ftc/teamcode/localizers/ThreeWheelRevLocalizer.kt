@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Constants.FORWARD_OFFSET
 import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
 import org.firstinspires.ftc.teamcode.Constants.encoderTicksToInches
+import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
 
 @Config
 class ThreeWheelRevLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocalizer(listOf(
@@ -23,17 +24,17 @@ class ThreeWheelRevLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
 
     override fun getWheelPositions(): List<Double> {
         return listOf(
-                encoderTicksToInches(leftEncoder.currentPosition),
-                encoderTicksToInches(frontEncoder.currentPosition),
-                encoderTicksToInches(rightEncoder.currentPosition)
+                odometryEncoderTicksToInches(leftEncoder.currentPosition.toDouble()),
+                odometryEncoderTicksToInches(frontEncoder.currentPosition.toDouble()),
+                odometryEncoderTicksToInches(rightEncoder.currentPosition.toDouble())
         )
     }
 
     override fun getWheelVelocities(): List<Double>? {
         return listOf(
-                leftEncoder.getVelocity(AngleUnit.RADIANS) * Constants.ODO_WHEEL_RADIUS,
-                frontEncoder.getVelocity(AngleUnit.RADIANS) * Constants.ODO_WHEEL_RADIUS,
-                rightEncoder.getVelocity(AngleUnit.RADIANS) * Constants.ODO_WHEEL_RADIUS
+                odometryEncoderTicksToInches(leftEncoder.getVelocity()),
+                odometryEncoderTicksToInches(frontEncoder.getVelocity()),
+                odometryEncoderTicksToInches(rightEncoder.getVelocity())
         )
     }
 

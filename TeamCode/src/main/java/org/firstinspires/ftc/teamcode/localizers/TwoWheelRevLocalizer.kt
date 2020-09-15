@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Constants.FORWARD_OFFSET
 import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
 import org.firstinspires.ftc.teamcode.Constants.encoderTicksToInches
+import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
 
 /*
  * Sample tracking wheel localizer implementation assuming the standard configuration:
@@ -38,15 +39,15 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer
 
     override fun getWheelPositions(): List<Double> {
         return listOf(
-                encoderTicksToInches(lateralEncoder.currentPosition),
-                encoderTicksToInches(frontEncoder.currentPosition)
+                odometryEncoderTicksToInches(lateralEncoder.currentPosition.toDouble()),
+                odometryEncoderTicksToInches(frontEncoder.currentPosition.toDouble())
         )
     }
 
     override fun getWheelVelocities(): List<Double>? {
         return listOf(
-                lateralEncoder.correctedVelocity * Constants.ODO_WHEEL_RADIUS,
-                frontEncoder.correctedVelocity * Constants.ODO_WHEEL_RADIUS
+                odometryEncoderTicksToInches(lateralEncoder.correctedVelocity),
+                odometryEncoderTicksToInches(frontEncoder.correctedVelocity)
         )
     }
 

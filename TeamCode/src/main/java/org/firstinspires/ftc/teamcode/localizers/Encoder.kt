@@ -41,7 +41,7 @@ class Encoder @JvmOverloads constructor(private val motor: DcMotorEx, private va
     val rawVelocity: Double
         get() {
             val multiplier = direction.multiplier
-            return motor.getVelocity(AngleUnit.RADIANS) * multiplier
+            return motor.getVelocity() * multiplier
         }
 
     val correctedVelocity: Double

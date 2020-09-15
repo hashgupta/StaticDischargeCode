@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.acmerobotics.roadrunner.util.Angle
+import com.qualcomm.hardware.motors.RevRobotics20HdHexMotor
 import org.firstinspires.ftc.teamcode.hardware.general.Gyro
 import org.firstinspires.ftc.teamcode.Constants
 import kotlin.math.PI
@@ -78,19 +79,19 @@ class MecanumLocalizerRev constructor(
 
     fun getWheelPositions(): List<Double> {
         return listOf(
-                Constants.encoderTicksToInches(leftFrontEncoder.currentPosition),
-                Constants.encoderTicksToInches(leftRearEncoder.currentPosition),
-                Constants.encoderTicksToInches(rightRearEncoder.currentPosition),
-                Constants.encoderTicksToInches(rightFrontEncoder.currentPosition)
+                Constants.odometryEncoderTicksToInches(leftFrontEncoder.currentPosition.toDouble()),
+                Constants.odometryEncoderTicksToInches(leftRearEncoder.currentPosition.toDouble()),
+                Constants.odometryEncoderTicksToInches(rightRearEncoder.currentPosition.toDouble()),
+                Constants.odometryEncoderTicksToInches(rightFrontEncoder.currentPosition.toDouble())
         )
     }
 
     fun getWheelVelocities(): List<Double>? {
         return listOf(
-                leftFrontEncoder.rawVelocity * Constants.WHEEL_RADIUS,
-                leftRearEncoder.rawVelocity * Constants.WHEEL_RADIUS,
-                rightRearEncoder.rawVelocity * Constants.WHEEL_RADIUS,
-                rightFrontEncoder.rawVelocity * Constants.WHEEL_RADIUS
+                Constants.odometryEncoderTicksToInches(leftFrontEncoder.rawVelocity),
+                Constants.odometryEncoderTicksToInches(leftRearEncoder.rawVelocity),
+                Constants.odometryEncoderTicksToInches(rightRearEncoder.rawVelocity),
+                Constants.odometryEncoderTicksToInches(rightFrontEncoder.rawVelocity)
 
         )
     }

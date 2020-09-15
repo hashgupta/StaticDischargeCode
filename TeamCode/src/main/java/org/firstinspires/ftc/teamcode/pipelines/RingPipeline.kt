@@ -12,6 +12,12 @@ class RingPipeline: OpenCvPipeline(){
     var region_Cb: Mat? = null
     var Cb = Mat()
 
+    enum class RingPosition {
+        NONE, ONE, FOUR
+    }
+
+    @Volatile
+    private var position: RingPosition = RingPosition.NONE
     /*
          * Some color constants
          */
@@ -49,15 +55,8 @@ class RingPipeline: OpenCvPipeline(){
             REGION_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
             REGION_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT)
 
-
-
-
-
-    enum class RingCount {
-        A,
-        B,
-        C
-    }
+    val FOUR_RING_THRESHOLD = 150
+    val ONE_RING_THRESHOLD = 135
 
     fun inputToCb(input: Mat?) {
         Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb)
@@ -96,6 +95,14 @@ class RingPipeline: OpenCvPipeline(){
         Imgproc.rectangle(input, region_pointA,
                 region_pointB,
                 BLUE, 4)
+
+        if (avg < FOUR_RING_THRESHOLD) {
+            position = RingPosition.FOUR
+        } else if (avg < ONE_RING_THRESHOLD) {
+            position = RingPosition.ONE
+        }else {
+            position = RingPosition.NONE
+        }
 
 
         return input
