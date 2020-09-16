@@ -17,7 +17,7 @@ import kotlin.math.abs
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
 @Config
-@TeleOp(group = "tests")
+@TeleOp(name = "Localizer Accuracy",group = "tests")
 class LocalizerAccuracy : LinearOpMode() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {

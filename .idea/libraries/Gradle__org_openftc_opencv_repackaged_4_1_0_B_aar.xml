@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: org.openftc:opencv-repackaged:4.1.0-B@aar">
     <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ec0229b7e2cf218d490c4abab225ed09/opencv-repackaged-4.1.0-B/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ec0229b7e2cf218d490c4abab225ed09/opencv-repackaged-4.1.0-B/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ec0229b7e2cf218d490c4abab225ed09/opencv-repackaged-4.1.0-B/res" />
     </CLASSES>

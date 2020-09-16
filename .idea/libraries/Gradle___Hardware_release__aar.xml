@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: :Hardware-release:@aar">
     <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/38368bf8e58c227b1b4fde3b23d52a04/Hardware-release/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/38368bf8e58c227b1b4fde3b23d52a04/Hardware-release/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/38368bf8e58c227b1b4fde3b23d52a04/Hardware-release/res" />
     </CLASSES>
