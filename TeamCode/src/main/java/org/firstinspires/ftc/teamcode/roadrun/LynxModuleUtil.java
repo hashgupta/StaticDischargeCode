@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.roadrun;
 
-import android.support.annotation.NonNull;
+//import android.support.annotation.NonNull;
 
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -43,7 +43,7 @@ public class LynxModuleUtil {
         }
 
         @Override
-        public int compareTo(@NonNull Object another) {
+        public int compareTo(Object another) {
             if (another instanceof LynxFirmwareVersion) {
                 LynxFirmwareVersion anotherVersion = (LynxFirmwareVersion) another;
                 int majorComp = Integer.compare(major, anotherVersion.major);

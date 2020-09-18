@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: :WirelessP2p-release:@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/67bf2ae3ecbcafa2b9fb114721e886c3/jetified-WirelessP2p-release/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/67bf2ae3ecbcafa2b9fb114721e886c3/jetified-WirelessP2p-release/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/67bf2ae3ecbcafa2b9fb114721e886c3/jetified-WirelessP2p-release/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/693b269a835357788a7198b56182abfe/jetified-WirelessP2p-release/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/693b269a835357788a7198b56182abfe/jetified-WirelessP2p-release/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/693b269a835357788a7198b56182abfe/jetified-WirelessP2p-release/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

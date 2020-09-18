@@ -38,6 +38,6 @@ class PurePursuitTest {
 //        drive.waypoints.add(0, localizer.poseEstimate)
 
 
-        val goal = limit(drive.waypoints[0].findClosestT(localizer.poseEstimate) + 5/drive.waypoints[0].length, 0.0, 1.0)
+//        val goal = limit(drive.waypoints[0].findClosestT(localizer.poseEstimate) + 5/drive.waypoints[0].length, 0.0, 1.0)
     }
 }

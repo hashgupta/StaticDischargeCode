@@ -45,7 +45,7 @@ class LocalizerSpeedRun : LinearOpMode() {
         var rollingCount = 0
         val timer = ElapsedTime()
         while (!isStopRequested) {
-            robot.localizer!!.update()
+            robot.localizer.update()
             rollingCount++
             if (timer.seconds() > 5) {
                 telemetry.addData("average update time (ms)", timer.milliseconds() / rollingCount)

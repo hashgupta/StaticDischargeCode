@@ -74,7 +74,7 @@ class SimplePathPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
                 drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
             } else {
                 //TODO figure out how to make drivetrain more generic for tank and mecanum
-                val wheelVel = getWheelVelocityFromTargetTank(target, currentPos)
+//                val wheelVel = getWheelVelocityFromTargetTank(target, currentPos)
             }
         }
         this.waypoints.clear()
