@@ -21,6 +21,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+repositories {
+    maven { url = "https://dl.bintray.com/first-tech-challenge/ftcsdk/" }
+}
+
+dependencies {
+    annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
+}
+
 android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
