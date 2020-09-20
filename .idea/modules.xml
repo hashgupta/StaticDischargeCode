@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FtcRobotController/FtcRobotController.iml" filepath="$PROJECT_DIR$/.idea/modules/FtcRobotController/FtcRobotController.iml" group="StaticDischargeCode/FtcRobotController" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/StaticDischargeCode.iml" filepath="$PROJECT_DIR$/.idea/modules/StaticDischargeCode.iml" group="StaticDischargeCode" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FtcRobotController/StaticDischargeCode-FtcRobotController.iml" filepath="$PROJECT_DIR$/.idea/modules/FtcRobotController/StaticDischargeCode-FtcRobotController.iml" group="StaticDischargeCode/FtcRobotController" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TeamCode/StaticDischargeCode-TeamCode.iml" filepath="$PROJECT_DIR$/.idea/modules/TeamCode/StaticDischargeCode-TeamCode.iml" group="StaticDischargeCode/TeamCode" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/StudioProjects-StaticDischargeCode.iml" filepath="$PROJECT_DIR$/.idea/modules/StudioProjects-StaticDischargeCode.iml" group="StaticDischargeCode" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TeamCode/TeamCode.iml" filepath="$PROJECT_DIR$/.idea/modules/TeamCode/TeamCode.iml" group="StaticDischargeCode/TeamCode" />
     </modules>
   </component>
