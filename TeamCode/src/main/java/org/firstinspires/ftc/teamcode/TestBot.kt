@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 
 @TeleOp(name = "LilBot", group = "PatentPending")
-class LilBot : OpMode() {
+class TestBot : OpMode() {
 
     private lateinit var robot: DriveTrain
 

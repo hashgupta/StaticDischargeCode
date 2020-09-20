@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.StaticSparky.SparkyRobot
+import org.firstinspires.ftc.teamcode.StaticSparky.TestRobot
 import kotlin.math.abs
 
 @Config
@@ -16,7 +17,7 @@ class LocalizerSpeedRun : LinearOpMode() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
-        val robot = SparkyRobot(hardwareMap, telemetry)
+        val robot = TestRobot(hardwareMap, telemetry)
         val drive = robot.driveTrain
 
         // move forward at moderate speed
