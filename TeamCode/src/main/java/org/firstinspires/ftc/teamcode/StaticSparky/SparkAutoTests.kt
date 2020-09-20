@@ -9,7 +9,7 @@ class SparkAutoTests : SparkAutoBase() {
 
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
-        robot = SparkyRobot(hardwareMap, telemetry)
+        val test_robot = TestRobot(hardwareMap, telemetry)
         waitForStart()
 //        while (opModeIsActive()) {
 //            if (robot.touch.measure()) {
@@ -19,13 +19,13 @@ class SparkAutoTests : SparkAutoBase() {
 //            robot.driveTrain.start(DriveTrain.Vector(0.0, 1.0, 0.0).speeds())
 //        }
 
-        robot.pursuiter
+        test_robot.pursuiter
                 .addPoint(10.0, 10.0, 3.14)
                 .addPoint(5.0, 5.0, 0.0)
                 .addAction { print("hi") }
                 .addTurn(PI)
                 .addPoint(0.0, 0.0, 0.0)
-        robot.pursuiter.FollowSync(robot.driveTrain)
+        test_robot.pursuiter.FollowSync(test_robot.driveTrain)
         // first build a sequential list of commands
         // then, program out your instructions one by one
 
