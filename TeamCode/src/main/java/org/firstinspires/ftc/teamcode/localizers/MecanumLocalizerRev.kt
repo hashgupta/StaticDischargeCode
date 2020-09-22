@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Constants
 import kotlin.math.PI
 
 class MecanumLocalizerRev constructor(
-        private val hardwareMap: HardwareMap,
+        hardwareMap: HardwareMap,
         private val gyro: Gyro?
 ) : Localizer {
     private var _poseEstimate = Pose2d()
@@ -75,6 +75,8 @@ class MecanumLocalizerRev constructor(
         rightFrontEncoder = Encoder(hardwareMap.dcMotor["rightFrontEncoder"] as DcMotorEx)
         leftRearEncoder = Encoder(hardwareMap.dcMotor["leftRearEncoder"] as DcMotorEx)
         rightRearEncoder = Encoder(hardwareMap.dcMotor["rightRearEncoder"] as DcMotorEx)
+        leftFrontEncoder.direction = Encoder.Direction.REVERSE;
+        leftRearEncoder.direction = Encoder.Direction.REVERSE;
     }
 
     fun getWheelPositions(): List<Double> {
