@@ -52,18 +52,13 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer
     }
 
     override fun getHeading(): Double {
-        return imuSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
+        return imuSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle.toDouble()
     }
 
 
     init {
         lateralEncoder = Encoder(hardwareMap.dcMotor["lateralEncoder"] as DcMotorEx)
         frontEncoder = Encoder(hardwareMap.dcMotor["frontEncoder"] as DcMotorEx)
-        val parameters = BNO055IMU.Parameters()
-        parameters.mode = BNO055IMU.SensorMode.IMU
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
-        parameters.loggingEnabled = false
         imuSensor = hardwareMap.get(BNO055IMU::class.java, "imu")
     }
 }
