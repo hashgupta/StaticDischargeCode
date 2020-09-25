@@ -29,8 +29,8 @@ class LocalizerAccuracy : LinearOpMode() {
         waitForStart()
         while (!isStopRequested) {
             val baseVel = Pose2d(
-                    (-gamepad1.left_stick_y).toDouble(),
-                    (-gamepad1.left_stick_x).toDouble(),
+                    (gamepad1.left_stick_y).toDouble(),
+                    (gamepad1.left_stick_x).toDouble(),
                     (-gamepad1.right_stick_x).toDouble()
             )
             var vel: Pose2d
@@ -46,7 +46,7 @@ class LocalizerAccuracy : LinearOpMode() {
                 baseVel
             }
             val wheelVels = MecanumKinematics.robotToWheelVelocities(vel, 18.0, 18.0,1.0 )
-            drive.start(DriveTrain.Square(wheelVels[3], wheelVels[2], wheelVels[0], wheelVels[1]))
+            drive.start(DriveTrain.Square(wheelVels[3], wheelVels[2], -wheelVels[0], -wheelVels[1]))
             robot.localizer.update()
             val (x, y, heading) = robot.localizer.poseEstimate
             telemetry.addData("x", x)

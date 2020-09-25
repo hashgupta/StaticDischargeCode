@@ -22,8 +22,8 @@ class LocalizerSpeedRun : LinearOpMode() {
 
         // move forward at moderate speed
         val baseVel = Pose2d(
+                (0.0 ),
                 (0.25),
-                (0.0),
                 (0.0)
         )
 
@@ -39,7 +39,7 @@ class LocalizerSpeedRun : LinearOpMode() {
             baseVel
         }
         val wheelVels = MecanumKinematics.robotToWheelVelocities(vel, 18.0, 18.0, 1.0)
-        drive.start(DriveTrain.Square(wheelVels[3], wheelVels[2], wheelVels[0], wheelVels[1]))
+        drive.start(DriveTrain.Square(wheelVels[3], wheelVels[2], -wheelVels[0], -wheelVels[1]))
 
         waitForStart()
 
@@ -48,14 +48,18 @@ class LocalizerSpeedRun : LinearOpMode() {
         while (!isStopRequested) {
             robot.localizer.update()
             rollingCount++
+            telemetry.addData("timer: ", timer)
             if (timer.seconds() > 5) {
                 telemetry.addData("average update time (ms)", timer.milliseconds() / rollingCount)
                 timer.reset()
                 rollingCount = 0
+                telemetry.update()
+                sleep(1000)
             }
             if (gamepad1.a) {
                 break
             }
+            telemetry.update()
         }
     }
     companion object {

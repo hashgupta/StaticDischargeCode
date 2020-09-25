@@ -71,20 +71,20 @@ class MecanumLocalizerRev constructor(
     }
 
     init {
-        leftFrontEncoder = Encoder(hardwareMap.dcMotor["leftFrontEncoder"] as DcMotorEx)
-        rightFrontEncoder = Encoder(hardwareMap.dcMotor["rightFrontEncoder"] as DcMotorEx)
-        leftRearEncoder = Encoder(hardwareMap.dcMotor["leftRearEncoder"] as DcMotorEx)
-        rightRearEncoder = Encoder(hardwareMap.dcMotor["rightRearEncoder"] as DcMotorEx)
-        leftFrontEncoder.direction = Encoder.Direction.REVERSE;
-        leftRearEncoder.direction = Encoder.Direction.REVERSE;
+        leftFrontEncoder = Encoder(hardwareMap.dcMotor["lf"] as DcMotorEx)
+        rightFrontEncoder = Encoder(hardwareMap.dcMotor["rf"] as DcMotorEx)
+        leftRearEncoder = Encoder(hardwareMap.dcMotor["lb"] as DcMotorEx)
+        rightRearEncoder = Encoder(hardwareMap.dcMotor["rb"] as DcMotorEx)
+        rightFrontEncoder.direction = Encoder.Direction.REVERSE;
+        rightRearEncoder.direction = Encoder.Direction.REVERSE;
     }
 
     fun getWheelPositions(): List<Double> {
         return listOf(
-                Constants.odometryEncoderTicksToInches(leftFrontEncoder.currentPosition.toDouble()),
-                Constants.odometryEncoderTicksToInches(leftRearEncoder.currentPosition.toDouble()),
-                Constants.odometryEncoderTicksToInches(rightRearEncoder.currentPosition.toDouble()),
-                Constants.odometryEncoderTicksToInches(rightFrontEncoder.currentPosition.toDouble())
+                Constants.encoderTicksToInches(leftFrontEncoder.currentPosition.toDouble()),
+                Constants.encoderTicksToInches(leftRearEncoder.currentPosition.toDouble()),
+                Constants.encoderTicksToInches(rightRearEncoder.currentPosition.toDouble()),
+                Constants.encoderTicksToInches(rightFrontEncoder.currentPosition.toDouble())
         )
     }
 
