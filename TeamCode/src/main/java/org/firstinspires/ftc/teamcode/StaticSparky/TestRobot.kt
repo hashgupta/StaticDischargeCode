@@ -20,7 +20,7 @@ class TestRobot (val hardwareMap: HardwareMap, val telemetry: Telemetry) {
     val driveTrain: DriveTrain
     val pursuiter: FastPurePursuit
     val localizer: Localizer
-//    var gyro: Gyro
+    var gyro: Gyro
 
     // initialize robot
     init {
@@ -29,13 +29,13 @@ class TestRobot (val hardwareMap: HardwareMap, val telemetry: Telemetry) {
         val lf = Motor("lf", 1120.0, 1.0, 2.95, hardwareMap)
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
 
-//        gyro = Gyro("gyro", hardwareMap)
+        gyro = Gyro("gyro", hardwareMap)
 
         driveTrain = DriveTrain(rf, rb, lf, lb)
 
 
-//        localizer = MecanumLocalizerRev(hardwareMap, gyro=gyro)
-        localizer = MecanumLocalizerRev(hardwareMap, gyro=null)
+        localizer = MecanumLocalizerRev(hardwareMap, gyro=gyro)
+//        localizer = MecanumLocalizerRev(hardwareMap, gyro=null)
 //
         pursuiter = FastPurePursuit(localizer, Pose2d())
 
