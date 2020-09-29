@@ -5,7 +5,6 @@ import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
-import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.acmerobotics.roadrunner.kinematics.TankKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
 import org.firstinspires.ftc.teamcode.Constants
@@ -99,8 +98,10 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
 
         if (mecanum) {
-            val wheelVel = getWheelVelocityFromTarget(target = target, currentPos = currentPos)
-            drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
+//            val wheelVel = getVelocityFromTarget(target = target, currentPos = currentPos)
+//            drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
+            val vel = getVelocityFromTarget(target, currentPos)
+            drivetrain.startFromRRPower(vel)
         } else {
             //TODO figure out how to make drivetrain more generic for tank and mecanum
 //            val wheelVel = getWheelVelocityFromTargetTank(target, currentPos)
@@ -181,7 +182,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         return addSpline(end, startTan, endTanAngle)
     }
 
-    fun getWheelVelocityFromTarget(target:Pose2d, currentPos:Pose2d): List<Double> {
+    fun getVelocityFromTarget(target:Pose2d, currentPos:Pose2d): Pose2d {
 
         val error = Kinematics.calculatePoseError(target, currentPos)
 
@@ -189,17 +190,18 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
         print(velocity)
 
-        var wheelPow = MecanumKinematics.robotToWheelVelocities(velocity, Constants.trackwidth, Constants.wheelBase, lateralMultiplier = 1.0)
-
-        wheelPow = wheelPow.map { it + sign(it) * kStatic }
-
-        val wheelCopy = wheelPow.map {abs(it)}
-
-        if (wheelCopy.max() != null && wheelCopy.max()!! > 1) {
-            wheelPow = wheelPow.map {it/wheelCopy.max()!!}
-        }
-
-        return wheelPow
+//        var wheelPow = MecanumKinematics.robotToWheelVelocities(velocity, Constants.trackwidth, Constants.wheelBase, lateralMultiplier = 1.0)
+//
+//        wheelPow = wheelPow.map { it + sign(it) * kStatic }
+//
+//        val wheelCopy = wheelPow.map {abs(it)}
+//
+//        if (wheelCopy.max() != null && wheelCopy.max()!! > 1) {
+//            wheelPow = wheelPow.map {it/wheelCopy.max()!!}
+//        }
+//
+//        return wheelPow
+        return velocity
     }
 
     fun errorToPower(poseError: Pose2d): Pose2d {

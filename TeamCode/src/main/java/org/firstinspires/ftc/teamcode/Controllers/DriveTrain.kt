@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Controllers
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.type.Input
@@ -27,6 +28,14 @@ class DriveTrain// initialize drive train
         rb.start(motion.rb)
         lf.start(motion.lf)
         lb.start(motion.lb)
+    }
+
+    fun startFromRRPower(velocity: Pose2d) {
+        val vert = velocity.x
+        val hori = -velocity.y
+        val turn = velocity.heading
+        val square = Vector(hori, vert, turn).speeds()
+        start(square)
     }
 
     fun setTarget(inches: Square<Double>) {

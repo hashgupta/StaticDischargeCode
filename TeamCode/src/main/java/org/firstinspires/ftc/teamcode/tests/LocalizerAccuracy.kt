@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode.tests
-//import com.acmerobotics.dashboard.config.Config
+import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import org.firstinspires.ftc.teamcode.StaticSparky.SparkyRobot
 import org.firstinspires.ftc.teamcode.StaticSparky.TestRobot
 import kotlin.math.abs
-import kotlin.math.max
 
 
 /**
@@ -18,7 +14,7 @@ import kotlin.math.max
  * exercise is to ascertain whether the localizer has been configured properly (note: the pure
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
-//@Config
+@Config
 @TeleOp(name = "Localizer Accuracy",group = "tests")
 class LocalizerAccuracy : LinearOpMode() {
     @Throws(InterruptedException::class)
@@ -47,11 +43,13 @@ class LocalizerAccuracy : LinearOpMode() {
             } else {
                 baseVel
             }
-            var wheelVels = MecanumKinematics.robotToWheelVelocities(vel, 18.0, 18.0,1.0 )
-            val denom = max(max(abs(wheelVels[0]), abs(wheelVels[1])), max(abs(wheelVels[2]), abs(wheelVels[3])))
-            wheelVels = wheelVels.map { it/denom }
-            telemetry.addData("wheel velocities", wheelVels)
-            drive.start(DriveTrain.Square(wheelVels[3], wheelVels[2], -wheelVels[0], -wheelVels[1]))
+//            var wheelVels = MecanumKinematics.robotToWheelVelocities(vel, 18.0, 18.0,1.0 )
+//            val denom = max(max(abs(wheelVels[0]), abs(wheelVels[1])), max(abs(wheelVels[2]), abs(wheelVels[3])))
+//            wheelVels = wheelVels.map { it/denom }
+//            telemetry.addData("wheel velocities", wheelVels)
+//            drive.start(DriveTrain.Square(-wheelVels[3], -wheelVels[2], wheelVels[0], wheelVels[1]))
+            drive.startFromRRPower(vel)
+            telemetry.addData("velocities", vel)
             robot.localizer.update()
             val (x, y, heading) = robot.localizer.poseEstimate
             telemetry.addData("x", x)
