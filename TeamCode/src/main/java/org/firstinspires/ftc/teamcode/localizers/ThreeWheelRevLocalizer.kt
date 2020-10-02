@@ -13,19 +13,19 @@ import org.firstinspires.ftc.teamcode.Constants.encoderTicksToInches
 import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
 
 @Config
-class ThreeWheelRevLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocalizer(listOf(
+class ThreeWheelRevLocalizer(hardwareMap: HardwareMap, leftEncoderName: String,rightEncoderName: String, verticalEncoderName: String) : ThreeTrackingWheelLocalizer(listOf(
         Pose2d(0.0, LATERAL_DISTANCE / 2, 0.0),  // lateral left
     Pose2d(-FORWARD_OFFSET, 0.0, Math.toRadians(90.0)), // back
     Pose2d(0.0, -LATERAL_DISTANCE / 2, Math.toRadians(180.0)))) { // lateral right
 
     private val leftEncoder: DcMotorEx
-    private val frontEncoder: DcMotorEx
+    private val verticalEncoder: DcMotorEx
     private val rightEncoder: DcMotorEx
 
     override fun getWheelPositions(): List<Double> {
         return listOf(
                 odometryEncoderTicksToInches(leftEncoder.currentPosition.toDouble()),
-                odometryEncoderTicksToInches(frontEncoder.currentPosition.toDouble()),
+                odometryEncoderTicksToInches(verticalEncoder.currentPosition.toDouble()),
                 odometryEncoderTicksToInches(rightEncoder.currentPosition.toDouble())
         )
     }
@@ -33,7 +33,7 @@ class ThreeWheelRevLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
     override fun getWheelVelocities(): List<Double>? {
         return listOf(
                 odometryEncoderTicksToInches(leftEncoder.getVelocity()),
-                odometryEncoderTicksToInches(frontEncoder.getVelocity()),
+                odometryEncoderTicksToInches(verticalEncoder.getVelocity()),
                 odometryEncoderTicksToInches(rightEncoder.getVelocity())
         )
     }
@@ -41,8 +41,8 @@ class ThreeWheelRevLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
 
 
     init {
-        leftEncoder = hardwareMap.dcMotor["leftEncoder"] as DcMotorEx
-        frontEncoder = hardwareMap.dcMotor["frontEncoder"] as DcMotorEx
-        rightEncoder = hardwareMap.dcMotor["rightEncoder"] as DcMotorEx
+        leftEncoder = hardwareMap.dcMotor[leftEncoderName] as DcMotorEx
+        verticalEncoder = hardwareMap.dcMotor[verticalEncoderName] as DcMotorEx
+        rightEncoder = hardwareMap.dcMotor[rightEncoderName] as DcMotorEx
     }
 }

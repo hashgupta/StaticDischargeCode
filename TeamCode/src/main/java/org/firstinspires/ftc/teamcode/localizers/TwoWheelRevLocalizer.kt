@@ -30,7 +30,7 @@ import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
  * Note: this could be optimized significantly with REV bulk reads
  */
 @Config
-class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer(listOf(
+class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralName: String) : TwoTrackingWheelLocalizer(listOf(
         Pose2d(0.0, LATERAL_DISTANCE / 2, 0.0),  // lateral
         Pose2d(FORWARD_OFFSET, 0.0, Math.toRadians(90.0)) )) { //front
     private val lateralEncoder: Encoder
@@ -57,8 +57,8 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap) : TwoTrackingWheelLocalizer
 
 
     init {
-        lateralEncoder = Encoder(hardwareMap.dcMotor["lateralEncoder"] as DcMotorEx)
-        frontEncoder = Encoder(hardwareMap.dcMotor["frontEncoder"] as DcMotorEx)
+        lateralEncoder = Encoder(hardwareMap.dcMotor[lateralName] as DcMotorEx)
+        frontEncoder = Encoder(hardwareMap.dcMotor[frontName] as DcMotorEx)
         imuSensor = hardwareMap.get(BNO055IMU::class.java, "imu")
     }
 }

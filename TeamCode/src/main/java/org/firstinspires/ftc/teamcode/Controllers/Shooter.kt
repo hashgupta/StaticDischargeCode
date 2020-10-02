@@ -11,6 +11,8 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor){
+    val slip = 1.2 // flywheel shooter slip, MUST BE TUNED
+
     fun startShootAtTarget(robot: SparkyRobot, target: shootingGoal, shooterAngle:Double) {
         //start up flywheel at desired velocity and move robot to correct orientation
         val position = robot.localizer.poseEstimate.vec()
@@ -20,7 +22,7 @@ class Shooter(val flywheel: Motor){
         robot.pursuiter.addPoint(Pose2d(robot.localizer.poseEstimate.vec(), shootingHeading))
         robot.pursuiter.FollowSync(robot.driveTrain)
         val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - target.height))
-        flywheel.setSpeed(2*requiredVelocity) // remove 2 times if using double flywheel, doesnt account for direction
+        flywheel.setSpeed(2*requiredVelocity * slip) // remove 2 times if using double flywheel, doesnt account for direction
 
     }
 

@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.Touch
 import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 import org.firstinspires.ftc.teamcode.localizers.MecanumLocalizerRev
+import org.firstinspires.ftc.teamcode.localizers.TwoWheelRevLocalizer
 import kotlin.math.abs
 import kotlin.math.sign
 
@@ -45,8 +46,9 @@ class SparkyRobot(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
         driveTrain = DriveTrain(rf, rb, lf, lb)
 
 
-        localizer = MecanumLocalizerRev(hardwareMap, gyro=gyro)
-//
+//        localizer = MecanumLocalizerRev(hardwareMap, gyro=gyro)
+        localizer = TwoWheelRevLocalizer(hardwareMap, "front", "side")
+
         pursuiter = FastPurePursuit(localizer, Pose2d())
 
         val allHubs = hardwareMap.getAll(LynxModule::class.java)
