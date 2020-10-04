@@ -52,6 +52,7 @@ class LocalizerAccuracy : LinearOpMode() {
             telemetry.addData("velocities", vel)
             robot.localizer.update()
             val (x, y, heading) = robot.localizer.poseEstimate
+            telemetry.addData("movement velocity", robot.localizer.poseVelocity)
             telemetry.addData("x", x)
             telemetry.addData("y", y)
             telemetry.addData("heading", heading)

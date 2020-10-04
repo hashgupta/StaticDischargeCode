@@ -80,9 +80,9 @@ public class RevMecanumDrive extends MecanumDriveBase {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance,
-        if (odometry) {
-            setLocalizer(new TwoWheelRevLocalizer(hardwareMap));
-        }
+//        if (odometry) {
+//            setLocalizer(new TwoWheelRevLocalizer(hardwareMap));
+//        }
     }
 
     @Override
