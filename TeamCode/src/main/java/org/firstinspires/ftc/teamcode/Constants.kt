@@ -14,7 +14,7 @@ object Constants {
 //    const val maxMotorPower = maxMotorAmps * motorVolts
 //    const val numOfWheels = 4 // put in to scale the power to distribute it over the wheels
 //    const val WheelVelToPowerConst =(m*g*mu / numOfWheels) / maxMotorPower
-    const val TICKS_PER_REV = 1120.0
+    const val TICKS_PER_REV = 560.0
     const val WHEEL_RADIUS = 2.0 // in
     const val GEAR_RATIO = 45/72.0 // output (wheel) speed / input (encoder) speed
     const val LATERAL_DISTANCE = 10.0 // in; distance between the left and right wheels (ie trackwidth)

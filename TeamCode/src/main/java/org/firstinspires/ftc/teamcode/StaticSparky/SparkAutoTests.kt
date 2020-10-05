@@ -19,13 +19,15 @@ class SparkAutoTests : SparkAutoBase() {
 //            robot.driveTrain.start(DriveTrain.Vector(0.0, 1.0, 0.0).speeds())
 //        }
 
-        test_robot.pursuiter
-                .addPoint(10.0, 10.0, 3.14)
-                .addPoint(5.0, 5.0, 0.0)
-                .addAction { print("hi") }
-                .addTurn(PI)
-                .addPoint(0.0, 0.0, 0.0)
-        test_robot.pursuiter.FollowSync(test_robot.driveTrain)
+//        test_robot.pursuiter
+//                .addPoint(10.0, 10.0, 3.14)
+//                .addPoint(5.0, 5.0, 0.0)
+//                .addAction { print("hi") }
+//                .addTurn(PI)
+//                .addPoint(0.0, 0.0, 0.0)
+//        test_robot.pursuiter.FollowSync(test_robot.driveTrain)
+        test_robot.move(0.0, TILE_LENGTH)
+        test_robot.turnTo(90.0)
         // first build a sequential list of commands
         // then, program out your instructions one by one
 

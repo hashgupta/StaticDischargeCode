@@ -90,11 +90,10 @@ class MecanumLocalizerRev constructor(
 
     fun getWheelVelocities(): List<Double>? {
         return listOf(
-                Constants.odometryEncoderTicksToInches(leftFrontEncoder.rawVelocity),
-                Constants.odometryEncoderTicksToInches(leftRearEncoder.rawVelocity),
-                Constants.odometryEncoderTicksToInches(rightRearEncoder.rawVelocity),
-                Constants.odometryEncoderTicksToInches(rightFrontEncoder.rawVelocity)
-
+                Constants.encoderTicksToInches(leftFrontEncoder.rawVelocity),
+                Constants.encoderTicksToInches(leftRearEncoder.rawVelocity),
+                Constants.encoderTicksToInches(rightRearEncoder.rawVelocity),
+                Constants.encoderTicksToInches(rightFrontEncoder.rawVelocity)
         )
     }
 

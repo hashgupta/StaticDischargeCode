@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.StaticSparky.TestRobot
+import org.firstinspires.ftc.teamcode.localizers.MecanumLocalizerRev
 import kotlin.math.abs
 
 
@@ -50,6 +51,7 @@ class LocalizerAccuracy : LinearOpMode() {
 //            drive.start(DriveTrain.Square(-wheelVels[3], -wheelVels[2], wheelVels[0], wheelVels[1]))
             drive.startFromRRPower(vel)
             telemetry.addData("velocities", vel)
+            telemetry.addData("wheel deltas", (robot.localizer as MecanumLocalizerRev).getWheelPositions())
             robot.localizer.update()
             val (x, y, heading) = robot.localizer.poseEstimate
             telemetry.addData("movement velocity", robot.localizer.poseVelocity)
@@ -61,8 +63,8 @@ class LocalizerAccuracy : LinearOpMode() {
     }
 
     companion object {
-        var VX_WEIGHT = 1.0
-        var VY_WEIGHT = 1.0
-        var OMEGA_WEIGHT = 1.0
+        var VX_WEIGHT = 0.5
+        var VY_WEIGHT = 0.5
+        var OMEGA_WEIGHT = 0.5
     }
 }
