@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.tests
 
-import com.acmerobotics.roadrunner.profile.MotionProfileGenerator
-import com.acmerobotics.roadrunner.profile.MotionState
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

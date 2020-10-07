@@ -5,7 +5,7 @@ import org.opencv.imgproc.Imgproc
 import org.openftc.easyopencv.OpenCvPipeline
 
 
-class RingPipeline: OpenCvPipeline(){
+class RingPipeline(): OpenCvPipeline(){
 
     internal var yCbCrChan2Mat = Mat()
     internal var avg: Double = 0.toDouble()
@@ -15,6 +15,8 @@ class RingPipeline: OpenCvPipeline(){
     enum class RingPosition {
         NONE, ONE, FOUR
     }
+
+    var right:Boolean = true
 
     @Volatile
     private var position: RingPosition = RingPosition.NONE
@@ -27,7 +29,8 @@ class RingPipeline: OpenCvPipeline(){
     /*
          * The core values which define the location and size of the sample regions
          */
-    val REGION_TOPLEFT_ANCHOR_POINT = Point(109.0, 98.0)
+    // set where the right and left boxes are
+    val REGION_TOPLEFT_ANCHOR_POINT = if (right) Point(109.0, 98.0) else Point(109.0, 98.0)
     val REGION_WIDTH = 20
     val REGION_HEIGHT = 20
 
@@ -87,7 +90,7 @@ class RingPipeline: OpenCvPipeline(){
 
         //
 
-        inputToCb(input);
+        inputToCb(input)
 
 
         avg = Core.mean(region_Cb).`val`[0]

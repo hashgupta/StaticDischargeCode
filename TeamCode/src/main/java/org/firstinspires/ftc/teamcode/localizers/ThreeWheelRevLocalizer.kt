@@ -5,11 +5,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
-import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Constants.FORWARD_OFFSET
 import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
-import org.firstinspires.ftc.teamcode.Constants.encoderTicksToInches
 import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
 
 @Config
@@ -32,9 +29,9 @@ class ThreeWheelRevLocalizer(hardwareMap: HardwareMap, leftEncoderName: String,r
 
     override fun getWheelVelocities(): List<Double>? {
         return listOf(
-                odometryEncoderTicksToInches(leftEncoder.getVelocity()),
-                odometryEncoderTicksToInches(verticalEncoder.getVelocity()),
-                odometryEncoderTicksToInches(rightEncoder.getVelocity())
+                odometryEncoderTicksToInches(leftEncoder.velocity),
+                odometryEncoderTicksToInches(verticalEncoder.velocity),
+                odometryEncoderTicksToInches(rightEncoder.velocity)
         )
     }
 

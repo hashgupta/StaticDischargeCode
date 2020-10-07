@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.roadrunner.drive.MecanumDrive
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import org.firstinspires.ftc.teamcode.purePursuit.*
+import org.firstinspires.ftc.teamcode.purePursuit.SimplePathPurePursuit
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

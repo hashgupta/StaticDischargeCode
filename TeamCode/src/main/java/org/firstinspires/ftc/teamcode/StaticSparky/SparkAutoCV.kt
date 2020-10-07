@@ -7,7 +7,7 @@ class SparkAutoCV : SparkAutoBase() {
 
     @Throws(InterruptedException::class)
     override fun runOpMode() {
-        initCV()
+        initCV(Side.Right)
         startCV()
         waitForStart()
         while (opModeIsActive()) {

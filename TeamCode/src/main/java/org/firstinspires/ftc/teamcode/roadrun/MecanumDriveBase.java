@@ -1,11 +1,5 @@
 package org.firstinspires.ftc.teamcode.roadrun;
 
-import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.BASE_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.kV;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
@@ -29,6 +23,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.BASE_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.kA;
+import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.kStatic;
+import static org.firstinspires.ftc.teamcode.roadrun.DriveConstants.kV;
 
 /*
  * Base class with shared functionality for sample mecanum drives. All hardware-specific details are

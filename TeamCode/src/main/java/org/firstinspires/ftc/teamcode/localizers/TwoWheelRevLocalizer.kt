@@ -9,10 +9,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
-import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Constants.FORWARD_OFFSET
 import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
-import org.firstinspires.ftc.teamcode.Constants.encoderTicksToInches
 import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
 
 /*

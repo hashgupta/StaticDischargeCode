@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.localizers
 
 import com.acmerobotics.roadrunner.util.NanoClock
 import com.qualcomm.robotcore.hardware.DcMotorEx
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 
 
 /**
@@ -41,7 +40,7 @@ class Encoder @JvmOverloads constructor(private val motor: DcMotorEx, private va
     val rawVelocity: Double
         get() {
             val multiplier = direction.multiplier
-            return motor.getVelocity() * multiplier
+            return motor.velocity * multiplier
         }
 
     val correctedVelocity: Double

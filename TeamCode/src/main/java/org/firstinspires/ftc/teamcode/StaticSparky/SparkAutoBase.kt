@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.StaticSparky
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.pipelines.SkystonePipeline
 import org.openftc.easyopencv.OpenCvCameraFactory
 import org.openftc.easyopencv.OpenCvCameraRotation
 
@@ -19,8 +18,12 @@ abstract class SparkAutoBase : LinearOpMode() {
 
     internal var pipeline = RingPipeline() // set pipeline here, after creating it in pipelines folder
 
+    enum class Side{
+        Right,
+        Left
+    }
 
-    fun initCV() {
+    fun initCV(side:Side) {
 
         webcam.openCameraDevice()
 
@@ -29,6 +32,7 @@ abstract class SparkAutoBase : LinearOpMode() {
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
+        pipeline.right = (side == Side.Right)
         webcam.setPipeline(pipeline)
     }
 

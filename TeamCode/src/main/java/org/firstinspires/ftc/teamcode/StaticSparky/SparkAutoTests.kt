@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.StaticSparky
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import kotlin.math.PI
 
 @Autonomous(name = "SparkyTests", group = "StaticDischarge")
 class SparkAutoTests : SparkAutoBase() {

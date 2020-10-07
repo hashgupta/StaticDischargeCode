@@ -2,14 +2,13 @@ package org.firstinspires.ftc.teamcode.localizers
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
+import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
+import com.acmerobotics.roadrunner.util.Angle
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
-import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
-import com.acmerobotics.roadrunner.util.Angle
-import com.qualcomm.hardware.motors.RevRobotics20HdHexMotor
-import org.firstinspires.ftc.teamcode.hardware.general.Gyro
 import org.firstinspires.ftc.teamcode.Constants
+import org.firstinspires.ftc.teamcode.hardware.general.Gyro
 import kotlin.math.PI
 
 class MecanumLocalizerRev constructor(
@@ -75,8 +74,8 @@ class MecanumLocalizerRev constructor(
         rightFrontEncoder = Encoder(hardwareMap.dcMotor["rf"] as DcMotorEx)
         leftRearEncoder = Encoder(hardwareMap.dcMotor["lb"] as DcMotorEx)
         rightRearEncoder = Encoder(hardwareMap.dcMotor["rb"] as DcMotorEx)
-        rightFrontEncoder.direction = Encoder.Direction.REVERSE;
-        rightRearEncoder.direction = Encoder.Direction.REVERSE;
+        rightFrontEncoder.direction = Encoder.Direction.REVERSE
+        rightRearEncoder.direction = Encoder.Direction.REVERSE
     }
 
     fun getWheelPositions(): List<Double> {
