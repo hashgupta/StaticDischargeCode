@@ -28,7 +28,6 @@ class SparkyTele : OpMode() {
         var vert = gamepad1.left_stick_y.toDouble()
         var hori = gamepad1.left_stick_x.toDouble()
         val turn = gamepad1.right_stick_x.toDouble()
-//        val lift = gamepad2.right_stick_y.toDouble()
 
         // process input
 
@@ -77,19 +76,8 @@ class SparkyTele : OpMode() {
         robot.driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
     }
 
-    private fun liftSpeed(speed: Double): Double {
-        return if (speed < 0) {
-            speed * liftUpSpeed
-        } else if (speed > 0) {
-            speed * liftDownSpeed
-        } else {
-            0.0
-        }
-    }
-
     companion object {
         // field measurements
-        private const val liftUpSpeed = 1.0
-        private const val liftDownSpeed = 0.5
+
     }
 }
