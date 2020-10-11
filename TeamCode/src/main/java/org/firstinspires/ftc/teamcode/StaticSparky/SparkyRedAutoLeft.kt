@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.StaticSparky
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 
-@Autonomous(name = "SparkyTests", group = "StaticDischarge")
+@Autonomous(name = "SparkyAutoRedLeft", group = "StaticDischarge")
 class SparkyRedAutoLeft : SparkAutoBase() {
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED

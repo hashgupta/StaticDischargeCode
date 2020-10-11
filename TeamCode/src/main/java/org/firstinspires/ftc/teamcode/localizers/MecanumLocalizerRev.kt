@@ -74,8 +74,11 @@ class MecanumLocalizerRev constructor(
         rightFrontEncoder = Encoder(hardwareMap.dcMotor["rf"] as DcMotorEx)
         leftRearEncoder = Encoder(hardwareMap.dcMotor["lb"] as DcMotorEx)
         rightRearEncoder = Encoder(hardwareMap.dcMotor["rb"] as DcMotorEx)
-        rightFrontEncoder.direction = Encoder.Direction.REVERSE
-        rightRearEncoder.direction = Encoder.Direction.REVERSE
+//        rightFrontEncoder.direction = Encoder.Direction.REVERSE
+//        rightRearEncoder.direction = Encoder.Direction.REVERSE
+        leftFrontEncoder.direction = Encoder.Direction.REVERSE
+        leftRearEncoder.direction = Encoder.Direction.REVERSE
+
     }
 
     fun getWheelPositions(): List<Double> {

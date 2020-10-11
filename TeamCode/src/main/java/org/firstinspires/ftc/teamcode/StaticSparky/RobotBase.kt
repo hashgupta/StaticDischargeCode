@@ -15,7 +15,7 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sign
 
-open class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
+abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry) {
     var driveTrain: DriveTrain
     var localizer: Localizer
     val gyro: Gyro

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.StaticSparky
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
+import org.openftc.easyopencv.OpenCvCamera
 import org.openftc.easyopencv.OpenCvCameraFactory
 import org.openftc.easyopencv.OpenCvCameraRotation
 
@@ -11,10 +12,8 @@ abstract class SparkAutoBase : LinearOpMode() {
     // robot
     lateinit var robot: SparkyRobot
 
-    val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
-    internal val webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)
-    // OR...  Do Not Activate the Camera Monitor View
-    //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
+    lateinit var webcam: OpenCvCamera
+
 
     internal var pipeline = RingPipeline() // set pipeline here, after creating it in pipelines folder
 
@@ -24,6 +23,10 @@ abstract class SparkAutoBase : LinearOpMode() {
     }
 
     fun initCV(side:Side) {
+        val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)
+        // OR...  Do Not Activate the Camera Monitor View
+        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
         webcam.openCameraDevice()
 
