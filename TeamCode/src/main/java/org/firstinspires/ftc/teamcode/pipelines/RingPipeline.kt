@@ -30,9 +30,9 @@ class RingPipeline(): OpenCvPipeline(){
          * The core values which define the location and size of the sample regions
          */
     // set where the right and left boxes are
-    val REGION_TOPLEFT_ANCHOR_POINT = if (right) Point(109.0, 98.0) else Point(109.0, 98.0)
-    val REGION_WIDTH = 20
-    val REGION_HEIGHT = 20
+    val REGION_TOPLEFT_ANCHOR_POINT = if (right) Point(150.0, 98.0) else Point(50.0, 98.0)
+    val REGION_WIDTH = 50
+    val REGION_HEIGHT = 50
 
     /*
          * Points which actually define the sample region rectangles, derived from above values
@@ -58,15 +58,15 @@ class RingPipeline(): OpenCvPipeline(){
             REGION_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
             REGION_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT)
 
-    val FOUR_RING_THRESHOLD = 150
-    val ONE_RING_THRESHOLD = 135
+    val FOUR_RING_THRESHOLD = 100
+    val ONE_RING_THRESHOLD = 120
 
-    fun inputToCb(input: Mat?) {
+    fun inputToCb(input: Mat) {
         Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb)
         Core.extractChannel(yCbCrChan2Mat, Cb, 2)
     }
 
-    fun init(firstFrame: Mat?): Unit {
+    fun init(firstFrame: Mat): Unit {
     /*
              * We need to call this in order to make sure the 'Cb'
              * object is initialized, so that the submats we make
@@ -76,14 +76,18 @@ class RingPipeline(): OpenCvPipeline(){
              * buffer would be re-allocated the first time a real frame
              * was crunched)
              */
-        inputToCb(firstFrame)
+        if (firstFrame == null) {
+            return
+        } else {
+            inputToCb(firstFrame)
+            region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
+        }
 
     /*
              * Submats are a persistent reference to a region of the parent
              * buffer. Any changes to the child affect the parent, and the
              * reverse also holds true.
              */
-        region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
 }
 
     override fun processFrame(input: Mat): Mat {
@@ -91,27 +95,33 @@ class RingPipeline(): OpenCvPipeline(){
         //
 
         inputToCb(input)
-
-
-        avg = Core.mean(region_Cb).`val`[0]
-
+//        return input
+        region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
+//        avg = Core.mean(region_Cb).`val`[0]
+        if (region_Cb != null) {
+            avg = Core.mean(region_Cb).`val`[0]
+        }
+//
         Imgproc.rectangle(input, region_pointA,
                 region_pointB,
                 BLUE, 4)
-
+//
         if (avg < FOUR_RING_THRESHOLD) {
             position = RingPosition.FOUR
         } else if (avg < ONE_RING_THRESHOLD) {
             position = RingPosition.ONE
-        }else {
+        } else {
             position = RingPosition.NONE
         }
-
-
+//
+//
         return input
     }
 
     fun average(): Double {
         return avg
+    }
+    fun position(): RingPosition {
+        return position
     }
 }
