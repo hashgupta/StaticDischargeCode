@@ -11,7 +11,7 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double){
-    val slip = 1.2 // flywheel shooter slip, MUST BE TUNED
+    val slip = 1.7 // flywheel shooter slip, MUST BE TUNED
 
     fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
         //start up flywheel at desired velocity and move robot to correct orientation

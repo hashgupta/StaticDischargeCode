@@ -9,7 +9,7 @@ class RingPipeline(): OpenCvPipeline(){
 
     internal var yCbCrChan2Mat = Mat()
     internal var avg: Double = 0.toDouble()
-    var region_Cb: Mat? = null
+    var region_Cb: Mat = Mat()
     var Cb = Mat()
 
     enum class RingPosition {
@@ -31,8 +31,8 @@ class RingPipeline(): OpenCvPipeline(){
          */
     // set where the right and left boxes are
     val REGION_TOPLEFT_ANCHOR_POINT = if (right) Point(150.0, 98.0) else Point(50.0, 98.0)
-    val REGION_WIDTH = 50
-    val REGION_HEIGHT = 50
+    val REGION_WIDTH = 40
+    val REGION_HEIGHT = 40
 
     /*
          * Points which actually define the sample region rectangles, derived from above values
@@ -76,18 +76,14 @@ class RingPipeline(): OpenCvPipeline(){
              * buffer would be re-allocated the first time a real frame
              * was crunched)
              */
-        if (firstFrame == null) {
-            return
-        } else {
-            inputToCb(firstFrame)
-            region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
-        }
+        inputToCb(firstFrame)
+        region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
 
-    /*
-             * Submats are a persistent reference to a region of the parent
-             * buffer. Any changes to the child affect the parent, and the
-             * reverse also holds true.
-             */
+        /*
+                 * Submats are a persistent reference to a region of the parent
+                 * buffer. Any changes to the child affect the parent, and the
+                 * reverse also holds true.
+                 */
 }
 
     override fun processFrame(input: Mat): Mat {
@@ -98,9 +94,7 @@ class RingPipeline(): OpenCvPipeline(){
 //        return input
         region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
 //        avg = Core.mean(region_Cb).`val`[0]
-        if (region_Cb != null) {
-            avg = Core.mean(region_Cb).`val`[0]
-        }
+        avg = Core.mean(region_Cb).`val`[0]
 //
         Imgproc.rectangle(input, region_pointA,
                 region_pointB,
