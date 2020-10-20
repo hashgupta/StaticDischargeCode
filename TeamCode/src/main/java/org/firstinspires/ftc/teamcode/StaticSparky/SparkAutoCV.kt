@@ -8,11 +8,10 @@ class SparkAutoCV : SparkAutoBase() {
 
     @Throws(InterruptedException::class)
     override fun runOpMode() {
-        initCVNoWebcam(Side.Right)
+        initCVNoWebcam(Side.Left)
         startCV()
         waitForStart()
         while (opModeIsActive()) {
-            telemetry.addData("average", pipeline.average())
             telemetry.addData("analysis", pipeline.position())
             telemetry.update()
         }

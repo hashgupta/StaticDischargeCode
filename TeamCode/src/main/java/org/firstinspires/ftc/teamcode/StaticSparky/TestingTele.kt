@@ -1,20 +1,27 @@
 package org.firstinspires.ftc.teamcode.StaticSparky
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
+import org.firstinspires.ftc.teamcode.Controllers.Shooter
+import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
+import kotlin.math.PI
 
 @TeleOp(name = "Testing TeleOP", group = "Static Discharge")
 class TestingTele: OpMode() {
     lateinit var flywheel: Motor
     lateinit var arm: ServoM
     lateinit var claw: ServoM
+    lateinit var shoot: Shooter
     override fun init() {
         flywheel = Motor("flywheel", 1120.0, 17.36,4.0, hardwareMap)
         arm = ServoM("arm", hardwareMap)
         claw = ServoM("claw", hardwareMap)
+        shoot = Shooter(flywheel, 45*PI/180)
     }
 
     override fun loop() {
@@ -31,8 +38,9 @@ class TestingTele: OpMode() {
 //            claw.start(0.0)
 //        }
         if (gamepad1.x) {
-            flywheel.setSpeed(4.5*40*3.2)
-            telemetry.addData("Velocity rad/s", 5.3*40/(flywheel.r*17.36))
+//            flywheel.setSpeed(4.5*40*3.2)
+            shoot.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
+            telemetry.addData("Rpm of motor shaft", flywheel.device.getVelocity(AngleUnit.RADIANS)*60/(2*PI))
         }
     }
 
