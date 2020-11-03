@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.StaticSparky
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import kotlin.math.abs
 
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
@@ -31,12 +33,33 @@ class SparkyTele : OpMode() {
 
         // process input
 
+        if (gamepad1.a) {
+            robot.intake.start(0.7)
+        }
+        if (gamepad1.b) {
+            robot.intake.start(0.0)
+        }
+
         if (gamepad1.x) {
             reverse = true
         }
         if (gamepad1.y) {
             reverse = false
         }
+
+        if (gamepad2.a) {
+            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0-11.0))
+        }
+
+        if (gamepad2.b) {
+            robot.shooter.stopShoot()
+        }
+
+        if (gamepad2.right_trigger > 0.5) {
+            robot.shooter.shoot()
+        }
+
+
         if (gamepad1.dpad_down) {
             driveSpeed = 0.5
         }

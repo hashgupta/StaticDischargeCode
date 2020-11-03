@@ -4,14 +4,15 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import org.firstinspires.ftc.teamcode.StaticSparky.SparkyRobot
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
+import org.firstinspires.ftc.teamcode.hardware.general.ServoM
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.tan
 
 const val g = 386.088583 //  g in in/s^2
 
-class Shooter(val flywheel: Motor, val shooterAngle:Double){
-    val slip = 1.3 // flywheel shooter slip, MUST BE TUNED
+class Shooter(val flywheel: Motor, val shooterAngle:Double, val flicker: ServoM? = null){
+    val slip = 1.35 // flywheel shooter slip, MUST BE TUNED
 
     fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
         //start up flywheel at desired velocity and move robot to correct orientation
@@ -46,7 +47,18 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double){
 
     fun shoot() {
         //release chamber servo to let a ring into flywheel
+        if (flicker != null) {
+            flicker.start(0.5)
+            Thread.sleep(100)
+            flicker.start(0.0)
+            Thread.sleep(100)
+        }
 
+
+    }
+
+    fun stopShoot() {
+        flywheel.setSpeed(0.0)
     }
 }
 
