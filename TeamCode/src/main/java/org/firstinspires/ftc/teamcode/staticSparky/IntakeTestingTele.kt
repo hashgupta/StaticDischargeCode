@@ -1,14 +1,6 @@
-import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.Servo
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
-import org.firstinspires.ftc.teamcode.Controllers.Shooter
-import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
-import org.firstinspires.ftc.teamcode.hardware.general.ServoM
-import kotlin.math.PI
 
 @TeleOp(name = "Intake Testing TeleOP", group = "Static Discharge")
 class IntakeTestingTele: OpMode() {
@@ -17,8 +9,8 @@ class IntakeTestingTele: OpMode() {
     var running : Boolean = false
 
     override fun init() {
-        intakeBottom = Motor("intakeTop", 1120.0, 17.36,4.0, hardwareMap)
-        intakeTop = Motor("intakeBottom", 1120.0, 17.36,4.0, hardwareMap)
+        intakeBottom = Motor("intakeBottom", 1120.0, 17.36,4.0, hardwareMap)
+        intakeTop = Motor("intakeTop", 1120.0, 17.36,4.0, hardwareMap)
 
     }
 
@@ -26,13 +18,13 @@ class IntakeTestingTele: OpMode() {
 
 
         if (gamepad1.a) {
-            intakeBottom.start(0.7)
-            intakeTop.start(0.5)
+            intakeBottom.start(0.75)
+            intakeTop.start(1.0)
             running = true
         } else if(gamepad1.b) {
 
-            intakeBottom.start(-0.7)
-            intakeTop.start(-0.5)
+            intakeBottom.start(-0.75)
+            intakeTop.start(-1.0)
             running = true
         } else {
             intakeBottom.start(0.0)

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.StaticSparky
+package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import org.firstinspires.ftc.teamcode.StaticSparky.TestRobot
+import org.firstinspires.ftc.teamcode.staticSparky.TestRobot
 import kotlin.math.abs
 
 @Config

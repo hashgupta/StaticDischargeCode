@@ -1,11 +1,9 @@
-package org.firstinspires.ftc.teamcode.StaticSparky
+package org.firstinspires.ftc.teamcode.staticSparky
 
-import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import kotlin.math.abs
 
 @TeleOp(name = "Special Drive Tele", group = "StaticDischarge")

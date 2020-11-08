@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.teamcode.StaticSparky
+package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 
 @Autonomous(name = "SparkyAutoRedLeft", group = "StaticDischarge")

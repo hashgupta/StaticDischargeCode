@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.StaticSparky
+package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 
 @Autonomous(name = "CVAUTOTEST")
 class SparkAutoCV : SparkAutoBase() {
