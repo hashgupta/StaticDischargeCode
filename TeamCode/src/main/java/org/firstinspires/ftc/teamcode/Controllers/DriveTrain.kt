@@ -76,9 +76,9 @@ class DriveTrain// initialize drive train
 
     class Vector(hori: Double, vert: Double, turn: Double): Direction(hori, vert, turn) {
         // initialize speeds
-        // Device.checkRange(hori, -1, 1, "hori"),
-        // Device.checkRange(vert, -1, 1, "vert"),
-        // Device.checkRange(turn, -1, 1, "turn"));
+//         Device.checkRange(hori, -1, 1, "hori"),
+//         Device.checkRange(vert, -1, 1, "vert"),
+//         Device.checkRange(turn, -1, 1, "turn"))
 
         override fun speeds(): Square<Double> {
             val supers = super.speeds()

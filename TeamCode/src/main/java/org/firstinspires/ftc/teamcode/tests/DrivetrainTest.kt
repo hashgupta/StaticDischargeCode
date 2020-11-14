@@ -8,9 +8,9 @@ import org.junit.jupiter.api.TestInstance
 class DrivetrainTest {
     @Test
     fun testDrivetrain() {
-        println(DriveTrain.Direction(0.0, -1.0, 0.0).speeds().lb)
-        println(DriveTrain.Direction(0.0, -1.0, 0.0).speeds().lf)
-        println(DriveTrain.Direction(0.0, -1.0, 0.0).speeds().rb)
-        println(DriveTrain.Direction(0.0, -1.0, 0.0).speeds().rf)
+        println(DriveTrain.Direction(0.0, 0.0, 1.5).speeds().rb)
+//        println(DriveTrain.Direction(0.0, -1.0, 0.0).speeds().lf)
+//        println(DriveTrain.Direction(0.0, -1.0, 0.0).speeds().rb)
+//        println(DriveTrain.Direction(0.0, -1.0, 0.0).speeds().rf)
     }
 }

@@ -63,15 +63,14 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry)
         while (driveTrain.isBusy && !Thread.interrupted()) {
             localizer.update()
 
-            val turnSquare = if (abs(headingError(orientation)) > 0.02) {
-                DriveTrain.Vector(0.0, 0.0, turnCorrection(orientation)).speeds()
-            } else {
-                DriveTrain.Square(0.0, 0.0, 0.0, 0.0)
-            }
-
+//            val turnSquare = if (abs(headingError(orientation)) > 0.02) {
+//                DriveTrain.Vector(0.0, 0.0, turnCorrection(orientation)).speeds()
+//            } else {
+//                DriveTrain.Square(0.0, 0.0, 0.0, 0.0)
+//            }
+            val turnSquare =  DriveTrain.Square(0.0, 0.0, 0.0, 0.0)
             driveTrain.start(DriveTrain.addSquares(allDrive, turnSquare))
         }
-        //turn (-headingError(angle)) * gyroAdjust)
         val robotPoseDelta = Pose2d(vert, -hori, 0.0)
         pose = Kinematics.relativeOdometryUpdate(pose, robotPoseDelta)
         driveTrain.start(DriveTrain.Square(0.0, 0.0, 0.0, 0.0))

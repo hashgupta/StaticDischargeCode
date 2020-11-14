@@ -21,7 +21,6 @@ class SparkyTele : OpMode() {
         //initialize and set robot behavior
         robot = SparkyRobot(hardwareMap, telemetry)
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
-        stop()
     }
 
     override fun loop() {
@@ -34,10 +33,12 @@ class SparkyTele : OpMode() {
         // process input
 
         if (gamepad1.a) {
-            robot.intake.start(0.7)
+            robot.intakeBottom.start(0.75)
+            robot.intakeTop.start(1.0)
         }
         if (gamepad1.b) {
-            robot.intake.start(0.0)
+            robot.intakeBottom.start(0.0)
+            robot.intakeTop.start(0.0)
         }
 
         if (gamepad1.x) {
