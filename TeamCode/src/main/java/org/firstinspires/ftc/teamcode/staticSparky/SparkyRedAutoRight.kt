@@ -10,28 +10,31 @@ class SparkyRedAutoRight : SparkAutoBase() {
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
         val robot = TestRobot(hardwareMap, telemetry)
+        robot.pose = Positions.startRightRed
+
         var analysis = RingPipeline.RingPosition.NONE
         initCV(Side.Left)
         startCV()
+
         while (opModeIsActive()) {
             analysis = pipeline.position()
-            telemetry.addData("analysis", analysis)
+            telemetry.addData("analysis",analysis)
             telemetry.update()
         }
+
         waitForStart()
         stopCV()
 
         robot.move(0.5 * TILE_LENGTH, 2 * TILE_LENGTH)
 
         if (analysis == RingPipeline.RingPosition.ONE) {
-            robot.toGoal(Pose2d(4 * TILE_LENGTH, 0.5 * TILE_LENGTH, 0.0))
-            robot.toGoal(Pose2d(3 * TILE_LENGTH, 0.5 * TILE_LENGTH, 0.0))
+            robot.toGoal(Pose2d(Positions.bZoneRed, 0.0))
         } else if (analysis == RingPipeline.RingPosition.FOUR) {
-            robot.toGoal(Pose2d(5 * TILE_LENGTH, 1.5 * TILE_LENGTH, 0.0))
-            robot.toGoal(Pose2d(3 * TILE_LENGTH, 0.5 * TILE_LENGTH, 0.0))
+            robot.toGoal(Pose2d(Positions.cZoneRed, 0.0))
         } else {
-            robot.toGoal(Pose2d(3 * TILE_LENGTH, 1.5 * TILE_LENGTH, 0.0))
+            robot.toGoal(Pose2d(Positions.aZoneRed, 0.0))
         }
+        robot.toGoal(Pose2d(0.5 * TILE_LENGTH, -1.5* TILE_LENGTH, 0.0))
 
         // first build a sequential list of commands
         // then, program out your instructions one by one

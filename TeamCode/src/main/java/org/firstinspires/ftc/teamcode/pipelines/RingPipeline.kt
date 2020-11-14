@@ -66,7 +66,7 @@ class RingPipeline(): OpenCvPipeline(){
         Core.extractChannel(yCbCrChan2Mat, Cb, 2)
     }
 
-    fun init(firstFrame: Mat): Unit {
+    override fun init(firstFrame: Mat): Unit {
     /*
              * We need to call this in order to make sure the 'Cb'
              * object is initialized, so that the submats we make

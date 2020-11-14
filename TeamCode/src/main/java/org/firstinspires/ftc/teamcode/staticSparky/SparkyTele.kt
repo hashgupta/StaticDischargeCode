@@ -48,7 +48,7 @@ class SparkyTele : OpMode() {
         }
 
         if (gamepad2.a) {
-            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0-11.0))
+            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
         }
 
         if (gamepad2.b) {

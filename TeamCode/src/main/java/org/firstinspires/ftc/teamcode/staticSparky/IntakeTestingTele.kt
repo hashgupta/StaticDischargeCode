@@ -1,5 +1,7 @@
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 
 @TeleOp(name = "Intake Testing TeleOP", group = "Static Discharge")
@@ -11,6 +13,7 @@ class IntakeTestingTele: OpMode() {
     override fun init() {
         intakeBottom = Motor("intakeBottom", 1120.0, 17.36,4.0, hardwareMap)
         intakeTop = Motor("intakeTop", 1120.0, 17.36,4.0, hardwareMap)
+        intakeTop.device.direction = DcMotorSimple.Direction.REVERSE
 
     }
 

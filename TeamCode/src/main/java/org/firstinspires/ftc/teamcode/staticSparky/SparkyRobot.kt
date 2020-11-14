@@ -29,10 +29,11 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry) : RobotBase(ha
         val lf = Motor("lf", 1120.0, 1.0, 2.95, hardwareMap)
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
         setDriveTrain(rf, rb, lf, lb)
-        val flicker = ServoM("flicker", hardwareMap)
+//        val flicker = ServoM("flicker", hardwareMap)
+        val flicker = null
         intake = Motor("intake", 1120.0, 1.0, 1.0, hardwareMap)
         flywheel = Motor("shooter", 1120.0, 17.36, 4.0, hardwareMap)
-        shooter = Shooter(flywheel, Math.toRadians(45.0), flicker)
+        shooter = Shooter(flywheel, Math.toRadians(45.0), 11.0, flicker)
 
 //        localizer = TwoWheelRevLocalizer(hardwareMap, "front", "side")
 //

@@ -57,6 +57,15 @@ class LiftController (val actuator: Motor, pid: PIDCoefficients, start: Double =
         actuator.start(speed)
     }
 
+    fun toSync(goal: Double): LiftController {
+        this.to(goal)
+        while (!isDone()) {
+            runToTarget()
+        }
+        runAtSpeed(0.0)
+        return this
+    }
+
     fun isDone() : Boolean {
         return abs(current - goal) < 0.5
     }

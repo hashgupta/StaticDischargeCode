@@ -11,7 +11,7 @@ import kotlin.math.tan
 
 const val g = 386.088583 //  g in in/s^2
 
-class Shooter(val flywheel: Motor, val shooterAngle:Double, val flicker: ServoM? = null){
+class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val flicker: ServoM? = null){
     var slip = 1.335 // flywheel shooter slip, MUST BE TUNED
 
     fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
@@ -21,7 +21,8 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val flicker: ServoM?
         val targetVector = Vector2d(target.x, target.y)
         val shotDistance = targetVector distTo position
         turnToTarget(robot, target)
-        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - target.height))
+        val net_height = target.height - shooterHeight
+        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
         flywheel.setSpeed(2*requiredVelocity * slip) // remove 2 times if using double flywheel, doesnt account for direction
 
     }
@@ -32,7 +33,8 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val flicker: ServoM?
         val position = pose.vec()
         val targetVector = Vector2d(target.x, target.y)
         val shotDistance = targetVector distTo position
-        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - target.height))
+        val net_height = target.height - shooterHeight
+        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
         flywheel.setSpeed(2*requiredVelocity * slip) // remove 2 times if using double flywheel, doesnt account for direction
 
     }
