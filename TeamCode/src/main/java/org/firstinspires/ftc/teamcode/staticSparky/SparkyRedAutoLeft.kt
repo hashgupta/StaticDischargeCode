@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 class SparkyRedAutoLeft : SparkAutoBase() {
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
-        val robot = TestRobot(hardwareMap, telemetry)
+        val robot = SparkyRobot(hardwareMap, telemetry, { opModeIsActive() })
         robot.pose = Positions.startLeftRed
 
         var analysis = RingPipeline.RingPosition.NONE

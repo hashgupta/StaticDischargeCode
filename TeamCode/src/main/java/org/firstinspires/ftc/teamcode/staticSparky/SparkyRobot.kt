@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
 
 
-class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry) : RobotBase(hardwareMap, telemetry) {
+class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {
     // OpMode members
 
 //    val pursuiter: FastPurePursuit

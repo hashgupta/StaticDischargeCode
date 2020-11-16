@@ -27,4 +27,12 @@ object Positions {
 
     val startLeftBlue = Pose2d(-2.5* tile_length, 2*tile_length, 0.0)
     val startRightBlue = Pose2d(-2.5* tile_length, tile_length, 0.0)
+
+    val powerNearBlue = shootingGoal(3 * tile_length, -0.75* tile_length, 29.0)
+    val powerMidBlue = shootingGoal(3 * tile_length, -0.5* tile_length, 29.0)
+    val powerFarBlue = shootingGoal(3 * tile_length, -0.25* tile_length, 29.0)
+
+    val powerNearRed = shootingGoal(3 * tile_length, 0.75* tile_length, 29.0)
+    val powerMidRed = shootingGoal(3 * tile_length, 0.5* tile_length, 29.0)
+    val powerFarRed = shootingGoal(3 * tile_length, 0.25* tile_length, 29.0)
 }

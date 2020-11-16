@@ -44,6 +44,9 @@ class DriveTrain// initialize drive train
         lf.setTarget(inches.lf)
         lb.setTarget(inches.lb)
     }
+    fun getPosition():Square<Int> {
+        return Square<Int>(rf.device.currentPosition, rb.device.currentPosition, lf.device.currentPosition, lb.device.currentPosition)
+    }
 
     fun setMode(mode: DcMotor.RunMode) {
         rf.setMode(mode)
@@ -103,7 +106,11 @@ class DriveTrain// initialize drive train
 
     // set of data on four objects arranged in a square
     // square
-    class Square<T> (var rf: T, var rb: T, var lf: T, var lb: T)
+    class Square<T> (var rf: T, var rb: T, var lf: T, var lb: T) {
+        override fun toString(): String {
+            return "rf: "+rf+", rb: "+rb+", lf: "+lf+", rb: " + rb
+        }
+    }
 
     companion object {
         fun addSquares(first: Square<Double>, second: Square<Double>): Square<Double> {
