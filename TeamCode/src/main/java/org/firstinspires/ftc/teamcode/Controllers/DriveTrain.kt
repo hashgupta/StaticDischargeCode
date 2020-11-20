@@ -106,9 +106,9 @@ class DriveTrain// initialize drive train
 
     // set of data on four objects arranged in a square
     // square
-    class Square<T> (var rf: T, var rb: T, var lf: T, var lb: T) {
+    data class Square<T> (var rf: T, var rb: T, var lf: T, var lb: T) {
         override fun toString(): String {
-            return "rf: "+rf+", rb: "+rb+", lf: "+lf+", rb: " + rb
+            return "rf: "+rf+", rb: "+rb+", lf: "+ lf +", lb: " + lb
         }
     }
 

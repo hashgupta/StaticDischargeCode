@@ -53,11 +53,13 @@ class SparkyTele : OpMode() {
         }
 
         if (gamepad2.b) {
-            robot.shooter.stopShoot()
+            robot.shooter.stopWheel()
         }
 
         if (gamepad2.right_trigger > 0.5) {
             robot.shooter.shoot()
+        } else {
+            robot.shooter.stopShoot()
         }
 
 

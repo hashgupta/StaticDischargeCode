@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
+import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
 
 
@@ -32,7 +33,7 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
         setDriveTrain(rf, rb, lf, lb)
 //        val flicker = ServoM("flicker", hardwareMap)
-        val flicker = null
+        val flicker = ServoCRWrapper("flicker", hardwareMap)
         intakeBottom = Motor("intakeBottom", 1120.0, 1.0, 1.0, hardwareMap)
         intakeTop = Motor("intakeTop", 1120.0, 1.0, 1.0, hardwareMap)
         intakeTop.device.direction = DcMotorSimple.Direction.REVERSE

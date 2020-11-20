@@ -51,7 +51,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
         telemetry.addData("drivetrain", driveTrain.getPosition())
         telemetry.update()
-        driveTrain.setTarget(DriveTrain.Direction(hori, -vert, 0.0).speeds())
+        driveTrain.setTarget(DriveTrain.Direction(hori, vert, 0.0).speeds())
         driveTrain.setMode(DcMotor.RunMode.RUN_TO_POSITION)
 
 
@@ -65,12 +65,9 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         // do gyro adjustment         |
         //                            v
         while (driveTrain.isBusy && opModeActive()) {
-            telemetry.addData("drivetrain", driveTrain.getPosition())
+            telemetry.addData("Drivetrain", driveTrain.getPosition())
             telemetry.update()
-            if (Thread.interrupted()) {
-                return
-            }
-            localizer.update()
+//            localizer.update()
 
 //            val turnSquare = if (abs(headingError(orientation)) > 0.02) {
 //                DriveTrain.Vector(0.0, 0.0, turnCorrection(orientation)).speeds()
@@ -87,14 +84,11 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
     }
 
     fun turnTo(degrees: Double) {
-        while (abs(headingError(degrees / 360)) > 0.02 && !Thread.interrupted()) {
-            if (Thread.interrupted()) {
-                return
-            }
-            localizer.update()
+        while (abs(headingError(degrees / 360)) > 0.02 && opModeActive()) {
+//            localizer.update()
 
             telemetry.addData("Gyro Sensor", "turning")
-            telemetry.addData("Angle", gyro.measure())
+            telemetry.addData("Angle", gyro.measure()*360)
             telemetry.update()
 
             val turn = turnCorrection(degrees)

@@ -21,7 +21,7 @@ class LocalizerAccuracy : LinearOpMode() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
-        val robot = TestRobot(hardwareMap, telemetry)
+        val robot = TestRobot(hardwareMap, telemetry) {true}
         val drive = robot.driveTrain
         
 

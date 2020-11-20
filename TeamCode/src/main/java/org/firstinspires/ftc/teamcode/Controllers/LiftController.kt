@@ -69,4 +69,5 @@ class LiftController (val actuator: Motor, pid: PIDCoefficients, start: Double =
     fun isDone() : Boolean {
         return abs(current - goal) < 0.5
     }
+
 }

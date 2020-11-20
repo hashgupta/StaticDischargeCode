@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 class SparkyRedAutoRight : SparkAutoBase() {
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
-        val robot = SparkyRobot(hardwareMap, telemetry, { opModeIsActive() })
+        robot = SparkyRobot(hardwareMap, telemetry, { opModeIsActive() && !isStopRequested()})
         robot.pose = Positions.startRightRed
 
         var analysis = RingPipeline.RingPosition.NONE
@@ -23,6 +23,7 @@ class SparkyRedAutoRight : SparkAutoBase() {
         }
 
         waitForStart()
+        if (isStopRequested()) return;
         stopCV()
 
         robot.move(0.5 * TILE_LENGTH, 2 * TILE_LENGTH)
