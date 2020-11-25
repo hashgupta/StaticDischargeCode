@@ -3,11 +3,12 @@ package org.firstinspires.ftc.teamcode.hardware.general
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.robotcore.external.Telemetry
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
 import org.firstinspires.ftc.teamcode.hardware.type.Output
+
 
 // rev motor
 // initialize motor
@@ -22,6 +23,12 @@ class Motor(private val name: String, // motor information
 
     init {
         device.targetPositionTolerance = 20 // (ticks / cpr) * (circumference * gear ratio) is inches of error from tick tolerance
+        val motorConfigurationType: MotorConfigurationType = device.motorType.clone()
+        motorConfigurationType.achieveableMaxRPMFraction = 1.0
+        device.motorType = motorConfigurationType
+        if (device.motorType.ticksPerRev != tpr) {
+            println("Different code tpr and phone config tpr: " + tpr + " vs. " + device.motorType.ticksPerRev)
+        }
         c = d * Math.PI
         r = d / 2
     }

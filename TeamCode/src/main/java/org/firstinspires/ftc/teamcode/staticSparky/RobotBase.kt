@@ -32,7 +32,6 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
 
         gyro = Gyro("gyro", hardwareMap)
 
-
         localizer = MecanumLocalizerRev(hardwareMap, gyro = gyro)
 
 
@@ -51,7 +50,8 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
         telemetry.addData("drivetrain", driveTrain.getPosition())
         telemetry.update()
-        driveTrain.setTarget(DriveTrain.Direction(hori, vert, 0.0).speeds())
+        Thread.sleep(1000)
+        driveTrain.setTarget(DriveTrain.Direction(hori, -vert, 0.0).speeds())
         driveTrain.setMode(DcMotor.RunMode.RUN_TO_POSITION)
 
 
@@ -66,6 +66,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         //                            v
         while (driveTrain.isBusy && opModeActive()) {
             telemetry.addData("Drivetrain", driveTrain.getPosition())
+            telemetry.addData("Target", driveTrain.getTarget())
             telemetry.update()
 //            localizer.update()
 
@@ -87,17 +88,15 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         while (abs(headingError(degrees / 360)) > 0.02 && opModeActive()) {
 //            localizer.update()
 
-            telemetry.addData("Gyro Sensor", "turning")
+            val turn = turnCorrection(degrees / 360)
+            telemetry.addData("Gyro Sensor Off", headingError(degrees / 360))
             telemetry.addData("Angle", gyro.measure()*360)
             telemetry.update()
 
-            val turn = turnCorrection(degrees)
-            driveTrain.start(DriveTrain.Vector(0.0, 0.0, turn*0.5).speeds())
+            driveTrain.start(DriveTrain.Vector(0.0, 0.0, -turn).speeds())
         }
-
-        pose = Pose2d(pose.vec(), gyro.measure() * 2 * PI)
-
         driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
+        pose = Pose2d(pose.vec(), gyro.measure() * 2 * PI)
     }
 
     fun toGoal(goalPose: Pose2d) {
@@ -108,6 +107,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
 
     fun turnCorrection(orientation: Double): Double {
         val rawError = headingError(orientation)
+        telemetry.addData("Raw Error correction", rawError)
 
         return rawError * ((1 - turnStatic) / 0.5) + (turnStatic * sign(rawError))
     }
@@ -124,7 +124,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
     }
 
     companion object {
-        const val turnStatic = 0.2
+        const val turnStatic = 0.25
     }
 
     fun setDriveTrain(rf: Motor, rb: Motor, lf: Motor, lb: Motor) {

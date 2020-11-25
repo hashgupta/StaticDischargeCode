@@ -33,7 +33,8 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
         setDriveTrain(rf, rb, lf, lb)
 //        val flicker = ServoM("flicker", hardwareMap)
-        val flicker = ServoCRWrapper("flicker", hardwareMap)
+//        val flicker = ServoCRWrapper("flicker", hardwareMap)
+        val flicker = null
         intakeBottom = Motor("intakeBottom", 1120.0, 1.0, 1.0, hardwareMap)
         intakeTop = Motor("intakeTop", 1120.0, 1.0, 1.0, hardwareMap)
         intakeTop.device.direction = DcMotorSimple.Direction.REVERSE

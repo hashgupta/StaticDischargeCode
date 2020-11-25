@@ -4,24 +4,28 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Gamepad
+import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
+import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
 import kotlin.math.PI
 
 @TeleOp(name = "Testing TeleOP", group = "Static Discharge")
 class TestingTele: OpMode() {
-    lateinit var flywheel: Motor
+//    lateinit var flywheel: Motor
 //    lateinit var arm: ServoM
 //    lateinit var claw: ServoM
-    lateinit var shoot: Shooter
+//    lateinit var shoot: Shooter'
+    lateinit var wobble_claw: ServoCRWrapper
     private var lastGamepad : Gamepad? = null
     override fun init() {
-        flywheel = Motor("flywheel", 1120.0, 17.36,4.0, hardwareMap)
-//        arm = ServoM("arm", hardwareMap)
-//        claw = ServoM("claw", hardwareMap)
-        shoot = Shooter(flywheel, 45*PI/180, 11.0)
+//        flywheel = Motor("flywheel", 1120.0, 17.36,4.0, hardwareMap)
+////        arm = ServoM("arm", hardwareMap)
+////        claw = ServoM("claw", hardwareMap)
+//        shoot = Shooter(flywheel, 45*PI/180, 11.0)
+        wobble_claw = ServoCRWrapper("wobble", hardwareMap)
 //        telemetry.addData("pidf", flywheel.device.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER))
 //        flywheel.device.setVelocityPIDFCoefficients(10.0, 3.0, 0.5, 0.0)
     }
@@ -40,21 +44,31 @@ class TestingTele: OpMode() {
 //        } else if(gamepad1.y) {
 //            claw.start(0.0)
 //        }
-        if (lastGamepad != null) {
-            if (gamepad1.dpad_up && !lastGamepad!!.dpad_up) {
-                shoot.slip += 0.1
-            } else if (gamepad1.dpad_down && !lastGamepad!!.dpad_down) {
-                shoot.slip -= 0.1
-            }
-        }
+//        if (lastGamepad != null) {
+//            if (gamepad1.dpad_up && !lastGamepad!!.dpad_up) {
+//                shoot.slip += 0.1
+//            } else if (gamepad1.dpad_down && !lastGamepad!!.dpad_down) {
+//                shoot.slip -= 0.1
+//            }
+//        }
 
-        if (gamepad1.x) {
-//            flywheel.setSpeed(4.5*40*3.2)
-            shoot.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
-            telemetry.addData("Rpm of motor shaft", flywheel.device.getVelocity(AngleUnit.RADIANS)*60/(2*PI))
+//        if (gamepad1.x) {
+////            flywheel.setSpeed(4.5*40*3.2)
+//            shoot.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
+//            telemetry.addData("Rpm of motor shaft", flywheel.device.getVelocity(AngleUnit.RADIANS)*60/(2*PI))
+//        }
+//        lastGamepad = gamepad1
+//        telemetry.addData("slip coefficient", shoot.slip)
+        if (gamepad1.a) {
+            wobble_claw.start(1.0)
+            telemetry.addLine("wobble start")
+        } else if (gamepad1.b){
+            wobble_claw.start(-1.0)
+            telemetry.addLine("wobble start")
+        } else {
+            wobble_claw.start(0.0)
+            telemetry.addLine("wobble stop")
         }
-        lastGamepad = gamepad1
-        telemetry.addData("slip coefficient", shoot.slip)
         telemetry.update()
 
     }

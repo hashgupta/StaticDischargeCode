@@ -55,6 +55,10 @@ class DriveTrain// initialize drive train
         lb.setMode(mode)
     }
 
+    fun getTarget():Square<Int> {
+        return Square<Int>(rf.device.targetPosition,rb.device.targetPosition, lf.device.targetPosition, lb.device.targetPosition)
+    }
+
     fun setZeroBehavior(behavior: DcMotor.ZeroPowerBehavior) {
         rf.setZeroBehavior(behavior)
         rb.setZeroBehavior(behavior)

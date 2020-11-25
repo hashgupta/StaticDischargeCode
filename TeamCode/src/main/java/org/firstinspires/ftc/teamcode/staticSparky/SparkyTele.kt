@@ -33,7 +33,7 @@ class SparkyTele : OpMode() {
         // process input
 
         if (gamepad1.a) {
-            robot.intakeBottom.start(0.75)
+            robot.intakeBottom.start(1.0)
             robot.intakeTop.start(1.0)
         }
         if (gamepad1.b) {
@@ -62,7 +62,6 @@ class SparkyTele : OpMode() {
             robot.shooter.stopShoot()
         }
 
-
         if (gamepad1.dpad_down) {
             driveSpeed = 0.5
         }
@@ -84,6 +83,8 @@ class SparkyTele : OpMode() {
                     vert * driveSpeed * (if (reverse) -1 else 1).toDouble(),
                     turn * driveSpeed)
                     .speeds())
+            telemetry.addData("gyro", robot.gyro.measure())
+            telemetry.update()
 //            robot.lift.start(liftSpeed(lift))
 
 
