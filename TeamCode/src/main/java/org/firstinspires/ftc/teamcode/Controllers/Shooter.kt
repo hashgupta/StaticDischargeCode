@@ -2,10 +2,13 @@ package org.firstinspires.ftc.teamcode.Controllers
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
+import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import org.firstinspires.ftc.teamcode.staticSparky.SparkyRobot
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
+import org.firstinspires.ftc.teamcode.roadrun.DriveConstants
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.tan
@@ -14,6 +17,8 @@ const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val flicker: ServoCRWrapper? = null){
     var slip = 1.335 // flywheel shooter slip, MUST BE TUNED
+
+
 
     fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
         //start up flywheel at desired velocity and move robot to correct orientation

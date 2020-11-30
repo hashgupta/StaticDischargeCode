@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
@@ -7,12 +8,13 @@ import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
+import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 
 
 class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {
     // OpMode members
 
-//    val pursuiter: FastPurePursuit
+    val pursuiter: FastPurePursuit
     var intakeBottom: Motor
     var intakeTop: Motor
     var flywheel: Motor
@@ -43,6 +45,6 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
 
 //        localizer = TwoWheelRevLocalizer(hardwareMap, "front", "side")
 //
-//        pursuiter = FastPurePursuit(localizer, Pose2d())
+        pursuiter = FastPurePursuit(localizer, Pose2d())
     }
 }

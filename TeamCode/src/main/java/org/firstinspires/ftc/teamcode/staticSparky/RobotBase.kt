@@ -102,7 +102,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
     fun toGoal(goalPose: Pose2d) {
         val error = Kinematics.calculatePoseError(goalPose, pose)
         this.move(-error.y, error.x)
-        this.turnTo((error.heading + gyro.measure() * 2 * PI) * 180 / PI)
+        this.turnTo((goalPose.heading) * 180 / PI)
     }
 
     fun turnCorrection(orientation: Double): Double {
