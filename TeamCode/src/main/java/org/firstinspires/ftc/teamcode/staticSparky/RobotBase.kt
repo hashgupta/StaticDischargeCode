@@ -55,7 +55,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         driveTrain.setMode(DcMotor.RunMode.RUN_TO_POSITION)
 
 
-        val allDrive = DriveTrain.Square(0.5, 0.5, 0.5, 0.5)
+        val allDrive = DriveTrain.Square(0.8, 0.8, 0.8, 0.8)
 
         driveTrain.start(allDrive)
 
