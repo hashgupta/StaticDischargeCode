@@ -12,6 +12,7 @@ class SparkyRedAutoRight : SparkAutoBase() {
         robot = SparkyRobot(hardwareMap, telemetry, { opModeIsActive() && !isStopRequested()})
         robot.pose = Positions.startRightRed
 
+
         var analysis = RingPipeline.RingPosition.NONE
         initCV(Side.Left)
         startCV()
