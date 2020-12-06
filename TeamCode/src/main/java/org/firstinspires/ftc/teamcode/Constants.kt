@@ -9,8 +9,8 @@ object Constants {
 //    const val mu = 0.6
 //    const val maxMotorAmps = 20
 //    const val motorVolts = 3.3
-    const val trackwidth = 18.0
-    const val wheelBase = 18.0
+    const val trackwidth = 12.0
+    const val wheelBase = 8.25
 //    const val maxMotorPower = maxMotorAmps * motorVolts
 //    const val numOfWheels = 4 // put in to scale the power to distribute it over the wheels
 //    const val WheelVelToPowerConst =(m*g*mu / numOfWheels) / maxMotorPower

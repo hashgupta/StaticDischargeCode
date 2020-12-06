@@ -21,6 +21,9 @@ abstract class Path {
     fun limit(value: Double, min: Double, max: Double): Double {
         return max(min, min(value, max))
     }
+
+    override fun toString():String {
+        return "start: " + start + ", " + "end: " + end    }
 }
 
 class LinearPath(override val start: Pose2d, override val end:Pose2d) :Path() {

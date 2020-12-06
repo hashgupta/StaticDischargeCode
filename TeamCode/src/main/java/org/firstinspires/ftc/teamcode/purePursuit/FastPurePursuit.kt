@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.kinematics.TankKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import kotlin.math.abs
@@ -22,14 +23,14 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     var index = 0
     var start:Pose2d
 
-    private val lookAhead = 10.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    private val lookAhead = 5.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 0.2 //inches
-    private val angularTol = Math.toRadians(1.0) // one degree angular tolerance
-    private val kStatic = 0.20
+    private val translationalTol = 2 //inches
+    private val angularTol = Math.toRadians(3.0) // one degree angular tolerance
+    private val kStatic = 0.2
 
-    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.07)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.07)
+    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(1.5)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.5)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs)
@@ -44,16 +45,24 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     }
 
     // follow until path is complete
-    fun FollowSync(drivetrain: DriveTrain, mecanum:Boolean = true) {
-
+    fun FollowSync(drivetrain: DriveTrain, mecanum:Boolean = true, telemetry: Telemetry) {
+        telemetry.addLine("starting pure pursuit")
+        telemetry.update()
         runAction(0)
 
-        waypoints.add(0, LinearPath(localizer.poseEstimate, waypoints[0].start))
+//        waypoints.add(0, LinearPath(localizer.poseEstimate, waypoints[0].start))
 
-        var running = true
+        telemetry.addLine(waypoints.toString())
+        telemetry.update()
+        Thread.sleep(1000)
+        var done = false
 
-        while (!Thread.currentThread().isInterrupted && running) {
-            running = followStep(drivetrain, mecanum)
+        while (!done && !Thread.currentThread().isInterrupted) {
+            telemetry.addLine("running")
+            telemetry.addLine(localizer.poseEstimate.toString())
+            telemetry.addLine(waypoints[index].end.toString())
+            telemetry.update()
+            done = followStep(drivetrain, mecanum)
         }
         this.waypoints.clear()
         index = 0
@@ -110,6 +119,11 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         return false
     }
 
+    fun setStartPoint(start: Pose2d) {
+        localizer.poseEstimate = start
+        this.start = start
+    }
+
     fun addPoint(point: Pose2d): FastPurePursuit {
         if (waypoints.size > 0) {
             waypoints.add(LinearPath(waypoints.last().end, point))
@@ -143,14 +157,19 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         return this
     }
 
-    fun setPose(start: Pose2d): FastPurePursuit{
-        localizer.poseEstimate = start
+    fun setPose(pos: Pose2d): FastPurePursuit{
+        localizer.poseEstimate = pos
         return this
     }
 
     fun addTurn(theta: Double): FastPurePursuit {
-        val last = waypoints.last()
-        waypoints.add(LinearPath(waypoints.last().end, Pose2d(last.end.vec(), last.end.heading + theta)))
+        val last: Pose2d
+        if (waypoints.size == 0) {
+            last = start
+        } else {
+            last = waypoints.last().end
+        }
+        waypoints.add(LinearPath(last, Pose2d(last.vec(), last.heading + theta)))
         return this
     }
 
@@ -186,9 +205,10 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
         val error = Kinematics.calculatePoseError(target, currentPos)
 
-        val velocity = errorToPower(error)
+        var velocity = errorToPower(error)
 
         print(velocity)
+//        velocity = Pose2d(velocity.x + sign(velocity.x) * kStatic, velocity.y + sign(velocity.y) * kStatic, velocity.heading + sign(velocity.heading) * kStatic)
 
 //        var wheelPow = MecanumKinematics.robotToWheelVelocities(velocity, Constants.trackwidth, Constants.wheelBase, lateralMultiplier = 1.0)
 //
@@ -205,15 +225,23 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     }
 
     fun errorToPower(poseError: Pose2d): Pose2d {
+
         axialController.targetPosition = poseError.x
         lateralController.targetPosition = poseError.y
         headingController.targetPosition = poseError.heading
 
 
         // note: feedforward is processed at the wheel level
-        val axialCorrection = axialController.update(0.0)
-        val lateralCorrection = lateralController.update(0.0)
+        var axialCorrection = axialController.update(0.0)
+        var lateralCorrection = lateralController.update(0.0)
         val headingCorrection = headingController.update(0.0)
+
+        if (abs(poseError.x) < translationalTol) {
+            axialCorrection = 0.0
+        }
+        if (abs(poseError.y) < translationalTol) {
+            lateralCorrection = 0.0
+        }
 
         return Pose2d(
                 axialCorrection,

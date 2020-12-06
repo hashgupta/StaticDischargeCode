@@ -16,7 +16,7 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val flicker: ServoCRWrapper? = null){
-    var slip = 1.335 // flywheel shooter slip, MUST BE TUNED
+    var slip = 0.8 // flywheel shooter slip, MUST BE TUNED
 
 
 

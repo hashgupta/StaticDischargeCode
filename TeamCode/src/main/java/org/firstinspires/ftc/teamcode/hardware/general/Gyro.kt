@@ -25,6 +25,6 @@ class Gyro// initialize sensor
     // sense angle
     override fun measure(): Double {
         val angles = device.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
-        return checkRange(((angles.firstAngle + 180) / 360).toDouble(), 0.0, 1.0, name)
+        return checkRange((angles.firstAngle / 360).toDouble(), -0.5, 0.5, name)
     }
 }
