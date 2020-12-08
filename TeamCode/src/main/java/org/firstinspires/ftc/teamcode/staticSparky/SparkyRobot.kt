@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.teamcode.Controllers.Arm
 import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
@@ -19,6 +20,9 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
     var intakeTop: Motor
     var flywheel: Motor
     val shooter: Shooter
+//    val wobble_arm: Motor
+//    val wobble_grabber: ServoCRWrapper
+    val arm: Arm
     //    var dropStone: ServoM
     //    var pinch: ServoM
     //    var hook1: ServoM
@@ -37,11 +41,20 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
 //        val flicker = ServoM("flicker", hardwareMap)
 //        val flicker = ServoCRWrapper("flicker", hardwareMap)
         val flicker = null
+
         intakeBottom = Motor("intakeBottom", 1120.0, 1.0, 1.0, hardwareMap)
         intakeTop = Motor("intakeTop", 1120.0, 1.0, 1.0, hardwareMap)
         intakeTop.device.direction = DcMotorSimple.Direction.REVERSE
-        flywheel = Motor("flywheel", 1120.0, 17.36, 4.0, hardwareMap)
-        shooter = Shooter(flywheel, Math.toRadians(45.0), 11.0, flicker)
+
+        flywheel = Motor("flywheel", 28.0, 1.0, 4.0, hardwareMap)
+        flywheel.device.direction = DcMotorSimple.Direction.REVERSE
+        shooter = Shooter(flywheel, Math.toRadians(45.0), 8.0, flicker)
+
+        val wobble_arm = Motor("wobble arm", 1120.0, 1.0, 1.0, hardwareMap)
+        val wobble_grabber = ServoCRWrapper("wobble grabber", hardwareMap)
+        arm = Arm(Math.toRadians(225.0), wobble_arm, wobble_grabber)
+
+
 
 //        localizer = TwoWheelRevLocalizer(hardwareMap, "front", "side")
 //

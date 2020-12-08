@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.hardware.type.Output
 // rev motor
 // initialize motor
 class Motor(private val name: String, // motor information
- private val tpr: Double, private val gr: Double, d: Double, map: HardwareMap) : Device<DcMotorEx>(map.dcMotor.get(name) as DcMotorEx), Input<Double>, Output<Double> {
+  val tpr: Double, private val gr: Double, d: Double, map: HardwareMap) : Device<DcMotorEx>(map.dcMotor.get(name) as DcMotorEx), Input<Double>, Output<Double> {
 
     private val c: Double
 

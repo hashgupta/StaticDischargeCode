@@ -25,12 +25,12 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
     private val lookAhead = 5.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 2 //inches
+    private val translationalTol = 2.0 //inches
     private val angularTol = Math.toRadians(3.0) // one degree angular tolerance
     private val kStatic = 0.2
 
     private val translationalCoeffs: PIDCoefficients = PIDCoefficients(1.5)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.5)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(2.0)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs)
@@ -50,11 +50,6 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         telemetry.update()
         runAction(0)
 
-//        waypoints.add(0, LinearPath(localizer.poseEstimate, waypoints[0].start))
-
-        telemetry.addLine(waypoints.toString())
-        telemetry.update()
-        Thread.sleep(1000)
         var done = false
 
         while (!done && !Thread.currentThread().isInterrupted) {
