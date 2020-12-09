@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 import java.io.File
+import kotlin.math.PI
 
 
 @Autonomous(name = "SparkyAutoRedLeft", group = "StaticDischarge")
@@ -41,7 +42,7 @@ class SparkyRedAutoLeft : SparkAutoBase() {
         }
         robot.pursuiter.addPoint(goalZone + Pose2d(-9.0, -9.0))
         robot.pursuiter.addAction { robot.arm.dropAuto() }
-        robot.pursuiter.addPoint(Positions.startRightRed + Pose2d(TILE_LENGTH*0.75, Constants.trackwidth * 0.5 ))
+        robot.pursuiter.addPoint(Positions.startRightRed + Pose2d(TILE_LENGTH*0.75, -Constants.trackwidth * 0.5, PI ))
         robot.pursuiter.addAction { robot.arm.grabAuto() }
         robot.pursuiter.addPoint(goalZone + Pose2d(-9.0, -4.0))
         robot.pursuiter.addAction { robot.arm.dropAuto() }

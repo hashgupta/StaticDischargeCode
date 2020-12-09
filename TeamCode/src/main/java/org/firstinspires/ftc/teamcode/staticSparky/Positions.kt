@@ -14,13 +14,13 @@ object Positions {
     val midGoalRed = shootingGoal(3 * tile_length, -1.5* tile_length, 28.0)
     val midGoalBlue = shootingGoal(3 * tile_length, 1.5* tile_length, 28.0)
 
-    val aZoneBlue = Vector2d(0.5* tile_length, -2.5* tile_length)
-    val bZoneBlue = Vector2d(1.5* tile_length, -1.5* tile_length)
-    val cZoneBlue = Vector2d(2.5* tile_length, -2.5* tile_length)
+    val aZoneBlue = Vector2d(0.5* tile_length, 2.5* tile_length)
+    val bZoneBlue = Vector2d(1.5* tile_length, 1.5* tile_length)
+    val cZoneBlue = Vector2d(2.5* tile_length, 2.5* tile_length)
 
-    val aZoneRed = Vector2d(0.5* tile_length, 2.5* tile_length)
-    val bZoneRed = Vector2d(1.5* tile_length, 1.5* tile_length)
-    val cZoneRed = Vector2d(2.5* tile_length, 2.5* tile_length)
+    val aZoneRed = Vector2d(0.5* tile_length, -2.5* tile_length)
+    val bZoneRed = Vector2d(1.5* tile_length, -1.5* tile_length)
+    val cZoneRed = Vector2d(2.5* tile_length, -2.5* tile_length)
 
     val startLeftRed = Pose2d(-2.5* tile_length, -tile_length, 0.0)
     val startRightRed = Pose2d(-2.5* tile_length, -2*tile_length, 0.0)

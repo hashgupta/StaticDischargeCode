@@ -68,13 +68,13 @@ class SparkyTele : LinearOpMode() {
 
         // process input
 
-        if (gamepad1.right_bumper && !previousGamepad1RBumper) {
+        if (gamepad1.left_bumper && !previousGamepad1LBumper) {
             intakeForwards = !intakeForwards
 
         }
-        if (gamepad1.left_bumper && !previousGamepad1LBumper) {
+        if (gamepad1.right_bumper && !previousGamepad1RBumper) {
             intakeOFF = !intakeOFF
-
+            intakeForwards = true
         }
 
 

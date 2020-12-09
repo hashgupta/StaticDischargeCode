@@ -11,14 +11,8 @@ class SparkAutoTests : SparkAutoBase() {
         robot = SparkyRobot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested() }
         waitForStart()
 
-        robot.pursuiter
-//                .addPoint(10.0, 10.0, 1.57)
-                .addPoint(55.0, -40.0, 0.0)
-                .addAction { telemetry.addLine("hi"); telemetry.update() }
-//                .addTurn(PI)
-//                .addPoint(0.0, 0.0, 0.0)
 
-        robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+        robot.arm.toAngle(0.0)
 
 
     }

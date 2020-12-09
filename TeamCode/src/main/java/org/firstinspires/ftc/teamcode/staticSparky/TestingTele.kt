@@ -1,16 +1,9 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
-import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Gamepad
-import com.qualcomm.robotcore.hardware.Servo
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
-import org.firstinspires.ftc.teamcode.Controllers.Shooter
-import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
-import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
-import kotlin.math.PI
 
 @TeleOp(name = "Testing TeleOP", group = "Static Discharge")
 class TestingTele: OpMode() {
