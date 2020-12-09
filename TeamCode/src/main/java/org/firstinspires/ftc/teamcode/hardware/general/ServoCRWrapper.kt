@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.hardware.general
 
 import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.HardwareMap
-import com.qualcomm.robotcore.hardware.Servo
 
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
@@ -19,6 +18,7 @@ class ServoCRWrapper// initialize servo
 
     // start motion
     override fun start(motion: Double) {
-        device.power = checkRange(motion, -1.0, 1.0, this.name)
+//        device.power = checkRange(motion, -1.0, 1.0, this.name)
+        device.setPower(motion)
     }
 }

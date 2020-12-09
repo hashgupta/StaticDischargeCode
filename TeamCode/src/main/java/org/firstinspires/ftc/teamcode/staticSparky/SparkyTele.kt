@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -12,7 +13,7 @@ import java.io.File
 import kotlin.math.abs
 
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
-class SparkyTele : OpMode() {
+class SparkyTele : LinearOpMode() {
     // robot
     private lateinit var robot: SparkyRobot
     private var reverse = false
@@ -22,10 +23,21 @@ class SparkyTele : OpMode() {
 
     private var shooterIsSpinning: Boolean = false
     private var previousGamepad1X: Boolean = false
-    private var intakeForwards: Boolean = true
+    private var previousGamepad1LBumper: Boolean = false
+    private var intakeForwards: Boolean = false
+    private var intakeOFF = true
     private var previousGamepad1RBumper: Boolean = false
 
-    override fun init() {
+    override fun runOpMode() {
+        initRobot()
+        waitForStart()
+        while (opModeIsActive()) {
+            loopRobot()
+        }
+        stopRobot()
+    }
+
+    fun initRobot() {
         //initialize and set robot behavior
         robot = SparkyRobot(hardwareMap, telemetry) {true}
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
@@ -37,7 +49,7 @@ class SparkyTele : OpMode() {
             val positionString = ReadWriteFile.readFile(file)
             val positionValues = positionString.split(" ")
             val robot_pose = Pose2d(positionValues[0].toDouble(),positionValues[1].toDouble(), positionValues[2].toDouble())
-            robot.pursuiter.setPose(robot_pose)
+            robot.pursuiter.setStartPoint(robot_pose)
             robot.pose = robot_pose
         } catch (e:Exception) {
             telemetry.addLine(e.toString())
@@ -45,7 +57,7 @@ class SparkyTele : OpMode() {
         }
     }
 
-    override fun loop() {
+    fun loopRobot() {
         robot.localizer.update()
 
         // get gamepad input
@@ -60,12 +72,17 @@ class SparkyTele : OpMode() {
             intakeForwards = !intakeForwards
 
         }
-        if (gamepad1.left_bumper) {
+        if (gamepad1.left_bumper && !previousGamepad1LBumper) {
+            intakeOFF = !intakeOFF
+
+        }
+
+
+        if (intakeOFF) {
             robot.intakeBottom.start(0.0)
             robot.intakeTop.start(0.0)
         }
-
-        if (intakeForwards) {
+        else if (intakeForwards) {
             robot.intakeBottom.start(0.75)
             robot.intakeTop.start(1.0)
         } else {
@@ -91,17 +108,22 @@ class SparkyTele : OpMode() {
 
         if (shooterIsSpinning) {
             robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
+//            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate, Positions.highGoalRed)
         } else {
             robot.shooter.stopWheel()
         }
 
         if (gamepad1.right_trigger > 0.5) {
+            vert = 0.0
+            hori = 0.0
             robot.shooter.shoot()
         } else {
             robot.shooter.stopShoot()
         }
 
         previousGamepad1X = gamepad1.x
+        previousGamepad1RBumper = gamepad1.right_bumper
+        previousGamepad1LBumper= gamepad1.left_bumper
 
 
 
@@ -137,9 +159,7 @@ class SparkyTele : OpMode() {
     }
 
 
-    override fun start() {}
-
-    override fun stop() {
+    fun stopRobot() {
         robot.driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
     }
 

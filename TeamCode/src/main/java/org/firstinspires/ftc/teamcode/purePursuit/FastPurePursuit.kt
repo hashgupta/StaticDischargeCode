@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.localization.Localizer
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import java.lang.Thread.sleep
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sign
@@ -47,7 +48,10 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     // follow until path is complete
     fun FollowSync(drivetrain: DriveTrain, mecanum:Boolean = true, telemetry: Telemetry) {
         telemetry.addLine("starting pure pursuit")
+        telemetry.addLine(waypoints.toString())
+
         telemetry.update()
+//        sleep(25000)
         runAction(0)
 
         var done = false
@@ -88,7 +92,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
 
         target = if (candidateGoal > 1.0 && (actions.find { it.first == index } == null) && index < waypoints.size-1) {
-            val excessLength = (path.findClosestT(currentPos) + lookAhead / path.length - 1.0) * path.length
+            val excessLength = (path.findClosestT(currentPos) + (lookAhead / path.length) - 1.0) * path.length
 
             if (excessLength > lookAhead/4.0) {
                 index += 1
@@ -152,10 +156,6 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         return this
     }
 
-    fun setPose(pos: Pose2d): FastPurePursuit{
-        localizer.poseEstimate = pos
-        return this
-    }
 
     fun addTurn(theta: Double): FastPurePursuit {
         val last: Pose2d

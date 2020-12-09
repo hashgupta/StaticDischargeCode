@@ -2,8 +2,15 @@ package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
+import com.acmerobotics.roadrunner.localization.Localizer
+import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
+import org.firstinspires.ftc.teamcode.localizers.MockedLocalizer
+import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
+import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
+import org.firstinspires.ftc.teamcode.staticSparky.Positions
+import org.firstinspires.ftc.teamcode.staticSparky.SparkAutoBase
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.math.PI
@@ -12,11 +19,18 @@ import kotlin.math.PI
 class DrivetrainTest {
     @Test
     fun testDrivetrain() {
-        val goalPose = Pose2d(23.0, -23.0, 3.14159)
-        val pose = Pose2d(0.0, 46.0, 0.0)
-        val error = Kinematics.calculatePoseError(goalPose, pose)
-        println(-error.y)
-        println(error.x)
-        println((error.heading+pose.heading) * 180 / PI)
+        val pursuiter = FastPurePursuit(MockedLocalizer(), Pose2d(0.0,0.0,0.0))
+        pursuiter.setStartPoint(Positions.startLeftRed)
+        pursuiter.addRelativePoint(-0.5 * SparkAutoBase.TILE_LENGTH, 2 * SparkAutoBase.TILE_LENGTH, 0.0)
+
+        val goalZone = Pose2d(Positions.aZoneRed, 0.0)
+
+        pursuiter.addPoint(goalZone + Pose2d(-9.0, -9.0))
+        pursuiter.addPoint(Positions.startRightRed + Pose2d(SparkAutoBase.TILE_LENGTH *0.5 + 9.0, Constants.trackwidth * 0.5, PI ))
+
+
+        println(pursuiter.waypoints)
+        println(pursuiter.waypoints[pursuiter.index+2])
+
     }
 }

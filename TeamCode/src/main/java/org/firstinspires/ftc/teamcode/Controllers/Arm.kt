@@ -1,16 +1,10 @@
 package org.firstinspires.ftc.teamcode.Controllers
 
-import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
-import org.firstinspires.ftc.teamcode.staticSparky.SparkyRobot
 import java.lang.Thread.sleep
 import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sqrt
-import kotlin.math.tan
 
 class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoCRWrapper) {
     init {
@@ -40,15 +34,16 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoCRWrap
     }
 
     fun stopGrabber() {
-        grabber.start(0.0)
+        grabber.start(0.5)
     }
 
     fun dropTele() {
-        grabber.start(-1.0)
+        grabber.start(0.0)
     }
 
 
     fun run(speed: Double) {
-        arm_motor.start(speed)
+        var adjusted_speed = speed * 0.75
+        arm_motor.start(adjusted_speed)
     }
 }

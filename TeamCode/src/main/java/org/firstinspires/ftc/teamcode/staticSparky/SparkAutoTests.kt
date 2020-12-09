@@ -13,7 +13,7 @@ class SparkAutoTests : SparkAutoBase() {
 
         robot.pursuiter
 //                .addPoint(10.0, 10.0, 1.57)
-                .addPoint(50.0, -40.0, 0.0)
+                .addPoint(55.0, -40.0, 0.0)
                 .addAction { telemetry.addLine("hi"); telemetry.update() }
 //                .addTurn(PI)
 //                .addPoint(0.0, 0.0, 0.0)

@@ -2,13 +2,9 @@ package org.firstinspires.ftc.teamcode.Controllers
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
-import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.DcMotorEx
 import org.firstinspires.ftc.teamcode.staticSparky.SparkyRobot
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
-import org.firstinspires.ftc.teamcode.hardware.general.ServoM
-import org.firstinspires.ftc.teamcode.roadrun.DriveConstants
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.tan
@@ -17,7 +13,7 @@ const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val flicker: ServoCRWrapper? = null){
     var slip = 0.8 // flywheel shooter slip, MUST BE TUNED
-
+    var flickerTimingMS = 200.0
 
 
     fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
@@ -57,6 +53,9 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
         //release chamber servo to let a ring into flywheel
         if (flicker != null) {
             flicker.start(1.0)
+            Thread.sleep(flickerTimingMS.toLong())
+            flicker.start(0.0)
+            Thread.sleep(flickerTimingMS.toLong())
         }
 
 
@@ -64,7 +63,7 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
 
     fun stopShoot() {
         if (flicker != null) {
-            flicker.start(0.0)
+            flicker.start(0.5)
         }
     }
 
