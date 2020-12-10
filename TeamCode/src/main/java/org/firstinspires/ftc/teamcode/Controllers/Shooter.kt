@@ -12,22 +12,24 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val flicker: ServoCRWrapper? = null){
-    var slip = 0.65 // flywheel shooter slip, MUST BE TUNED
+    var slip = 0.55 // flywheel shooter slip, MUST BE TUNED
     var flickerTimingMS = 750.0
 
 
-    fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
-        //start up flywheel at desired velocity and move robot to correct orientation
-        // only use if odo and pure pursuit are working and tested
-        val position = robot.localizer.poseEstimate.vec()
-        val targetVector = Vector2d(target.x, target.y)
-        val shotDistance = targetVector distTo position
-        turnToTarget(robot, target)
-        val net_height = target.height - shooterHeight
-        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
-        flywheel.setSpeed(2*requiredVelocity * slip) // remove 2 times if using double flywheel, doesnt account for direction
-
-    }
+//    fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
+//        //start up flywheel at desired velocity and move robot to correct orientation
+//        // only use if odo and pure pursuit are working and tested
+//        val position = robot.localizer.poseEstimate.vec()
+//        val targetVector = Vector2d(target.x, target.y)
+//        val shotDistance = targetVector distTo position
+//        val shootingHeading = turningTarget(robot, target)
+////        robot.pursuiter.addPoint(Pose2d(robot.localizer.poseEstimate.vec(), shootingHeading))
+////        robot.pursuiter.FollowSync(robot.driveTrain, telemetry = )
+//        val net_height = target.height - shooterHeight
+//        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
+//        flywheel.setSpeed(2*requiredVelocity * slip) // remove 2 times if using double flywheel, doesnt account for direction
+//
+//    }
 
     fun simpleShootAtTarget(pose: Pose2d, target: shootingGoal) {
         //start up flywheel at desired velocity
@@ -41,12 +43,11 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
 
     }
 
-    fun turnToTarget(robot: SparkyRobot, target: shootingGoal) {
+    fun turningTarget(robot: SparkyRobot, target: shootingGoal): Double {
         val position = robot.localizer.poseEstimate.vec()
         val targetVector = Vector2d(target.x, target.y)
         val shootingHeading = targetVector.minus(position).angle()
-//        robot.pursuiter.addPoint(Pose2d(robot.localizer.poseEstimate.vec(), shootingHeading))
-//        robot.pursuiter.FollowSync(robot.driveTrain)
+        return shootingHeading
     }
 
     fun shoot() {
@@ -62,11 +63,11 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
 
     }
 
-    fun stopShoot() {
-        if (flicker != null) {
-            flicker.start(0.5)
-        }
-    }
+//    fun stopShoot() {
+//        if (flicker != null) {
+//            flicker.start(0.5)
+//        }
+//    }
 
     fun stopWheel() {
         flywheel.setSpeed(0.0)
