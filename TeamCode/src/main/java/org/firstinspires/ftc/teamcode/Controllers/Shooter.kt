@@ -12,8 +12,8 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val flicker: ServoCRWrapper? = null){
-    var slip = 0.8 // flywheel shooter slip, MUST BE TUNED
-    var flickerTimingMS = 200.0
+    var slip = 0.65 // flywheel shooter slip, MUST BE TUNED
+    var flickerTimingMS = 750.0
 
 
     fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
@@ -54,10 +54,11 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
         if (flicker != null) {
             flicker.start(1.0)
             Thread.sleep(flickerTimingMS.toLong())
-            flicker.start(0.0)
+            flicker.start(0.5)
             Thread.sleep(flickerTimingMS.toLong())
         }
-
+    //dpad up clockwise
+        //dpad down ccw
 
     }
 

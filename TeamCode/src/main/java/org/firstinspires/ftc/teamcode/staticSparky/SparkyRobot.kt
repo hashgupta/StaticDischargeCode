@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Controllers.Arm
 import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
+import org.firstinspires.ftc.teamcode.hardware.general.ServoM
 import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 
 
