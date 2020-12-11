@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.localization.Localizer
 import org.firstinspires.ftc.teamcode.Constants
@@ -23,14 +24,17 @@ class DrivetrainTest {
         pursuiter.setStartPoint(Positions.startLeftRed)
         pursuiter.addRelativePoint(-0.5 * SparkAutoBase.TILE_LENGTH, 2 * SparkAutoBase.TILE_LENGTH, 0.0)
 
-        val goalZone = Pose2d(Positions.aZoneRed, 0.0)
+        val goalZone = Pose2d(Positions.bZoneRed, 0.0)
 
-        pursuiter.addPoint(goalZone + Pose2d(-9.0, -9.0))
+        pursuiter.addPoint(goalZone + Pose2d(-9.0, 0.0))
         pursuiter.addPoint(Positions.startRightRed + Pose2d(SparkAutoBase.TILE_LENGTH *0.5 + 9.0, Constants.trackwidth * 0.5, PI ))
 
 
         println(pursuiter.waypoints)
-        println(pursuiter.waypoints[pursuiter.index+2])
-
+//        val position = Vector2d(0.0, -SparkAutoBase.TILE_LENGTH *1.5)
+//        val target = Positions.highGoalRed
+//        val targetVector = Vector2d(target.x, target.y)
+//        val shootingHeading = targetVector.minus(position).angle()
+//        println(shootingHeading)
     }
 }

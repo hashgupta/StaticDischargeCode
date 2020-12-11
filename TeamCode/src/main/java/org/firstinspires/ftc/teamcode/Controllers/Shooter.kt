@@ -43,8 +43,7 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
 
     }
 
-    fun turningTarget(robot: SparkyRobot, target: shootingGoal): Double {
-        val position = robot.localizer.poseEstimate.vec()
+    fun turningTarget(position: Vector2d, target: shootingGoal): Double {
         val targetVector = Vector2d(target.x, target.y)
         val shootingHeading = targetVector.minus(position).angle()
         return shootingHeading

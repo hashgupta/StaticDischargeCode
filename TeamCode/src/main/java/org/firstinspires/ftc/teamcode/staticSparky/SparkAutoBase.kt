@@ -72,7 +72,7 @@ abstract class SparkAutoBase : LinearOpMode() {
     companion object {
 
         // field constants.
-        const val TILE_LENGTH = 23.0
+        const val TILE_LENGTH = 24.0
     }
 
 

@@ -27,6 +27,7 @@ class SparkyTele : LinearOpMode() {
     private var intakeForwards: Boolean = false
     private var intakeOFF = true
     private var previousGamepad1RBumper: Boolean = false
+    private var previousGamepad1RT: Double = 0.0
 
     override fun runOpMode() {
         initRobot()
@@ -113,17 +114,18 @@ class SparkyTele : LinearOpMode() {
             robot.shooter.stopWheel()
         }
 
-        if (gamepad1.right_trigger > 0.5) {
+        if (gamepad1.right_trigger > 0.5 && previousGamepad1RT < 0.5) {
             vert = 0.0
             hori = 0.0
             robot.shooter.shoot()
-        } else {
-            robot.shooter.stopShoot()
+            robot.shooter.shoot()
+            robot.shooter.shoot()
         }
 
         previousGamepad1X = gamepad1.x
         previousGamepad1RBumper = gamepad1.right_bumper
         previousGamepad1LBumper= gamepad1.left_bumper
+        previousGamepad1RT = gamepad1.right_trigger.toDouble()
 
 
 
@@ -145,7 +147,7 @@ class SparkyTele : LinearOpMode() {
                     turn * driveSpeed)
                     .speeds())
             robot.arm.run(wobble)
-            telemetry.addData("gyro", robot.gyro.measure())
+            telemetry.addData("position", robot.localizer.poseEstimate)
             telemetry.update()
 //            robot.lift.start(liftSpeed(lift))
 

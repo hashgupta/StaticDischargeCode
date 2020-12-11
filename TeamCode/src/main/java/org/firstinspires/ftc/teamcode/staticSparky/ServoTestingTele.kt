@@ -16,7 +16,6 @@ class IntakeTestingTele: OpMode() {
 
     override fun loop() {
 
-
         robot.arm.grabber.start(gamepad1.right_stick_y.toDouble())
         robot.shooter.flicker!!.start(gamepad1.left_stick_y.toDouble())
 

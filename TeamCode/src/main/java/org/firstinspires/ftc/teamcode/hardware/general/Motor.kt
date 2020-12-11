@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
 import org.firstinspires.ftc.teamcode.hardware.type.Output
+import kotlin.math.PI
 
 
 // rev motor
@@ -41,7 +42,7 @@ class Motor(private val name: String, // motor information
 
     // sense position
     override fun measure(): Double {
-        return device.currentPosition / tpr * gr * c
+        return (device.currentPosition * c * gr) /  tpr
     }
 
     // start motion
@@ -61,8 +62,10 @@ class Motor(private val name: String, // motor information
         device.zeroPowerBehavior = behavior
     }
 
-    fun setSpeed(velocity:Double) {
-        val angularVelocity = velocity/(r*gr)
-        device.setVelocity(angularVelocity, AngleUnit.RADIANS)
+    fun setSpeed(velocity:Double) { // in/s
+        var angularVelocity = velocity/(r*gr) //radians/s
+        angularVelocity = angularVelocity / (2*PI) // rev/s
+        angularVelocity = angularVelocity * tpr //ticks/s
+        device.setVelocity(angularVelocity)
     }
 }
