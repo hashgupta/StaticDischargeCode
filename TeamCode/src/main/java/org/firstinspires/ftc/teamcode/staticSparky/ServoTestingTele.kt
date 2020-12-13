@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.staticSparky.SparkyRobot
+import java.lang.Math.abs
 
-@TeleOp(name = "Intake Testing TeleOP", group = "Static Discharge")
+@TeleOp(name = "Servo Testing TeleOP", group = "Static Discharge")
 class IntakeTestingTele: OpMode() {
     lateinit var robot:SparkyRobot
 
@@ -17,7 +18,11 @@ class IntakeTestingTele: OpMode() {
     override fun loop() {
 
         robot.arm.grabber.start(gamepad1.right_stick_y.toDouble())
-        robot.shooter.flicker!!.start(gamepad1.left_stick_y.toDouble())
+        robot.shooter.flicker!!.start(abs(gamepad1.left_stick_y.toDouble()))
+
+        telemetry.addLine(gamepad1.right_stick_y.toDouble().toString())
+        telemetry.addLine(abs(gamepad1.left_stick_y.toDouble()).toString())
+        telemetry.update()
 
 
     }

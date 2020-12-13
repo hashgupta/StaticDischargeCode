@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
@@ -25,11 +26,10 @@ class Motor(private val name: String, // motor information
     init {
         device.targetPositionTolerance = 20 // (ticks / cpr) * (circumference * gear ratio) is inches of error from tick tolerance
         val motorConfigurationType: MotorConfigurationType = device.motorType.clone()
+
         motorConfigurationType.achieveableMaxRPMFraction = 1.0
         device.motorType = motorConfigurationType
-        if (device.motorType.ticksPerRev != tpr) {
-            println("Different code tpr and phone config tpr: " + tpr + " vs. " + device.motorType.ticksPerRev)
-        }
+
         c = d * Math.PI
         r = d / 2
     }
@@ -62,10 +62,12 @@ class Motor(private val name: String, // motor information
         device.zeroPowerBehavior = behavior
     }
 
-    fun setSpeed(velocity:Double) { // in/s
+    fun setSpeed(velocity:Double, telemetry: Telemetry) { // in/s
         var angularVelocity = velocity/(r*gr) //radians/s
+        telemetry.addData("angualr velocity in motor", angularVelocity)
         angularVelocity = angularVelocity / (2*PI) // rev/s
         angularVelocity = angularVelocity * tpr //ticks/s
+        telemetry.addData("ticks/s speed", angularVelocity)
         device.setVelocity(angularVelocity)
     }
 }

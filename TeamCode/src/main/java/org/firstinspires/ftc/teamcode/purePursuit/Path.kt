@@ -52,6 +52,23 @@ class LinearPath(override val start: Pose2d, override val end:Pose2d) :Path() {
     }
 }
 
+class TurnPath(override val start: Pose2d, override val end:Pose2d) :Path() {
+    override val length: Double
+        get() = 0.001
+
+    override fun findClosestT(position: Pose2d): Double {
+        return limit((position.heading - start.heading) / (end.heading - start.heading), 0.0, 1.0)
+
+    }
+
+    override fun getPointfromT(t: Double): Pose2d {
+        val x = lerp(start.x, end.x, t)
+        val y = lerp(start.y, end.y, t)
+        val heading = lerpAngle(start.heading, end.heading, t)
+        return Pose2d(x, y, heading)
+    }
+}
+
 class ArcPath(override val start: Pose2d, override val end:Pose2d, mid: Vector2d) :Path() {
 
     lateinit var center: Vector2d

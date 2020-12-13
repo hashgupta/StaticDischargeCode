@@ -13,6 +13,13 @@ class SparkAutoTests : SparkAutoBase() {
 
 
         robot.arm.toAngle(0.0)
+        while (robot.arm.arm_motor.isBusy) {
+            telemetry.addLine(robot.arm.arm_motor.device.currentPosition.toString())
+            telemetry.addLine(robot.arm.arm_motor.device.targetPosition.toString())
+            telemetry.update()
+        }
+        robot.arm.run(0.0)
+        sleep(4000)
 
 
     }

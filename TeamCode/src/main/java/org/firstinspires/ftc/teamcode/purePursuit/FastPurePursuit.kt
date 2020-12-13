@@ -27,7 +27,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     private val lookAhead = 5.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
     private val translationalTol = 2.0 //inches
-    private val angularTol = Math.toRadians(3.0) // one degree angular tolerance
+    private val angularTol = Math.toRadians(2.0) // one degree angular tolerance
     private val kStatic = 0.2
 
     private val translationalCoeffs: PIDCoefficients = PIDCoefficients(1.5)
@@ -78,7 +78,9 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         if (currentPos.vec() distTo waypoints[index].end.vec() < translationalTol &&
                 abs(currentPos.heading - waypoints[index].end.heading) < angularTol) {
             // go to next waypoint
-            runAction(index)
+            drivetrain.startFromRRPower(Pose2d(0.0,0.0,0.0))
+            runAction(index+1)
+
             return if (index == waypoints.size-1) {
                 true
             } else {
@@ -91,7 +93,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         val candidateGoal = path.findClosestT(currentPos) + lookAhead/path.length
 
 
-        target = if (candidateGoal > 1.0 && (actions.find { it.first == index } == null) && index < waypoints.size-1) {
+        target = if (candidateGoal > 1.0 && (actions.find { it.first == index+1 } == null) && index < waypoints.size-1) {
             val excessLength = (path.findClosestT(currentPos) + (lookAhead / path.length) - 1.0) * path.length
 
             if (excessLength > lookAhead/4.0) {
@@ -146,6 +148,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     }
 
     fun runAction(index:Int) {
+
         val action = actions.find { it.first == index }?.second
         if (action != null) action()
     }
@@ -164,7 +167,18 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         } else {
             last = waypoints.last().end
         }
-        waypoints.add(LinearPath(last, Pose2d(last.vec(), last.heading + theta)))
+        waypoints.add(TurnPath(last, Pose2d(last.vec(), last.heading + theta)))
+        return this
+    }
+
+    fun addTurnAbsolute(theta: Double): FastPurePursuit {
+        val last: Pose2d
+        if (waypoints.size == 0) {
+            last = start
+        } else {
+            last = waypoints.last().end
+        }
+        waypoints.add(TurnPath(last, Pose2d(last.vec(), theta)))
         return this
     }
 

@@ -119,7 +119,6 @@ class SparkyTele : LinearOpMode() {
             hori = 0.0
             robot.shooter.shoot()
             robot.shooter.shoot()
-            robot.shooter.shoot()
         }
 
         previousGamepad1X = gamepad1.x
@@ -148,6 +147,8 @@ class SparkyTele : LinearOpMode() {
                     .speeds())
             robot.arm.run(wobble)
             telemetry.addData("position", robot.localizer.poseEstimate)
+            telemetry.addLine(robot.shooter.flywheel.device.velocity.toString())
+            telemetry.addLine(robot.shooter.flywheel.device.currentPosition.toString())
             telemetry.update()
 //            robot.lift.start(liftSpeed(lift))
 
