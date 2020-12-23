@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import kotlin.math.PI
 
@@ -12,14 +13,18 @@ class SparkAutoTests : SparkAutoBase() {
         waitForStart()
 
 
-        robot.arm.toAngle(0.0)
-        while (robot.arm.arm_motor.isBusy) {
-            telemetry.addLine(robot.arm.arm_motor.device.currentPosition.toString())
-            telemetry.addLine(robot.arm.arm_motor.device.targetPosition.toString())
-            telemetry.update()
-        }
-        robot.arm.run(0.0)
-        sleep(4000)
+//        robot.arm.toAngle(0.0)
+//        while (robot.arm.arm_motor.isBusy) {
+//            telemetry.addLine(robot.arm.arm_motor.device.currentPosition.toString())
+//            telemetry.addLine(robot.arm.arm_motor.device.targetPosition.toString())
+//            telemetry.update()
+//        }
+//        robot.arm.run(0.0)
+//        sleep(4000)
+        robot.pursuiter.setStartPoint(Pose2d(0.0,0.0,0.0))
+        robot.pursuiter.addPoint(30.0,0.0,0.0)
+        robot.pursuiter.addTurnAbsolute(PI)
+        robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
 
 
     }

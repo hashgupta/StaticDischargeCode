@@ -19,13 +19,13 @@ class PurePursuitDrive(val localizer: Localizer) {
     val waypoints: MutableList<Path> = mutableListOf()
     val actions: MutableList<Pair<Int, () -> Unit>> = mutableListOf()
 
-    private val lookAhead = 10.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    private val lookAhead = 5.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 0.2 //inches
+    private val translationalTol = 1.0 //inches
     private val angularTol = Math.toRadians(1.0) // one degree angular tolerance
 
-    private val translationalCoeffs: PIDCoefficients = PIDCoefficients()
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.0)
+    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(2.0)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(2.0)
 
     private val kV = 0.1
     private val kStatic = 0.1

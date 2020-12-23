@@ -54,7 +54,7 @@ class LinearPath(override val start: Pose2d, override val end:Pose2d) :Path() {
 
 class TurnPath(override val start: Pose2d, override val end:Pose2d) :Path() {
     override val length: Double
-        get() = 0.001
+        get() = (end.heading-start.heading) * 9.0
 
     override fun findClosestT(position: Pose2d): Double {
         return limit((position.heading - start.heading) / (end.heading - start.heading), 0.0, 1.0)

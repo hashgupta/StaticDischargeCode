@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.staticSparky.SparkyRobot
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.tan
@@ -15,8 +16,9 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val telemetry: Telemetry, val flicker: ServoM? = null){
-    var slip = 1.73 // flywheel shooter slip, MUST BE TUNED
+    var slip = 1.922 // flywheel shooter slip, MUST BE TUNED
     var flickerTimingMS = 1200.0
+    val turnCorrection = PI + Math.toRadians(15.0)
 
 
 //    fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
@@ -42,18 +44,19 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
         val shotDistance = targetVector distTo position
         val net_height = target.height - shooterHeight
         val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
-        telemetry.addData("m/s speed",(2*requiredVelocity * slip).toString())
 
         flywheel.setSpeed(2*requiredVelocity * slip, telemetry) // remove 2 times if using double flywheel, doesnt account for direction
-        telemetry.addData("rad/s dcurrent speed",flywheel.device.getVelocity(AngleUnit.RADIANS).toString())
-        telemetry.update()
+
+//        telemetry.update()
 
     }
 
     fun turningTarget(position: Vector2d, target: shootingGoal): Double {
         val targetVector = Vector2d(target.x, target.y)
-        val shootingHeading = targetVector.minus(position).angle()
-        return shootingHeading
+        val shootingHeadingVector = targetVector.minus(position)
+
+        return shootingHeadingVector.angle() + turnCorrection
+
     }
 
     fun shoot() {

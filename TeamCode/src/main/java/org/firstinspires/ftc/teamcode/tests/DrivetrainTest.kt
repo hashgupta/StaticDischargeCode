@@ -27,46 +27,49 @@ import kotlin.math.tan
 class DrivetrainTest {
     @Test
     fun testDrivetrain() {
-        val pursuiter = FastPurePursuit(MockedLocalizer(), Pose2d(0.0,0.0,0.0))
-        pursuiter.setStartPoint(Positions.startLeftRed)
-        pursuiter.addRelativePoint(-0.5 * SparkAutoBase.TILE_LENGTH, 2 * SparkAutoBase.TILE_LENGTH, 0.0)
-        pursuiter.addAction { println("action 1") }
-
-
-
-        val goalZone = Pose2d(Positions.bZoneRed, 0.0)
-
-        pursuiter.addPoint(goalZone + Pose2d(-9.0, 0.0))
-        pursuiter.addAction { println("action 2") }
-        pursuiter.addPoint(Positions.startRightRed + Pose2d(SparkAutoBase.TILE_LENGTH *0.5 + 9.0, Constants.trackwidth * 0.5, PI ))
-
-        val index = 1
-        println(pursuiter.waypoints)
-        println(pursuiter.actions)
-        println(pursuiter.actions.find { it.first == index+1 } == null)
-////        val position = Vector2d(0.0, -SparkAutoBase.TILE_LENGTH *1.5)
-////        val target = Positions.highGoalRed
-////        val targetVector = Vector2d(target.x, target.y)
-////        val shootingHeading = targetVector.minus(position).angle()
-////        println(shootingHeading)
-////        val pose = Pose2d(0.0, 0.0, 0.0)
-////        val target = shootingGoal(70.0, 0.0, 35.0)
-////        val shooterHeight = 8.0
-////        val shooterAngle = Math.toRadians(45.0)
-////        val slip = 1.3
-////
-////        val position = pose.vec()
-////        val targetVector = Vector2d(target.x, target.y)
-////        val shotDistance = targetVector distTo position
-////        val net_height = target.height - shooterHeight
-////        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
-////        println((2*requiredVelocity * slip).toString())
-////        println(2*requiredVelocity*slip / (2*2*PI) * 60)
-//        val length = 30
-//        val lookAhead = 5.0
+//        val pursuiter = FastPurePursuit(MockedLocalizer(), Pose2d(0.0,0.0,0.0))
+//        pursuiter.setStartPoint(Positions.startLeftRed)
+//        pursuiter.addRelativePoint(-0.5 * SparkAutoBase.TILE_LENGTH, 2 * SparkAutoBase.TILE_LENGTH, 0.0)
+//        pursuiter.addAction { println("action 1") }
 //
-//        val excessLength = (0.8 + (lookAhead / length) - 1.0) * length
-//        println(excessLength)
+//        pursuiter.addTurnAbsolute(PI)
+//        pursuiter.addAction { println("action 2") }
+//        pursuiter.addPoint(Positions.startRightRed + Pose2d(SparkAutoBase.TILE_LENGTH *0.5 + 9.0, Constants.trackwidth * 0.5, PI ))
+//
+//        val index = 2
+//        println(pursuiter.waypoints[1].length)
+//        println(pursuiter.actions)
+//        println((1.2 > 1.0 && (pursuiter.actions.find { it.first == index+1 } == null) && index < 10-1))
+
+//        val position = Vector2d(0.0, -SparkAutoBase.TILE_LENGTH *1.5)
+//        val target = Positions.highGoalRed
+//        val targetVector = Vector2d(target.x, target.y)
+//        val shootingHeading = targetVector.minus(position).angle()
+//        println(shootingHeading)
+//        val pose = Pose2d(0.0, 0.0, 0.0)
+//        val target = shootingGoal(80.0, 0.0, 35.0)
+//        val shooterHeight = 8.0
+//        val shooterAngle = Math.toRadians(30.0)
+//        val slip = 1.0
+//
+//        val position = pose.vec()
+//        val targetVector = Vector2d(target.x, target.y)
+//        val shotDistance = targetVector distTo position
+//        val net_height = target.height - shooterHeight
+//        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
+//        println((2*requiredVelocity * slip).toString())
+//        println(2*requiredVelocity*slip / (2*2*PI) * 60)
+//
+//        val velocity = 2*requiredVelocity
+//        val r = 2.0
+//        val tpr = 28
+//        val gr = 1.0
+//        var angularVelocity = velocity/(r*gr) //radians/s
+//        angularVelocity = angularVelocity / (2*PI) // rev/s
+//        angularVelocity = angularVelocity * tpr //ticks/s
+//        println("ticks/s speed: " + angularVelocity)
+
+
 
 
 

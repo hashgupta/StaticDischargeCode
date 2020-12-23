@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
+import android.icu.text.Transliterator
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -8,9 +10,12 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.ReadWriteFile
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.g
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import java.io.File
 import kotlin.math.abs
+
+const val TILE_LENGTH = 24.0
 
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
 class SparkyTele : LinearOpMode() {
@@ -21,7 +26,6 @@ class SparkyTele : LinearOpMode() {
     // speeds
     private var driveSpeed = 1.0
 
-    private var shooterIsSpinning: Boolean = false
     private var previousGamepad1X: Boolean = false
     private var previousGamepad1LBumper: Boolean = false
     private var intakeForwards: Boolean = false
@@ -67,6 +71,8 @@ class SparkyTele : LinearOpMode() {
         val turn = gamepad1.right_stick_x.toDouble()
         var wobble = gamepad1.right_stick_y.toDouble()
 
+
+
         // process input
 
         if (gamepad1.left_bumper && !previousGamepad1LBumper) {
@@ -100,24 +106,30 @@ class SparkyTele : LinearOpMode() {
         }
 
 
-
-
-        if (gamepad1.x && !previousGamepad1X) {
-            shooterIsSpinning = !shooterIsSpinning
-
-        }
-
-        if (shooterIsSpinning) {
-            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
+        if (gamepad1.left_trigger > 0.5) {
+            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(84.0, 0.0, 35.0))
 //            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate, Positions.highGoalRed)
         } else {
             robot.shooter.stopWheel()
         }
 
+        if (gamepad1.x && !previousGamepad1X) {
+            robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
+            robot.pursuiter.addPoint(-TILE_LENGTH*0.5, -2* TILE_LENGTH,
+                    robot.shooter.turningTarget(Vector2d(-TILE_LENGTH*0.5, -2* TILE_LENGTH), Positions.highGoalRed))
+            robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+        }
+
+        if (gamepad1.b) {
+            driveSpeed = 0.5
+        }
+        if (gamepad1.a) {
+            driveSpeed = 1.0
+        }
+
         if (gamepad1.right_trigger > 0.5 && previousGamepad1RT < 0.5) {
             vert = 0.0
             hori = 0.0
-            robot.shooter.shoot()
             robot.shooter.shoot()
         }
 

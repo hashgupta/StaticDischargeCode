@@ -28,6 +28,7 @@ class Motor(private val name: String, // motor information
         val motorConfigurationType: MotorConfigurationType = device.motorType.clone()
 
         motorConfigurationType.achieveableMaxRPMFraction = 1.0
+
         device.motorType = motorConfigurationType
 
         c = d * Math.PI
@@ -63,11 +64,11 @@ class Motor(private val name: String, // motor information
     }
 
     fun setSpeed(velocity:Double, telemetry: Telemetry) { // in/s
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER)
         var angularVelocity = velocity/(r*gr) //radians/s
-        telemetry.addData("angualr velocity in motor", angularVelocity)
-        angularVelocity = angularVelocity / (2*PI) // rev/s
-        angularVelocity = angularVelocity * tpr //ticks/s
+        val angularVelocityRevS = angularVelocity / (2*PI) // rev/s
+        angularVelocity = angularVelocityRevS * tpr //ticks/s
         telemetry.addData("ticks/s speed", angularVelocity)
-        device.setVelocity(angularVelocity)
+        start((angularVelocityRevS*60)/device.motorType.maxRPM)
     }
 }

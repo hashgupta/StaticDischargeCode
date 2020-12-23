@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -9,7 +10,7 @@ import kotlin.math.abs
 @TeleOp(name = "Special Drive Tele", group = "StaticDischarge")
 class ExtraTele : OpMode() {
     // robot
-    private lateinit var robot: SparkyRobot
+    private lateinit var robot: TestRobot
     private var reverse = false
 
     // speeds
@@ -17,41 +18,23 @@ class ExtraTele : OpMode() {
 
     override fun init() {
         //initialize and set robot behavior
-        robot = SparkyRobot(hardwareMap, telemetry) {true}
+        robot = TestRobot(hardwareMap, telemetry) {true}
+        robot.localizer.poseEstimate = Pose2d()
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
         stop()
     }
 
     override fun loop() {
+        robot.localizer.update()
 
         // get gamepad input
-        var vert = (gamepad1.left_stick_y.toDouble() + gamepad1.right_stick_y.toDouble()) * 0.5
-        val turn = (gamepad1.left_stick_y.toDouble() - gamepad1.right_stick_y.toDouble()) * 0.5
-        var hori = (gamepad1.left_stick_x.toDouble() + gamepad2.right_stick_x) * 0.5
+        val vert = gamepad1.left_stick_y.toDouble()
+        val hori = gamepad1.left_stick_x.toDouble()
+        val turn = gamepad1.right_stick_x.toDouble()
 
         // process input
 
 
-        if (gamepad1.dpad_down) {
-            driveSpeed = 0.5
-        }
-        if (gamepad1.dpad_up) {
-            driveSpeed = 1.0
-        }
-
-        if (gamepad1.x) {
-            reverse = true
-        }
-        if (gamepad1.y) {
-            reverse = false
-        }
-
-        if (abs(vert) < 0.1) {
-            vert = 0.0
-        }
-        if (abs(hori) < 0.1) {
-            hori = 0.0
-        }
 
         try {
 //            //output values for robot movement
@@ -60,7 +43,9 @@ class ExtraTele : OpMode() {
                     vert * driveSpeed * (if (reverse) -1 else 1).toDouble(),
                     turn * driveSpeed)
                     .speeds())
-//            robot.lift.start(liftSpeed(lift))
+            telemetry.addData("drivetrain positions", robot.driveTrain.getPosition())
+            telemetry.addData("Pose Estimate", robot.localizer.poseEstimate)
+            telemetry.update()
 
 
         } catch (e: Exception) {

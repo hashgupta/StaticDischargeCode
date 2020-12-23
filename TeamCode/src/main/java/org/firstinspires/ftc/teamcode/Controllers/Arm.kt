@@ -42,7 +42,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoCRWrap
         }
         run(0.0)
         grabber.start(-1.0)
-        sleep(1500)
+        sleep(3000)
         grabber.start(-0.5)
         toAngle(Math.toRadians(45.0))
         while ( arm_motor.isBusy) {
@@ -65,7 +65,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoCRWrap
 
 
     fun run(speed: Double) {
-        var adjusted_speed = speed * 0.75 * 0.75
+        var adjusted_speed = speed * 0.5
         arm_motor.start(adjusted_speed)
     }
 

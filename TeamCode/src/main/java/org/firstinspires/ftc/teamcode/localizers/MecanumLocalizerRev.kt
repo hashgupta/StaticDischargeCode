@@ -33,9 +33,12 @@ class MecanumLocalizerRev constructor(
     private val rightFrontEncoder: Encoder
     private val leftRearEncoder: Encoder
     private val rightRearEncoder: Encoder
+    private var updateCount: Int = 0
 
     override fun update() {
+
         val wheelPositions = getWheelPositions()
+
         val extHeading = if (gyro != null) getExternalHeading() else Double.NaN
         if (lastWheelPositions.isNotEmpty()) {
             val wheelDeltas = wheelPositions
@@ -52,6 +55,8 @@ class MecanumLocalizerRev constructor(
                     _poseEstimate,
                     Pose2d(robotPoseDelta.vec(), finalHeadingDelta)
             )
+            _poseEstimate = Pose2d(_poseEstimate.vec(), extHeading)
+
         }
 
         val wheelVelocities = getWheelVelocities()
