@@ -1,13 +1,15 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
+import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 
-class TestRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {
+class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {
     // OpMode members
-//    val pursuiter: FastPurePursuit
+    val pursuiter: FastPurePursuit
 
     // initialize robot
     init {
@@ -18,8 +20,7 @@ class TestRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: ()
         setDriveTrain(rf, rb, lf, lb)
         driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
         driveTrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
-//        localizer = MecanumLocalizerRev(hardwareMap, gyro=null)
 
-//        pursuiter = FastPurePursuit(localizer, Pose2d())
+        pursuiter = FastPurePursuit(localizer, Pose2d())
     }
 }

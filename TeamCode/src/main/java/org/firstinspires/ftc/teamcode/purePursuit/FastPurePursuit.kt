@@ -26,16 +26,16 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
     private val lookAhead = 5.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 1.5 //inches
-    private val angularTol = Math.toRadians(0.25) // one degree angular tolerance
-    private val kStatic = 0.05
+    private val translationalTol = 2.0 //inches
+    private val angularTol = Math.toRadians(0.75) // one degree angular tolerance
+    private val kStatic = 0.1
 
-    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(1.75)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.3, kD = 0.025)
+    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(2.0)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.1)
 
     private val axialController = PIDFController(translationalCoeffs)
-    private val lateralController = PIDFController(translationalCoeffs)
-    private val headingController = PIDFController(headingCoeffs, kStatic=kStatic)
+    private val lateralController = PIDFController(translationalCoeffs, kStatic=kStatic)
+    private val headingController = PIDFController(headingCoeffs, kStatic=kStatic+0.05)
 
     init {
         axialController.update(0.0)
@@ -242,13 +242,17 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         // note: feedforward is processed at the wheel level
         var axialCorrection = axialController.update(0.0)
         var lateralCorrection = lateralController.update(0.0)
-        val headingCorrection = headingController.update(0.0)
+        var headingCorrection = headingController.update(0.0)
+
 
         if (abs(poseError.x) < translationalTol) {
             axialCorrection = 0.0
         }
         if (abs(poseError.y) < translationalTol) {
             lateralCorrection = 0.0
+        }
+        if (abs(poseError.heading) < angularTol) {
+            headingCorrection = 0.0
         }
 
         return Pose2d(

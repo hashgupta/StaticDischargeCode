@@ -49,15 +49,15 @@ class DrivetrainTest {
 //        val pose = Pose2d(0.0, 0.0, 0.0)
 //        val target = shootingGoal(80.0, 0.0, 35.0)
 //        val shooterHeight = 8.0
-//        val shooterAngle = Math.toRadians(30.0)
+        val shooterAngle = Math.toRadians(45.0)
 //        val slip = 1.0
 //
 //        val position = pose.vec()
 //        val targetVector = Vector2d(target.x, target.y)
-//        val shotDistance = targetVector distTo position
-//        val net_height = target.height - shooterHeight
-//        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
-//        println((2*requiredVelocity * slip).toString())
+        val shotDistance = 84
+        val net_height = 32 - 8.0
+        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
+        println((requiredVelocity).toString())
 //        println(2*requiredVelocity*slip / (2*2*PI) * 60)
 //
 //        val velocity = 2*requiredVelocity

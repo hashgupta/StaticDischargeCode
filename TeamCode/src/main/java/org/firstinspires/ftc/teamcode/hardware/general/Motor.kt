@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware.general
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
@@ -30,6 +31,9 @@ class Motor(private val name: String, // motor information
         motorConfigurationType.achieveableMaxRPMFraction = 1.0
 
         device.motorType = motorConfigurationType
+
+
+
 
         c = d * Math.PI
         r = d / 2
@@ -69,6 +73,8 @@ class Motor(private val name: String, // motor information
         val angularVelocityRevS = angularVelocity / (2*PI) // rev/s
         angularVelocity = angularVelocityRevS * tpr //ticks/s
         telemetry.addData("ticks/s speed", angularVelocity)
-        start((angularVelocityRevS*60)/device.motorType.maxRPM)
+        telemetry.addData("actual ticks/s", device.getVelocity())
+        telemetry.addData("pid coef", device.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER))
+        device.velocity = angularVelocity
     }
 }

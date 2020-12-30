@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import kotlin.math.PI
 
 @Autonomous(name = "SparkyTests", group = "StaticDischarge")
@@ -21,9 +22,8 @@ class SparkAutoTests : SparkAutoBase() {
 //        }
 //        robot.arm.run(0.0)
 //        sleep(4000)
-        robot.pursuiter.setStartPoint(Pose2d(0.0,0.0,0.0))
-        robot.pursuiter.addPoint(30.0,0.0,0.0)
-        robot.pursuiter.addTurnAbsolute(PI)
+        robot.pursuiter.addAction { robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
+        sleep(2500)}
         robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
 
 

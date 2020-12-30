@@ -31,8 +31,8 @@ class DriveTrain// initialize drive train
     }
 
     fun startFromRRPower(velocity: Pose2d) {
-        var vert = -velocity.x
-        var hori = -velocity.y
+        val vert = -velocity.x
+        val hori = -velocity.y
 
         val turn = -velocity.heading
         val square = Vector(hori, vert, turn).speeds()

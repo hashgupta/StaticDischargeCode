@@ -8,7 +8,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Controllers.Arm
 import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
-import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
 import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 
@@ -21,16 +20,7 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
     var intakeTop: Motor
     var flywheel: Motor
     val shooter: Shooter
-//    val wobble_arm: Motor
-//    val wobble_grabber: ServoCRWrapper
     val arm: Arm
-    //    var dropStone: ServoM
-    //    var pinch: ServoM
-    //    var hook1: ServoM
-    //    var hook2: ServoM
-//    val touch: Touch
-    //    var stone: Color
-    //    var distance: Distance
 
     // initialize robot
     init {
@@ -55,8 +45,9 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
         val wobble_arm = Motor("wobble arm", 288.0, 1.0, hardwareMap)
         wobble_arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
         wobble_arm.setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
-        val wobble_grabber = ServoCRWrapper("wobble grabber", hardwareMap)
-        wobble_grabber.start(-0.5)
+        val wobble_grabber = ServoM("wobble grabber", hardwareMap)
+        wobble_grabber.start(0.00)
+        Thread.sleep(250)
         arm = Arm(Math.toRadians(180.0), wobble_arm, wobble_grabber)
 
 

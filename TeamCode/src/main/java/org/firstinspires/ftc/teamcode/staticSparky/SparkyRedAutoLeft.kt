@@ -32,9 +32,18 @@ class SparkyRedAutoLeft : SparkAutoBase() {
         stopCV()
 
         robot.pursuiter.addRelativePoint(-0.5*TILE_LENGTH, 2* TILE_LENGTH, 0.0)
-        robot.pursuiter.addPoint(Pose2d(Positions.powerFarRed.x, -TILE_LENGTH*0.5, PI))
+
+        robot.pursuiter.addPoint(Pose2d(-0.5* TILE_LENGTH, Positions.powerFarRed.y, PI))
         robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
                     Positions.powerFarRed); sleep(2500);  robot.shooter.shoot()}
+
+        robot.pursuiter.addPoint(Pose2d(-0.5* TILE_LENGTH, Positions.powerMidRed.y, PI))
+        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+                Positions.powerMidRed); sleep(2500);  robot.shooter.shoot()}
+
+        robot.pursuiter.addPoint(Pose2d(-0.5* TILE_LENGTH, Positions.powerNearRed.y, PI))
+        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+                Positions.powerNearRed); sleep(2500);  robot.shooter.shoot()}
 
 
 
@@ -50,16 +59,25 @@ class SparkyRedAutoLeft : SparkAutoBase() {
             }
         }
 //
-//        robot.pursuiter.addPoint(goalZone + Pose2d(-12.0, 0.0))
-//        robot.pursuiter.addAction { robot.arm.dropAuto() }
-//
+        robot.pursuiter.addPoint(goalZone + Pose2d(-24.0, 12.0, -PI/4))
+        robot.pursuiter.addAction { robot.arm.toAngle(Math.toRadians(0.0))
+            while ( robot.arm.arm_motor.isBusy) {
+
+            }
+            robot.arm.run(0.0)
+            sleep(500)
+            robot.arm.dropAuto() }
+
+//        robot.pursuiter.addPoint(-1* TILE_LENGTH,-2.25* TILE_LENGTH, PI)
+//        robot.pursuiter.addAction {  }
+////
 //        robot.pursuiter.addPoint(Positions.startRightRed + Pose2d(SparkAutoBase.TILE_LENGTH *0.5 + 12.0, Constants.trackwidth * 0.5, PI ))
 //        robot.pursuiter.addAction { robot.arm.grabAuto() }
 ////
 ////        robot.pursuiter.addPoint(goalZone + Pose2d(-9.0, 0.0))
 ////        robot.pursuiter.addAction { robot.arm.dropAuto()}
 
-        robot.pursuiter.addPoint(0.5 * TILE_LENGTH, -2* TILE_LENGTH, PI)
+        robot.pursuiter.addPoint(0.5 * TILE_LENGTH, -1* TILE_LENGTH, PI)
         robot.pursuiter.addAction {robot.shooter.stopWheel()  }
 
 

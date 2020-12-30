@@ -35,5 +35,5 @@ object Positions {
 
     val powerNearRed = shootingGoal(3 * tile_length, -0.75* tile_length, 32.0)
     val powerMidRed = shootingGoal(3 * tile_length, -0.5* tile_length, 32.0)
-    val powerFarRed = shootingGoal(3 * tile_length, -0.25* tile_length, 232.0)
+    val powerFarRed = shootingGoal(3 * tile_length, -0.25* tile_length, 32.0)
 }

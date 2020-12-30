@@ -32,6 +32,8 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
 
         driveTrain = DriveTrain(rf, rb, lf, lb)
+        driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
+        driveTrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
 
         gyro = Gyro("gyro", hardwareMap)
 
