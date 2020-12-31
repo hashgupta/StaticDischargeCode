@@ -26,16 +26,16 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
     private val lookAhead = 5.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 2.0 //inches
-    private val angularTol = Math.toRadians(0.75) // one degree angular tolerance
+    private val translationalTol = 1.5 //inches
+    private val angularTol = Math.toRadians(0.5) // one degree angular tolerance
     private val kStatic = 0.1
 
-    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(2.0)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.1)
+    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.1)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.9)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs, kStatic=kStatic)
-    private val headingController = PIDFController(headingCoeffs, kStatic=kStatic+0.05)
+    private val headingController = PIDFController(headingCoeffs, kStatic=kStatic)
 
     init {
         axialController.update(0.0)
@@ -59,6 +59,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
             telemetry.addLine("running")
             telemetry.addLine(localizer.poseEstimate.toString())
             telemetry.addLine(waypoints[index].end.toString())
+            telemetry.addLine(Kinematics.calculatePoseError(waypoints[index].end, localizer.poseEstimate).toString())
             telemetry.update()
             done = followStep(drivetrain, mecanum)
         }

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 
 @Autonomous(name = "SparkyAutoRedRight", group = "StaticDischarge")
-class SparkyRedAutoRight : SparkAutoBase() {
+class SparkyAutoRedRight : SparkOpModeBase() {
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
         robot = SparkyRobot(hardwareMap, telemetry, { opModeIsActive() && !isStopRequested()})

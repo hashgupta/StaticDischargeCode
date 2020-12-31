@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
+import android.accessibilityservice.FingerprintGestureController
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
+import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.pipelines.FindRingAutoPipeline
+import org.firstinspires.ftc.teamcode.pipelines.Ring
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import org.openftc.easyopencv.OpenCvCamera
-import org.openftc.easyopencv.OpenCvCameraFactory
-import org.openftc.easyopencv.OpenCvCameraRotation
-import org.openftc.easyopencv.OpenCvInternalCamera
+import org.openftc.easyopencv.*
 
-abstract class SparkAutoBase : LinearOpMode() {
+abstract class SparkOpModeBase : LinearOpMode() {
 
     // robot
     lateinit var robot: SparkyRobot
@@ -16,7 +18,7 @@ abstract class SparkAutoBase : LinearOpMode() {
     lateinit var webcam: OpenCvCamera
 
 
-    internal var pipeline = RingPipeline() // set pipeline here, after creating it in pipelines folder
+    internal var pipeline:OpenCvPipeline = RingPipeline() // set pipeline here, after creating it in pipelines folder
 
     enum class Side{
         Right,
@@ -36,7 +38,7 @@ abstract class SparkAutoBase : LinearOpMode() {
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
-        pipeline.right = (side == Side.Right)
+        (pipeline as RingPipeline).right = (side == Side.Right)
         webcam.setPipeline(pipeline)
     }
 
@@ -55,7 +57,7 @@ abstract class SparkAutoBase : LinearOpMode() {
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
-        pipeline.right = (side == Side.Right)
+        (pipeline as RingPipeline).right = (side == Side.Right)
         webcam.setPipeline(pipeline)
     }
 
@@ -73,6 +75,32 @@ abstract class SparkAutoBase : LinearOpMode() {
 
         // field constants.
         const val TILE_LENGTH = 24.0
+    }
+
+    fun AutoFindRings(gamepad: Gamepad) {
+        pipeline = FindRingAutoPipeline()
+        val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)
+        // OR...  Do Not Activate the Camera Monitor View
+        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
+
+        webcam.openCameraDevice()
+        webcam.setPipeline(pipeline)
+        startCV()
+        while (!gamepad.b && opModeIsActive()) {
+            val rings = (pipeline as FindRingAutoPipeline).listofRings
+            if (rings.size == 0) {
+                robot.driveTrain.start(DriveTrain.Vector(0.0,0.0,0.5).speeds())
+            } else if (rings.size == 1) {
+                robot.driveTrain.start(DriveTrain.Vector(0.0,0.05*rings[0].distance,rings[0].turnControl).speeds())
+            } else {
+                val sorted_rings = rings.sortedWith(compareBy<Ring> {it.distance })
+                val closest_ring = sorted_rings[0]
+                robot.driveTrain.start(DriveTrain.Vector(0.0,0.05*closest_ring.distance,closest_ring.turnControl).speeds())
+            }
+        }
+        stopCV()
+
     }
 
 

@@ -25,7 +25,7 @@ class Motor(private val name: String, // motor information
         get() = device.isBusy
 
     init {
-        device.targetPositionTolerance = 20 // (ticks / cpr) * (circumference * gear ratio) is inches of error from tick tolerance
+        device.targetPositionTolerance = 10 // (ticks / cpr) * (circumference * gear ratio) is inches of error from tick tolerance
         val motorConfigurationType: MotorConfigurationType = device.motorType.clone()
 
         motorConfigurationType.achieveableMaxRPMFraction = 1.0

@@ -3,10 +3,9 @@ package org.firstinspires.ftc.teamcode.staticSparky
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
-import kotlin.math.PI
 
 @Autonomous(name = "SparkyTests", group = "StaticDischarge")
-class SparkAutoTests : SparkAutoBase() {
+class SparkAutoTests : SparkOpModeBase() {
 
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED

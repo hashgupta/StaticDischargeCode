@@ -12,29 +12,27 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.math.abs
 
-private val INITIAL_POSE = Pose2d(20.0, 21.0, 0.0)
-
 @Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PurePursuitTest {
     @Test
     fun testPurePursuitLibrary() {
-        val translationalTol = 2.0 //inches
-        val angularTol = Math.toRadians(0.75) // one degree angular tolerance
+        val translationalTol = 1.0 //inches
+        val angularTol = Math.toRadians(0.5) // one degree angular tolerance
         val kStatic = 0.1
 
-        val translationalCoeffs = PIDCoefficients(2.0)
-        val headingCoeffs = PIDCoefficients(1.1, kD = 0.01)
+        val translationalCoeffs = PIDCoefficients(0.1)
+        val headingCoeffs = PIDCoefficients(0.9)
 
         val axialController = PIDFController(translationalCoeffs)
         val lateralController = PIDFController(translationalCoeffs, kStatic=kStatic)
-        val headingController = PIDFController(headingCoeffs, kStatic=kStatic+0.05)
+        val headingController = PIDFController(headingCoeffs, kStatic=kStatic)
         axialController.update(0.0)
         lateralController.update(0.0)
         headingController.update(0.0)
 
 
-        val poseError = Pose2d(0.5, 0.5, Math.toRadians(225.0))
+        val poseError = Pose2d(0.5, 0.4, Math.toRadians(-0.4))
 
 
         axialController.targetPosition = poseError.x

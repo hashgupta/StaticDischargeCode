@@ -1,19 +1,13 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import com.qualcomm.robotcore.util.ReadWriteFile
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil
-import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import java.io.File
-import java.util.*
 import kotlin.math.PI
 
 
 @Autonomous(name = "SparkyAutoRedLeft", group = "StaticDischarge")
-class SparkyRedAutoLeft : SparkAutoBase() {
+class SparkyAutoRedLeft : SparkOpModeBase() {
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
         robot = SparkyRobot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested() }

@@ -5,19 +5,20 @@ import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.util.ElapsedTime
 import com.qualcomm.robotcore.util.ReadWriteFile
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import java.io.File
+import java.util.*
 import kotlin.math.abs
 
 const val TILE_LENGTH = 24.0
 
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
-class SparkyTele : LinearOpMode() {
+class SparkyTele : SparkOpModeBase() {
     // robot
-    private lateinit var robot: SparkyRobot
     private var reverse = false
 
     // speeds
@@ -29,20 +30,28 @@ class SparkyTele : LinearOpMode() {
     private var intakeOFF = true
     private var previousGamepad1RBumper: Boolean = false
     private var previousGamepad2RT: Double = 0.0
+    private val timer:ElapsedTime = ElapsedTime()
 
     override fun runOpMode() {
         initRobot()
         waitForStart()
+        startRobot()
         while (opModeIsActive()) {
             loopRobot()
         }
         stopRobot()
     }
 
+    fun startRobot() {
+        timer.reset()
+    }
+
     fun initRobot() {
         //initialize and set robot behavior
         robot = SparkyRobot(hardwareMap, telemetry) {true}
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
+
+
 
         try {
             val filename = "position.json"
@@ -112,10 +121,20 @@ class SparkyTele : LinearOpMode() {
 
         // auto movement to shooting position
         if (gamepad1.guide && !previousGamepad1Guide) {
-            robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
-            robot.pursuiter.addPoint(-TILE_LENGTH*0.5, -2* TILE_LENGTH,
-                    robot.shooter.turningTarget(Vector2d(-TILE_LENGTH*0.5, -2* TILE_LENGTH), Positions.highGoalRed))
-            robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+            if (timer.seconds() < 90.0) {
+                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
+                robot.pursuiter.addTurnAbsolute(
+                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+
+                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+            } else {
+                //turn towards power shots
+                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
+                robot.pursuiter.addTurnAbsolute(
+                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.powerNearRed))
+
+                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+            }
         }
 
         // *******************

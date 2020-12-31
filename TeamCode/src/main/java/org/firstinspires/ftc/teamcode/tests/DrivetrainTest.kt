@@ -1,24 +1,8 @@
 package org.firstinspires.ftc.teamcode.tests
 
-import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
-import com.acmerobotics.roadrunner.kinematics.Kinematics
-import com.acmerobotics.roadrunner.localization.Localizer
-import com.qualcomm.hardware.motors.RevRoboticsUltraPlanetaryHdHexMotor
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
-import org.firstinspires.ftc.teamcode.Constants
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.Controllers.g
-import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
-import org.firstinspires.ftc.teamcode.hardware.general.Motor
-import org.firstinspires.ftc.teamcode.localizers.MockedLocalizer
-import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
-import org.firstinspires.ftc.teamcode.staticSparky.Positions
-import org.firstinspires.ftc.teamcode.staticSparky.SparkAutoBase
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.tan
