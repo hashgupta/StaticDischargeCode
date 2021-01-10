@@ -58,7 +58,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM) {
 
 
     fun run(speed: Double) {
-        var adjusted_speed = speed * 0.5
+        var adjusted_speed = speed * 0.25
         arm_motor.start(adjusted_speed)
     }
 

@@ -18,7 +18,7 @@ class SparkyAutoRedRight : SparkOpModeBase() {
         startCV()
 
         while (opModeIsActive()) {
-            analysis = pipeline.position()
+            analysis = (pipeline as RingPipeline).position()
             telemetry.addData("analysis",analysis)
             telemetry.update()
         }

@@ -47,7 +47,6 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
         wobble_arm.setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         val wobble_grabber = ServoM("wobble grabber", hardwareMap)
         wobble_grabber.start(0.00)
-        Thread.sleep(250)
         arm = Arm(Math.toRadians(180.0), wobble_arm, wobble_grabber)
 
 

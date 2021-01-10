@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.kinematics.TankKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
+import com.acmerobotics.roadrunner.util.Angle
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
@@ -24,18 +25,19 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     var index = 0
     var start:Pose2d
 
-    private val lookAhead = 5.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    private val lookAhead = 10.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 1.5 //inches
-    private val angularTol = Math.toRadians(0.5) // one degree angular tolerance
+    private val translationalTol = 0.75 //inches
+    private val angularTol = Math.toRadians(0.25) // one degree angular tolerance
     private val kStatic = 0.1
 
-    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.1)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.9)
+    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.20)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.50)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs, kStatic=kStatic)
     private val headingController = PIDFController(headingCoeffs, kStatic=kStatic)
+
 
     init {
         axialController.update(0.0)
@@ -43,6 +45,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         headingController.update(0.0)
 
         start = startPose ?: localizer.poseEstimate
+
     }
 
     // follow until path is complete
@@ -75,8 +78,10 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
         val currentPos = localizer.poseEstimate
 
-        if (currentPos.vec() distTo waypoints[index].end.vec() < translationalTol &&
-                abs(currentPos.heading - waypoints[index].end.heading) < angularTol) {
+        val poseError = Kinematics.calculatePoseError(waypoints[index].end, currentPos)
+
+        if (abs(poseError.x) < translationalTol && abs(poseError.y) < translationalTol &&
+                abs(poseError.heading) < angularTol) {
             // go to next waypoint
             drivetrain.startFromRRPower(Pose2d(0.0,0.0,0.0))
             runAction(index+1)
@@ -112,6 +117,59 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 //            drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
             val vel = getVelocityFromTarget(target, currentPos)
             drivetrain.startFromRRPower(vel)
+        } else {
+            //TODO figure out how to make drivetrain more generic for tank and mecanum
+//            val wheelVel = getWheelVelocityFromTargetTank(target, currentPos)
+            print("Tank is still TODO, not fully implemented")
+        }
+        return false
+    }
+    fun followStepTestWriteup(mecanum:Boolean = true):Boolean {
+        localizer.update()
+
+        val path = waypoints[index]
+
+        val currentPos = localizer.poseEstimate
+
+        val poseError = Kinematics.calculatePoseError(waypoints[index].end, currentPos)
+
+
+        if (abs(poseError.x) < translationalTol && abs(poseError.y) < translationalTol &&
+                abs(poseError.heading) < angularTol) {
+            // go to next waypoint
+            runAction(index+1)
+
+            return if (index == waypoints.size-1) {
+                true
+            } else {
+                index += 1
+                false
+            }
+        }
+
+        val target : Pose2d
+        val candidateGoal = path.findClosestT(currentPos) + lookAhead/path.length
+
+
+        target = if (candidateGoal > 1.0 && (actions.find { it.first == index+1 } == null) && index < waypoints.size-1) {
+            val excessLength = (path.findClosestT(currentPos) + (lookAhead / path.length) - 1.0) * path.length
+
+            if (excessLength > lookAhead/4.0) {
+                index += 1
+                return false
+            }
+
+            waypoints[index+1].getPointfromT(limit(excessLength / waypoints[index+1].length, 0.0, 1.0))
+        } else {
+            path.getPointfromT(limit(candidateGoal, 0.0, 1.0))
+        }
+
+
+        if (mecanum) {
+//            val wheelVel = getVelocityFromTarget(target = target, currentPos = currentPos)
+//            drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
+            val vel = getVelocityFromTarget(target, currentPos)
+            println(vel)
         } else {
             //TODO figure out how to make drivetrain more generic for tank and mecanum
 //            val wheelVel = getWheelVelocityFromTargetTank(target, currentPos)
@@ -214,9 +272,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
         val error = Kinematics.calculatePoseError(target, currentPos)
 
-        var velocity = errorToPower(error)
-
-        print(velocity)
+        val velocity = errorToPower(error)
 //        velocity = Pose2d(velocity.x + sign(velocity.x) * kStatic, velocity.y + sign(velocity.y) * kStatic, velocity.heading + sign(velocity.heading) * kStatic)
 
 //        var wheelPow = MecanumKinematics.robotToWheelVelocities(velocity, Constants.trackwidth, Constants.wheelBase, lateralMultiplier = 1.0)

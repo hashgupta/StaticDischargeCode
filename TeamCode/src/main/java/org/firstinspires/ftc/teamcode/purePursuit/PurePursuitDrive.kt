@@ -239,10 +239,10 @@ fun lerpAngle(a: Double, b: Double, t: Double): Double {
 
     return when {
         (b-a) > PI -> {
-            lerp(b, a+TAU, t) % TAU
+            lerp(a, b-TAU, t) % TAU
         }
         (b-a) < -PI -> {
-            lerp(a, b+TAU, t) % TAU
+            lerp(a, b-TAU, t) % TAU
         }
         else -> {
             lerp(a, b, t) % TAU

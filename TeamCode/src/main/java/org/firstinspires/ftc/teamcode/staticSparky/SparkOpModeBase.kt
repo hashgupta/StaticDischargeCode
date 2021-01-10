@@ -88,17 +88,24 @@ abstract class SparkOpModeBase : LinearOpMode() {
         webcam.setPipeline(pipeline)
         startCV()
         while (!gamepad.b && opModeIsActive()) {
-            val rings = (pipeline as FindRingAutoPipeline).listofRings
+            robot.localizer.update()
+            val rings = (pipeline as FindRingAutoPipeline).rings()
+
             if (rings.size == 0) {
+
                 robot.driveTrain.start(DriveTrain.Vector(0.0,0.0,0.5).speeds())
             } else if (rings.size == 1) {
-                robot.driveTrain.start(DriveTrain.Vector(0.0,0.05*rings[0].distance,rings[0].turnControl).speeds())
+
+                robot.driveTrain.start(DriveTrain.Vector(0.0,0.75,rings[0].turnControl).speeds())
             } else {
+
                 val sorted_rings = rings.sortedWith(compareBy<Ring> {it.distance })
                 val closest_ring = sorted_rings[0]
-                robot.driveTrain.start(DriveTrain.Vector(0.0,0.05*closest_ring.distance,closest_ring.turnControl).speeds())
+
+                robot.driveTrain.start(DriveTrain.Vector(0.0,0.75,closest_ring.turnControl*2).speeds())
             }
         }
+
         stopCV()
 
     }

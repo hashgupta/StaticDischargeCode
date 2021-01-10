@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.roadrunner.drive.MecanumDrive
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
+import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.purePursuit.PurePursuitDrive
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -14,26 +16,16 @@ private val INITIAL_POSE = Pose2d(13.0, 13.0, 0.0)
 class timeTest {
     @Test
     fun testPurePursuitLibrary() {
-        val localizer = MecanumDrive.MecanumLocalizer(object : MecanumDrive(0.0, 0.0, 0.0, 1.0) {
-            override fun setMotorPowers(frontLeft: Double, rearLeft: Double, rearRight: Double, frontRight: Double) {
-                throw UnsupportedOperationException()
-            }
 
-            override fun getWheelPositions() = listOf(0.0, 0.0, 0.0, 0.0)
+        val wheelPositions = arrayListOf<Double>(9.0, 9.0, 7.0, 7.0)
+        val lastWheelPositions = arrayListOf(0, 0, 0, 0)
+        val wheelDeltas = wheelPositions
+                .zip(lastWheelPositions)
+                .map { it.first - it.second }
+        val robotPoseDelta = MecanumKinematics.wheelToRobotVelocities(
+                wheelDeltas, Constants.trackwidth, Constants.wheelBase, 1.0
+        )
+        println(robotPoseDelta)
 
-            override val rawExternalHeading = 0.01
-        })
-
-        localizer.poseEstimate = INITIAL_POSE
-
-        val drive = PurePursuitDrive(localizer)
-
-        for (i  in 0..6) {
-            drive.addPoint(-46.0, 15.0, 0.0)
-                    .addPoint(46.0, 15.0, 0.0)
-        }
-
-        print(drive.estimateTime(Pose2d(0.0,0.0,0.0)))
-//        assert(localizer.poseEstimate epsilonEqualsHeading INITIAL_POSE)
     }
 }

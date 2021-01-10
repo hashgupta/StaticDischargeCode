@@ -91,10 +91,10 @@ class FindRingAutoPipeline(): OpenCvPipeline(){
 
         for (i in 0 until boundRect.size) {
 
-            // draw red bounding rectangles on mat
-            // the mat has been converted to HSV so we need to use HSV as well
+            // draw green bounding rectangles on mat
 
-            if (boundRect[i].width > 0 && boundRect[i].height > 10 && boundRect[i].width > boundRect[i].height) {
+
+            if (boundRect[i].height > 10 && boundRect[i].width > boundRect[i].height * 3) {
                 Imgproc.rectangle(input, boundRect[i], GREEN)
                 val centerx = boundRect[i].x + boundRect[i].width / 2
 

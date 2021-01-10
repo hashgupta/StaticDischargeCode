@@ -18,12 +18,13 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val telemetry: Telemetry, val flicker: ServoM? = null){
-    var slip = 1.93 // flywheel shooter slip, MUST BE TUNED
-    var flickerTimingMS = 800.0
-    val turnCorrection = PI
+    var flickerTimingMS = 900.0
+    var slip = 1.85 // flywheel shooter slip, MUST BE TUNED
+    val turnCorrection = PI + Math.toRadians(10.0)
 
     init {
         flywheel.device.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, PIDFCoefficients(300.0, 0.95, 0.15,0.0))
+        flywheel.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
     }
 
 

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 
 @Autonomous(name = "CVAUTOTEST")
 class SparkTestCV : SparkOpModeBase() {
@@ -11,7 +12,7 @@ class SparkTestCV : SparkOpModeBase() {
         startCV()
         waitForStart()
         while (opModeIsActive()) {
-            telemetry.addData("analysis", pipeline.position())
+            telemetry.addData("analysis", (pipeline as RingPipeline).position())
             telemetry.update()
         }
         stopCV()
