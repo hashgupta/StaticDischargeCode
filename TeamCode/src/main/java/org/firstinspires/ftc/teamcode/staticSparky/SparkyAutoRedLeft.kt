@@ -31,6 +31,7 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
         // then you wont have to turn to shoot
 
         robot.pursuiter.addRelativePoint(-0.5*TILE_LENGTH, 2* TILE_LENGTH, 0.0)
+        robot.pursuiter.addAction {  }
 
         robot.pursuiter.addPoint(Pose2d(-0.0* TILE_LENGTH, Positions.highGoalRed.y, robot.shooter.turningTarget(Vector2d(-0.0* TILE_LENGTH, Positions.highGoalRed.y), Positions.highGoalRed)))
         robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,

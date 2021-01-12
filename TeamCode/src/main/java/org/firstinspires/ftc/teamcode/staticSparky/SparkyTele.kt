@@ -121,20 +121,25 @@ class SparkyTele : SparkOpModeBase() {
 
         // auto movement to shooting position
         if (gamepad1.guide && !previousGamepad1Guide) {
-            if (timer.seconds() < 90.0) {
-                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
-                robot.pursuiter.addTurnAbsolute(
+//            if (timer.seconds() < 90.0) {
+//                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
+//                robot.pursuiter.addTurnAbsolute(
+//                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+//
+//                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+//            } else {
+//                //turn towards power shots
+//                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
+//                robot.pursuiter.addTurnAbsolute(
+//                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.powerNearRed))
+//
+//                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+//            }
+            robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
+            robot.pursuiter.addTurnAbsolute(
                         robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
 
-                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
-            } else {
-                //turn towards power shots
-                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
-                robot.pursuiter.addTurnAbsolute(
-                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.powerNearRed))
-
-                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
-            }
+            robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
         }
 
         // *******************

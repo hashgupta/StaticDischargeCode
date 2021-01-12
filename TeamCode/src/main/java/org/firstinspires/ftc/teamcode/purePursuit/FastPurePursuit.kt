@@ -25,7 +25,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     var index = 0
     var start:Pose2d
 
-    private val lookAhead = 10.0 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    private val lookAhead = 7.5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
     private val translationalTol = 0.75 //inches
     private val angularTol = Math.toRadians(0.25) // one degree angular tolerance

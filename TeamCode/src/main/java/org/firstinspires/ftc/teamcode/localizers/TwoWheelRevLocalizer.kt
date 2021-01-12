@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
 import org.firstinspires.ftc.teamcode.Constants.FORWARD_OFFSET
 import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
 import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
+import org.firstinspires.ftc.teamcode.hardware.general.Gyro
 
 /*
  * Sample tracking wheel localizer implementation assuming the standard configuration:
@@ -28,12 +29,12 @@ import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
  * Note: this could be optimized significantly with REV bulk reads
  */
 @Config
-class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralName: String) : TwoTrackingWheelLocalizer(listOf(
+class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralName: String, gyro: Gyro) : TwoTrackingWheelLocalizer(listOf(
         Pose2d(0.0, LATERAL_DISTANCE / 2, 0.0),  // lateral
         Pose2d(FORWARD_OFFSET, 0.0, Math.toRadians(90.0)) )) { //front
     private val lateralEncoder: Encoder
     private val frontEncoder: Encoder
-    private val imuSensor: BNO055IMU
+    private val imu_Gyro: Gyro
 
     override fun getWheelPositions(): List<Double> {
         return listOf(
@@ -50,13 +51,13 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralN
     }
 
     override fun getHeading(): Double {
-        return imuSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle.toDouble()
+        return imu_Gyro.measureRadians()
     }
 
 
     init {
         lateralEncoder = Encoder(hardwareMap.dcMotor[lateralName] as DcMotorEx)
         frontEncoder = Encoder(hardwareMap.dcMotor[frontName] as DcMotorEx)
-        imuSensor = hardwareMap.get(BNO055IMU::class.java, "imu")
+        imu_Gyro = gyro
     }
 }

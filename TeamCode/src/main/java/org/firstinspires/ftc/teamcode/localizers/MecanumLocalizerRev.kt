@@ -16,12 +16,13 @@ class MecanumLocalizerRev constructor(
         private val gyro: Gyro?
 ) : Localizer {
     private var _poseEstimate = Pose2d()
+
     override var poseEstimate: Pose2d
         get() = _poseEstimate
         set(value) {
             lastWheelPositions = emptyList()
             lastExtHeading = Double.NaN
-//            if (useExternalHeading) drive.externalHeading = value.heading
+            if (gyro != null) gyro.setExternalHeading(value.heading)
             _poseEstimate = value
         }
     override var poseVelocity: Pose2d? = null
@@ -33,7 +34,6 @@ class MecanumLocalizerRev constructor(
     private val rightFrontEncoder: Encoder
     private val leftRearEncoder: Encoder
     private val rightRearEncoder: Encoder
-    private var updateCount: Int = 0
 
     override fun update() {
 
@@ -55,7 +55,6 @@ class MecanumLocalizerRev constructor(
                     _poseEstimate,
                     Pose2d(robotPoseDelta.vec(), finalHeadingDelta)
             )
-            _poseEstimate = Pose2d(_poseEstimate.vec(), extHeading)
 
         }
 
@@ -103,7 +102,7 @@ class MecanumLocalizerRev constructor(
     }
 
     fun getExternalHeading(): Double {
-        return gyro!!.measure() * 2 * PI
+        return gyro!!.measureRadians()
     }
     fun getExternalHeadingVelocity() : Double {
         return gyro!!.device.angularVelocity.zRotationRate.toDouble()

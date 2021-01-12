@@ -17,7 +17,7 @@ class timeTest {
     @Test
     fun testPurePursuitLibrary() {
 
-        val wheelPositions = arrayListOf<Double>(9.0, 9.0, 7.0, 7.0)
+        val wheelPositions = arrayListOf<Double>(0.0, 0.0, 5.0, 5.0)
         val lastWheelPositions = arrayListOf(0, 0, 0, 0)
         val wheelDeltas = wheelPositions
                 .zip(lastWheelPositions)

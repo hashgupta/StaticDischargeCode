@@ -64,7 +64,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
 
         driveTrain.start(allDrive)
 
-        val orientation = gyro.measure()
+        val orientation = gyro.measureRadians()
 
 
         // do gyro adjustment         |
@@ -89,25 +89,25 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         driveTrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
     }
 
-    fun turnTo(degrees: Double) {
-        while (abs(headingError(degrees / 360)) > 0.02 && opModeActive()) {
+    fun turnTo(radians: Double) {
+        while (abs(headingError(radians / (2* PI))) > 0.02 && opModeActive()) {
 //            localizer.update()
 
-            val turn = turnCorrection(degrees / 360)
-            telemetry.addData("Gyro Sensor Off", headingError(degrees / 360))
-            telemetry.addData("Angle", gyro.measure()*360)
+            val turn = turnCorrection(radians/(2* PI))
+            telemetry.addData("Gyro Sensor Off", headingError(radians / (2 * PI)))
+            telemetry.addData("Angle", Math.toDegrees(gyro.measureRadians()))
             telemetry.update()
 
             driveTrain.start(DriveTrain.Vector(0.0, 0.0, -turn).speeds())
         }
         driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
-        pose = Pose2d(pose.vec(), gyro.measure() * 2 * PI)
+        pose = Pose2d(pose.vec(), gyro.measureRadians())
     }
 
     fun toGoal(goalPose: Pose2d) {
         val error = Kinematics.calculatePoseError(goalPose, pose)
         this.move(-error.y, error.x)
-        this.turnTo((goalPose.heading) * 180 / PI)
+        this.turnTo(goalPose.heading)
     }
 
     fun turnCorrection(orientation: Double): Double {
@@ -118,7 +118,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
     }
 
     fun headingError(orientation: Double): Double {
-        var rawError = orientation - gyro.measure()
+        var rawError = orientation - gyro.measureRadians()
         if (rawError < -0.5) {
             rawError += 1.0
         }

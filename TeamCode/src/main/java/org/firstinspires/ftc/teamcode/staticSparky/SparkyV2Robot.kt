@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {
     // OpMode members
     val pursuiter: FastPurePursuit
+    val intake: Motor
 
     // initialize robot
     init {
@@ -17,6 +18,9 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         val rb = Motor("rb", 1120.0, 1.0, 2.95, hardwareMap)
         val lf = Motor("lf", 1120.0, 1.0, 2.95, hardwareMap)
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
+
+        intake = Motor("intake", 1120.0, 1.0, 2.95, hardwareMap)
+
         setDriveTrain(rf, rb, lf, lb)
         driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
         driveTrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
