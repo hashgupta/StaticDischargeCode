@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
-import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import kotlin.math.PI
 
@@ -25,9 +24,9 @@ object Positions {
     val cZoneRed = Vector2d(2.5* tile_length, -2.5* tile_length)
 
     val startLeftRed = Pose2d(-3* tile_length + Constants.robotLength * 0.5, -tile_length, PI)
-    val startRightRed = Pose2d(-3* tile_length + Constants.robotLength * 0.5, -2*tile_length, PI)
+    val startRightRed = Pose2d(-3* tile_length + Constants.robotLength * 0.5, -2* tile_length, PI)
 
-    val startLeftBlue = Pose2d(-3* tile_length + Constants.robotLength * 0.5, 2*tile_length, 0.0)
+    val startLeftBlue = Pose2d(-3* tile_length + Constants.robotLength * 0.5, 2* tile_length, 0.0)
     val startRightBlue = Pose2d(-3* tile_length + Constants.robotLength * 0.5, tile_length, 0.0)
 
     val powerNearBlue = shootingGoal(3 * tile_length, 0.75* tile_length, 32.0)

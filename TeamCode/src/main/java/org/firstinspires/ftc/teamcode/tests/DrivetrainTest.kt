@@ -2,12 +2,8 @@ package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
-import org.firstinspires.ftc.teamcode.Controllers.g
 import org.firstinspires.ftc.teamcode.localizers.MockedLocalizer
-import org.firstinspires.ftc.teamcode.pipelines.Ring
 import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
-import org.firstinspires.ftc.teamcode.staticSparky.Positions
-import org.firstinspires.ftc.teamcode.staticSparky.SparkOpModeBase
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.math.*

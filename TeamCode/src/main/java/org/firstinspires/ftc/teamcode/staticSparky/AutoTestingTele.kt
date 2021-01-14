@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Positions
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 
 @TeleOp(name = "AutoTestingTele", group = "StaticDischarge")
 class AutoTestingTele : SparkOpModeBase() {
@@ -30,7 +32,7 @@ class AutoTestingTele : SparkOpModeBase() {
 
     private fun initRobot() {
         //initialize and set robot behavior
-        robot = SparkyRobot(hardwareMap, telemetry) {true}
+        robot = SparkyRobot(hardwareMap, telemetry) { true }
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
 
     }

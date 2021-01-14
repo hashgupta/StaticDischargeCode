@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
-import android.accessibilityservice.FingerprintGestureController
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
@@ -8,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.pipelines.FindRingAutoPipeline
 import org.firstinspires.ftc.teamcode.pipelines.Ring
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import org.openftc.easyopencv.*
 
 abstract class SparkOpModeBase : LinearOpMode() {

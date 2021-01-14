@@ -3,7 +3,7 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.staticSparky.TestRobot
+import org.firstinspires.ftc.teamcode.robotConfigs.TestRobot
 import org.firstinspires.ftc.teamcode.localizers.MecanumLocalizerRev
 import kotlin.math.abs
 
@@ -21,7 +21,7 @@ class LocalizerAccuracy : LinearOpMode() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
-        val robot = TestRobot(hardwareMap, telemetry) {true}
+        val robot = TestRobot(hardwareMap, telemetry) { true }
         val drive = robot.driveTrain
         
 

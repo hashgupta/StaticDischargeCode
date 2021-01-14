@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode.robotConfigs
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.ElapsedTime
@@ -10,8 +8,9 @@ import com.qualcomm.robotcore.util.ReadWriteFile
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
+import org.firstinspires.ftc.teamcode.Positions
+import org.firstinspires.ftc.teamcode.staticSparky.SparkOpModeBase
 import java.io.File
-import java.util.*
 import kotlin.math.abs
 
 const val TILE_LENGTH = 24.0
@@ -48,7 +47,7 @@ class SparkyTele : SparkOpModeBase() {
 
     fun initRobot() {
         //initialize and set robot behavior
-        robot = SparkyRobot(hardwareMap, telemetry) {true}
+        robot = SparkyRobot(hardwareMap, telemetry) { true }
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
 
 

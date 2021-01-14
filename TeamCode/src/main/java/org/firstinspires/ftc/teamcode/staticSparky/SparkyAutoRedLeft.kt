@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.staticSparky
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import kotlin.math.PI
 
 

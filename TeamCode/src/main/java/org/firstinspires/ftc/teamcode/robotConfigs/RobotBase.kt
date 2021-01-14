@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode.robotConfigs
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics

@@ -4,9 +4,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.robot.Robot
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import kotlin.math.abs
+import org.firstinspires.ftc.teamcode.robotConfigs.TestRobot
 
 @TeleOp(name = "Special Drive Tele", group = "StaticDischarge")
 class ExtraTele : OpMode() {
@@ -19,7 +18,7 @@ class ExtraTele : OpMode() {
 
     override fun init() {
         //initialize and set robot behavior
-        robot = TestRobot(hardwareMap, telemetry) {true}
+        robot = TestRobot(hardwareMap, telemetry) { true }
         robot.localizer.poseEstimate = Pose2d()
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
         stop()

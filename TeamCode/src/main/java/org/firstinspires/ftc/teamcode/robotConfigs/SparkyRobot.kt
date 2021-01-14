@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode.robotConfigs
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
 import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
+import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 
 
 class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {

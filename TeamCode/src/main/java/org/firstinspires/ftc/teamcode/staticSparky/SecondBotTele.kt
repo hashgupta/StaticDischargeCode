@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @TeleOp(name = "Second Robot Tele", group = "StaticDischarge")
 class SecondBotTele : OpMode() {
@@ -17,7 +18,7 @@ class SecondBotTele : OpMode() {
 
     override fun init() {
         //initialize and set robot behavior
-        robot = SparkyV2Robot(hardwareMap, telemetry) {true}
+        robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         robot.localizer.poseEstimate = Pose2d()
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
         stop()

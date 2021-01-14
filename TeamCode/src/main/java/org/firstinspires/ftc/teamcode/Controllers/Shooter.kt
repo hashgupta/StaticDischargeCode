@@ -5,10 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
-import org.firstinspires.ftc.teamcode.staticSparky.SparkyRobot
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
-import org.firstinspires.ftc.teamcode.hardware.general.ServoCRWrapper
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
 import kotlin.math.PI
 import kotlin.math.cos
@@ -25,6 +22,8 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
     init {
         flywheel.device.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, PIDFCoefficients(300.0, 0.95, 0.15,0.0))
         flywheel.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
+        flywheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
+        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
     }
 
 
