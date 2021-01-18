@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.robotConfigs.TestRobot
 import org.firstinspires.ftc.teamcode.localizers.MecanumLocalizerRev
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 import kotlin.math.abs
 
 
@@ -21,7 +22,7 @@ class LocalizerAccuracy : LinearOpMode() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
-        val robot = TestRobot(hardwareMap, telemetry) { true }
+        val robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         val drive = robot.driveTrain
         
 
@@ -51,7 +52,7 @@ class LocalizerAccuracy : LinearOpMode() {
 //            drive.start(DriveTrain.Square(-wheelVels[3], -wheelVels[2], wheelVels[0], wheelVels[1]))
             drive.startFromRRPower(vel)
             telemetry.addData("velocities", vel)
-            telemetry.addData("wheel deltas", (robot.localizer as MecanumLocalizerRev).getWheelPositions())
+//            telemetry.addData("wheel deltas", (robot.localizer as MecanumLocalizerRev).getWheelPositions())
             robot.localizer.update()
             val (x, y, heading) = robot.localizer.poseEstimate
             telemetry.addData("movement velocity", robot.localizer.poseVelocity)

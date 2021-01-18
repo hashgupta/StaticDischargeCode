@@ -9,6 +9,9 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 
 @Autonomous(name = "SparkyAutoRedRight", group = "StaticDischarge")
 class SparkyAutoRedRight : SparkOpModeBase() {
+
+    lateinit var robot: SparkyRobot
+
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
         robot = SparkyRobot(hardwareMap, telemetry, { opModeIsActive() && !isStopRequested() })

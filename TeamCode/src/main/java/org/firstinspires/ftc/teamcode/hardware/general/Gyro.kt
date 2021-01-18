@@ -35,7 +35,7 @@ class Gyro// initialize sensor
 
     fun measureRadians(): Double {
         val angles = device.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS)
-        return checkRange(Angle.norm(angles.firstAngle.toDouble() + headingOffset), -PI, PI, name)
+        return checkRange(Angle.norm(angles.firstAngle.toDouble() + headingOffset), 0.0, 2*PI, name)
     }
 
     fun setExternalHeading(value: Double) {

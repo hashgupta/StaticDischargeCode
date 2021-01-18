@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robotConfigs
+package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.Positions
-import org.firstinspires.ftc.teamcode.staticSparky.SparkOpModeBase
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import java.io.File
 import kotlin.math.abs
 
@@ -18,6 +18,7 @@ const val TILE_LENGTH = 24.0
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
 class SparkyTele : SparkOpModeBase() {
     // robot
+    lateinit var robot: SparkyRobot
     private var reverse = false
 
     // speeds

@@ -68,7 +68,7 @@ class Motor(private val name: String, // motor information
     }
 
     fun setSpeed(velocity:Double, telemetry: Telemetry) { // in/s
-        setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+//        setMode(DcMotor.RunMode.RUN_USING_ENCODER)
         var angularVelocity = velocity/(r*gr) //radians/s
         val angularVelocityRevS = angularVelocity / (2*PI) // rev/s
         angularVelocity = angularVelocityRevS * tpr //ticks/s

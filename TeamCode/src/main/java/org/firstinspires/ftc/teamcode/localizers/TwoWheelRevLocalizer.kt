@@ -30,8 +30,8 @@ import org.firstinspires.ftc.teamcode.hardware.general.Gyro
  */
 @Config
 class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralName: String, gyro: Gyro) : TwoTrackingWheelLocalizer(listOf(
-        Pose2d(0.0, LATERAL_DISTANCE / 2, 0.0),  // lateral
-        Pose2d(FORWARD_OFFSET, 0.0, Math.toRadians(90.0)) )) { //front
+        Pose2d(-2.25, LATERAL_DISTANCE, Math.toRadians(180.0)),  // lateral
+        Pose2d(FORWARD_OFFSET, 3.25, Math.toRadians(270.0)) )) { //front
     private val lateralEncoder: Encoder
     private val frontEncoder: Encoder
     private val imu_Gyro: Gyro

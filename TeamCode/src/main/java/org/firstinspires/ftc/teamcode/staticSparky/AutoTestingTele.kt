@@ -6,9 +6,12 @@ import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @TeleOp(name = "AutoTestingTele", group = "StaticDischarge")
 class AutoTestingTele : SparkOpModeBase() {
+
+    lateinit var robot: SparkyRobot
 
 
     private var previousGamepad1Guide: Boolean = false

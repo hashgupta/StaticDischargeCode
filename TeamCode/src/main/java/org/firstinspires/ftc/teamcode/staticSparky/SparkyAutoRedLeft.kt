@@ -11,6 +11,9 @@ import kotlin.math.PI
 
 @Autonomous(name = "SparkyAutoRedLeft", group = "StaticDischarge")
 class SparkyAutoRedLeft : SparkOpModeBase() {
+
+    lateinit var robot: SparkyRobot
+
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
         robot = SparkyRobot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested() }

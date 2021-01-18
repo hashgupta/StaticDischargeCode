@@ -32,7 +32,7 @@ class PurePursuitTest {
         headingController.update(0.0)
 
 
-        val poseError = Pose2d(0.5, 0.4, Math.toRadians(-0.4))
+        val poseError = Pose2d(10.0, 0.0, Math.toRadians(0.0))
 
 
         axialController.targetPosition = poseError.x
@@ -79,5 +79,7 @@ class PurePursuitTest {
         println(square.vert)
         println(square.turn)
         println(square.speeds())
+
+        println(DriveTrain.Vector(0.0, 1.0, 0.0).speeds())
     }
 }

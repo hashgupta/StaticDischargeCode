@@ -16,7 +16,7 @@ const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val telemetry: Telemetry, val flicker: ServoM? = null){
     var flickerTimingMS = 800.0
-    var slip = 1.85 // flywheel shooter slip, MUST BE TUNED
+    var slip = 1.52 // flywheel shooter slip, MUST BE TUNED
     val turnCorrection = PI + Math.toRadians(10.0)
 
     init {

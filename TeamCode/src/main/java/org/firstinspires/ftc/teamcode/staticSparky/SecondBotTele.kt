@@ -5,18 +5,29 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @TeleOp(name = "Second Robot Tele", group = "StaticDischarge")
-class SecondBotTele : OpMode() {
+class SecondBotTele : SparkOpModeBase() {
     // robot
-    private lateinit var robot: SparkyV2Robot
+    lateinit var robot: SparkyV2Robot
     private var reverse = false
 
     // speeds
     private var driveSpeed = 1.0
 
-    override fun init() {
+    override fun runOpMode() {
+        initRobot()
+        waitForStart()
+        startRobot()
+        while (opModeIsActive()) {
+            loopRobot()
+        }
+        stopRobot()
+    }
+
+    fun initRobot() {
         //initialize and set robot behavior
         robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         robot.localizer.poseEstimate = Pose2d()
@@ -24,7 +35,11 @@ class SecondBotTele : OpMode() {
         stop()
     }
 
-    override fun loop() {
+    fun startRobot() {
+
+    }
+
+    fun loopRobot() {
         robot.localizer.update()
 
         // get gamepad input
@@ -36,6 +51,8 @@ class SecondBotTele : OpMode() {
 
 
 
+
+
         try {
 //            //output values for robot movement
             robot.driveTrain.start(DriveTrain.Vector(
@@ -43,7 +60,6 @@ class SecondBotTele : OpMode() {
                     vert * driveSpeed * (if (reverse) -1 else 1).toDouble(),
                     turn * driveSpeed)
                     .speeds())
-            telemetry.addData("drivetrain positions", robot.driveTrain.getPosition())
             telemetry.addData("Pose Estimate", robot.localizer.poseEstimate)
             telemetry.update()
 
@@ -52,19 +68,12 @@ class SecondBotTele : OpMode() {
             telemetry.addData("Error", e.message)
             telemetry.addData("info", e.stackTrace[0].toString())
             telemetry.update()
+
         }
 
     }
 
-
-    override fun start() {}
-
-    override fun stop() {
+    fun stopRobot() {
         robot.driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
-    }
-
-    companion object {
-        // field measurements
-
     }
 }

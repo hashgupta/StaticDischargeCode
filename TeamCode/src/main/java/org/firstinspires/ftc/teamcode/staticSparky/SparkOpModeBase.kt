@@ -7,13 +7,14 @@ import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.pipelines.FindRingAutoPipeline
 import org.firstinspires.ftc.teamcode.pipelines.Ring
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
+import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import org.openftc.easyopencv.*
 
 abstract class SparkOpModeBase : LinearOpMode() {
 
-    // robot
-    lateinit var robot: SparkyRobot
+
+
 
     lateinit var webcam: OpenCvCamera
 
@@ -77,7 +78,7 @@ abstract class SparkOpModeBase : LinearOpMode() {
         const val TILE_LENGTH = 24.0
     }
 
-    fun AutoFindRings(gamepad: Gamepad) {
+    fun AutoFindRings(gamepad: Gamepad, robot: RobotBase) {
         pipeline = FindRingAutoPipeline()
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)

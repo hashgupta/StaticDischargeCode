@@ -39,7 +39,7 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
         intakeTop = Motor("intakeTop", 1120.0, 1.0, 1.0, hardwareMap)
         intakeTop.device.direction = DcMotorSimple.Direction.REVERSE
 
-        flywheel = Motor("flywheel", 28.0, 1.0, 5.0, hardwareMap)
+        flywheel = Motor("flywheel", 28.0, 1.0, 4.0, hardwareMap)
         flywheel.device.direction = DcMotorSimple.Direction.REVERSE
         shooter = Shooter(flywheel, Math.toRadians(45.0), 8.0, telemetry,flicker)
 
