@@ -17,10 +17,10 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
 
     // initialize robot
     init {
-        val rf = Motor("rf", 1120.0, 1.0, 2.95, hardwareMap)
-        val rb = Motor("rb", 1120.0, 1.0, 2.95, hardwareMap)
-        val lf = Motor("lf", 1120.0, 1.0, 2.95, hardwareMap)
-        val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
+        val rf = Motor("rf", 529.0, 1.0, 2.95, hardwareMap)
+        val rb = Motor("rb", 529.0, 1.0, 2.95, hardwareMap)
+        val lf = Motor("lf", 529.0, 1.0, 2.95, hardwareMap)
+        val lb = Motor("lb", 529.0, 1.0, 2.95, hardwareMap)
 
         rf.device.direction = DcMotorSimple.Direction.REVERSE
         rb.device.direction = DcMotorSimple.Direction.REVERSE

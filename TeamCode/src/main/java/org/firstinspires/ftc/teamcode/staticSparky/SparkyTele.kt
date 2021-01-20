@@ -60,8 +60,7 @@ class SparkyTele : SparkOpModeBase() {
             val positionString = ReadWriteFile.readFile(file)
             val positionValues = positionString.split(" ")
             val robot_pose = Pose2d(positionValues[0].toDouble(),positionValues[1].toDouble(), positionValues[2].toDouble())
-            robot.pursuiter.setStartPoint(robot_pose)
-            robot.pose = robot_pose
+            robot.localizer.poseEstimate = robot_pose
         } catch (e:Exception) {
             telemetry.addLine(e.toString())
             telemetry.update()

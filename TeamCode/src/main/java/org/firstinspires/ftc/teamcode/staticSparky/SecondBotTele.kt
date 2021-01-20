@@ -15,7 +15,7 @@ class SecondBotTele : SparkOpModeBase() {
     private var reverse = false
 
     // speeds
-    private var driveSpeed = 1.0
+    private var driveSpeed = 0.8
 
     override fun runOpMode() {
         initRobot()
@@ -43,7 +43,8 @@ class SecondBotTele : SparkOpModeBase() {
         robot.localizer.update()
 
         // get gamepad input
-        val vert = gamepad1.left_stick_y.toDouble()
+        // moving the joystick up is actually negative, not positive, so use negative to flip it
+        val vert = -gamepad1.left_stick_y.toDouble()
         val hori = gamepad1.left_stick_x.toDouble()
         val turn = gamepad1.right_stick_x.toDouble()
 
