@@ -16,7 +16,7 @@ class IntakeTestingTele: OpMode() {
 
     override fun loop() {
 
-        robot.arm.grabber.start(abs(gamepad1.right_stick_y.toDouble()))
+        robot.arm.grabber?.start(abs(gamepad1.right_stick_y.toDouble()))
         robot.shooter.flicker!!.start(abs(gamepad1.left_stick_y.toDouble()))
 
         telemetry.addLine(gamepad1.right_stick_y.toDouble().toString())

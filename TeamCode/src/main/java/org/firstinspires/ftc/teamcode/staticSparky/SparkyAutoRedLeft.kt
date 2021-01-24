@@ -98,7 +98,7 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
         robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
 
         //record position to the file for teleop readings
-        robot.finishAuto()
+        robot.savePose()
 
     }
 }

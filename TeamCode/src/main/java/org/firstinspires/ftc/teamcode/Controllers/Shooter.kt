@@ -15,32 +15,19 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val telemetry: Telemetry, val flicker: ServoM? = null){
-    var flickerTimingMS = 800.0
-    var slip = 1.52 // flywheel shooter slip, MUST BE TUNED
+    var flickerTimingMS = 300.0
+    var slip = 1.0225 // flywheel shooter slip, MUST BE TUNED
     val turnCorrection = PI
 
     init {
-        flywheel.device.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, PIDFCoefficients(300.0, 0.95, 0.15,0.0))
+        //https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.4vkznp7wtsch
+        flywheel.device.setVelocityPIDFCoefficients(1.26, 0.5, 0.0,12.6)
+        flywheel.device.setPositionPIDFCoefficients(5.0)
+
         flywheel.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
         flywheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
     }
-
-
-//    fun navShootAtTarget(robot: SparkyRobot, target: shootingGoal) {
-//        //start up flywheel at desired velocity and move robot to correct orientation
-//        // only use if odo and pure pursuit are working and tested
-//        val position = robot.localizer.poseEstimate.vec()
-//        val targetVector = Vector2d(target.x, target.y)
-//        val shotDistance = targetVector distTo position
-//        val shootingHeading = turningTarget(robot, target)
-////        robot.pursuiter.addPoint(Pose2d(robot.localizer.poseEstimate.vec(), shootingHeading))
-////        robot.pursuiter.FollowSync(robot.driveTrain, telemetry = )
-//        val net_height = target.height - shooterHeight
-//        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
-//        flywheel.setSpeed(2*requiredVelocity * slip) // remove 2 times if using double flywheel, doesnt account for direction
-//
-//    }
 
     fun simpleShootAtTarget(pose: Pose2d, target: shootingGoal) {
         //start up flywheel at desired velocity
@@ -48,7 +35,6 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
         val position = pose.vec()
         val targetVector = Vector2d(target.x, target.y)
         val shotDistance = targetVector distTo position
-        telemetry.addData("dist", shotDistance)
         val net_height = target.height - shooterHeight
         val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
 
@@ -69,21 +55,14 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
     fun shoot() {
         //release chamber servo to let a ring into flywheel
         if (flicker != null) {
-            flicker.start(0.95)
+            flicker.start(0.5)
             Thread.sleep(flickerTimingMS.toLong())
-            flicker.start(0.2)
-            Thread.sleep(flickerTimingMS.toLong())
+            flicker.start(0.9)
         }
     //dpad up clockwise
         //dpad down ccw
 
     }
-
-//    fun stopShoot() {
-//        if (flicker != null) {
-//            flicker.start(0.5)
-//        }
-//    }
 
     fun stopWheel() {
         flywheel.setSpeed(0.0, telemetry)

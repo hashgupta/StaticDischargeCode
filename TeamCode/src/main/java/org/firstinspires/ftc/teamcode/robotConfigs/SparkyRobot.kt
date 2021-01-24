@@ -33,7 +33,6 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
         val flicker = ServoM("flicker", hardwareMap)
 //        val flicker = ServoCRWrapper("flicker", hardwareMap)
         flicker.start(0.2)
-//        val flicker = null
 
         intakeBottom = Motor("intakeBottom", 1120.0, 1.0, 1.0, hardwareMap)
         intakeTop = Motor("intakeTop", 1120.0, 1.0, 1.0, hardwareMap)

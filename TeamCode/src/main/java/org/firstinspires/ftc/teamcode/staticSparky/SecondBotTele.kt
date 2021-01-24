@@ -5,8 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
+import java.lang.Math.abs
 
 @TeleOp(name = "Second Robot Tele", group = "StaticDischarge")
 class SecondBotTele : SparkOpModeBase() {
@@ -15,7 +17,10 @@ class SecondBotTele : SparkOpModeBase() {
     private var reverse = false
 
     // speeds
-    private var driveSpeed = 0.8
+    private var driveSpeed = 0.85
+    private var lastX = false
+    private var IntakeOn = false
+
 
     override fun runOpMode() {
         initRobot()
@@ -31,8 +36,7 @@ class SecondBotTele : SparkOpModeBase() {
         //initialize and set robot behavior
         robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         robot.localizer.poseEstimate = Pose2d()
-        robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
-        stop()
+//        robot.loadPose()
     }
 
     fun startRobot() {
@@ -47,9 +51,46 @@ class SecondBotTele : SparkOpModeBase() {
         val vert = -gamepad1.left_stick_y.toDouble()
         val hori = gamepad1.left_stick_x.toDouble()
         val turn = gamepad1.right_stick_x.toDouble()
+        val wobble = -gamepad1.right_stick_y.toDouble()
 
         // process input
+        if (gamepad1.a) {
 
+            IntakeOn = true
+
+        } else if (gamepad1.b) {
+
+            IntakeOn = false
+        }
+
+        if (IntakeOn) {
+            robot.roller.start(0.5)
+            robot.intake.start(-0.7)
+        } else {
+            robot.roller.start(0.0)
+            robot.intake.start(0.0)
+        }
+
+
+        if (gamepad1.x && !lastX) {
+            robot.shooter.shoot()
+        }
+
+        if (gamepad1.dpad_up) {
+            driveSpeed = 0.9
+        } else if (gamepad1.dpad_down){
+            driveSpeed = 0.3
+        }
+
+        if (gamepad1.left_trigger > 0.3) {
+            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
+//            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate, Positions.highGoalRed)
+        } else {
+            robot.shooter.stopWheel()
+        }
+
+        robot.arm.run(wobble)
+        lastX = gamepad1.x
 
 
 

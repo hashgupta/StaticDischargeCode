@@ -31,14 +31,16 @@ class LocalizerAccuracy : LinearOpMode() {
 
         waitForStart()
         while (!isStopRequested) {
-            val baseVel = Pose2d(
+            val vel = Pose2d(
                     (-gamepad1.left_stick_y).toDouble(),
                     (gamepad1.left_stick_x).toDouble(),
                     (gamepad1.right_stick_x).toDouble()
             )
+            vel.times(0.5)
 
-//            drive.start(DriveTrain.Vector(vel.y, vel.x, vel.heading).speeds())
+            drive.start(DriveTrain.Vector(vel.y, vel.x, vel.heading).speeds())
 //            telemetry.addData("velocities", vel)
+//
 //            telemetry.addData("wheel deltas", (robot.localizer as MecanumLocalizerRev).getWheelPositions())
             robot.localizer.update()
             val (x, y, heading) = robot.localizer.poseEstimate

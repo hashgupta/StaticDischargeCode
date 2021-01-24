@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ReadWriteFile
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.PoseStorage
 import org.firstinspires.ftc.teamcode.hardware.general.Gyro
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.localizers.MecanumLocalizerRev
@@ -32,8 +33,6 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
 
         driveTrain = DriveTrain(rf, rb, lf, lb)
-        driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
-        driveTrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
 
         gyro = Gyro("gyro", hardwareMap)
 
@@ -136,11 +135,16 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         driveTrain = DriveTrain(rf, rb, lf, lb)
     }
 
-    fun finishAuto() {
-        val filename = "position.json"
-        val file: File = AppUtil.getInstance().getSettingsFile(filename)
+    fun savePose() {
+        PoseStorage.pose = this.localizer.poseEstimate
+//        val filename = "position.json"
+//        val file: File = AppUtil.getInstance().getSettingsFile(filename)
+//
+//        val data = this.localizer.poseEstimate.x.toString() + " " + this.localizer.poseEstimate.y.toString() + " " + this.localizer.poseEstimate.heading.toString()
+//        ReadWriteFile.writeFile(file, data)
+    }
 
-        val data = this.localizer.poseEstimate.x.toString() + " " + this.localizer.poseEstimate.y.toString() + " " + this.localizer.poseEstimate.heading.toString()
-        ReadWriteFile.writeFile(file, data)
+    fun loadPose() {
+        this.localizer.poseEstimate = PoseStorage.pose
     }
 }

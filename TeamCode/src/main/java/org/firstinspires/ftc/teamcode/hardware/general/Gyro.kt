@@ -18,7 +18,7 @@ class Gyro// initialize sensor
     init {
         val params = BNO055IMU.Parameters()
         params.mode = BNO055IMU.SensorMode.IMU
-        params.angleUnit = BNO055IMU.AngleUnit.DEGREES
+        params.angleUnit = BNO055IMU.AngleUnit.RADIANS
         params.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
         params.loggingEnabled = false
         device.initialize(params)
@@ -35,7 +35,7 @@ class Gyro// initialize sensor
 
     fun measureRadians(): Double {
         val angles = device.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS)
-        return checkRange(Angle.norm(angles.firstAngle.toDouble() + headingOffset), 0.0, 2*PI, name)
+        return Angle.norm(angles.firstAngle.toDouble() + headingOffset)
     }
 
     fun setExternalHeading(value: Double) {

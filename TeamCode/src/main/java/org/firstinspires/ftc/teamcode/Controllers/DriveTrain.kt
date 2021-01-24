@@ -75,10 +75,10 @@ class DriveTrain// initialize drive train
         // get wheel distances
         open fun speeds(): Square<Double> {
             return Square(
-                    -hori - vert - turn,
-                    +hori - vert - turn,
                     -hori + vert - turn,
-                    +hori + vert - turn)
+                    +hori + vert - turn,
+                    -hori - vert - turn,
+                    +hori - vert - turn)
         }
     }
 
