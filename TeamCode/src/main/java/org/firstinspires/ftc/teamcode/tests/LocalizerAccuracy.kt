@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.tests
+
+import com.acmerobotics.dashboard.FtcDashboard
+import com.acmerobotics.dashboard.canvas.Canvas
 import com.acmerobotics.dashboard.config.Config
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import org.firstinspires.ftc.teamcode.robotConfigs.TestRobot
-import org.firstinspires.ftc.teamcode.localizers.MecanumLocalizerRev
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
-import kotlin.math.abs
 
 
 /**
@@ -18,7 +19,8 @@ import kotlin.math.abs
  * exercise is to ascertain whether the localizer has been configured properly (note: the pure
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
-@Disabled
+
+const val ROBOT_RADIUS = 18.0
 @Config
 @TeleOp(name = "Localizer Accuracy",group = "tests")
 class LocalizerAccuracy : LinearOpMode() {
@@ -27,34 +29,46 @@ class LocalizerAccuracy : LinearOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
         val robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         val drive = robot.driveTrain
+        val telemetryDouble = MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry())
         
 
         waitForStart()
         while (!isStopRequested) {
+            robot.localizer.update()
+
             val vel = Pose2d(
                     (-gamepad1.left_stick_y).toDouble(),
                     (gamepad1.left_stick_x).toDouble(),
                     (gamepad1.right_stick_x).toDouble()
             )
+
             vel.times(0.5)
 
             drive.start(DriveTrain.Vector(vel.y, vel.x, vel.heading).speeds())
-//            telemetry.addData("velocities", vel)
-//
-//            telemetry.addData("wheel deltas", (robot.localizer as MecanumLocalizerRev).getWheelPositions())
-            robot.localizer.update()
+
+
             val (x, y, heading) = robot.localizer.poseEstimate
-            telemetry.addData("movement velocity", robot.localizer.poseVelocity)
-            telemetry.addData("x", x)
-            telemetry.addData("y", y)
-            telemetry.addData("heading", heading)
-            telemetry.update()
+
+            val packet = TelemetryPacket()
+
+            val fieldOverlay: Canvas = packet.fieldOverlay()
+            fieldOverlay.setStroke("#3F51B5");
+            drawRobot(fieldOverlay, robot.localizer.poseEstimate);
+            telemetryDouble.addData("x", x)
+            telemetryDouble.addData("y", y)
+            telemetryDouble.addData("heading", heading)
+            telemetryDouble.update()
+            FtcDashboard.getInstance().sendTelemetryPacket(packet);
         }
     }
 
-    companion object {
-        var VX_WEIGHT = 0.5
-        var VY_WEIGHT = 0.5
-        var OMEGA_WEIGHT = 0.5
+    fun drawRobot(canvas: Canvas, pose: Pose2d) {
+        canvas.strokeCircle(pose.x, pose.y, ROBOT_RADIUS)
+        val (x, y) = pose.headingVec().times(ROBOT_RADIUS)
+        val x1 = pose.x + x / 2
+        val y1 = pose.y + y / 2
+        val x2 = pose.x + x
+        val y2 = pose.y + y
+        canvas.strokeLine(x1, y1, x2, y2)
     }
 }

@@ -64,8 +64,8 @@ class SecondBotTele : SparkOpModeBase() {
         }
 
         if (IntakeOn) {
-            robot.roller.start(0.5)
-            robot.intake.start(-0.7)
+            robot.roller.start(0.9)
+            robot.intake.start(-0.9)
         } else {
             robot.roller.start(0.0)
             robot.intake.start(0.0)
