@@ -16,30 +16,9 @@ import kotlin.math.abs
 class LocalizerSpeedRun : LinearOpMode() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {
-//        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
+
         val robot = SparkyV2Robot(hardwareMap, telemetry) { true }
-        val drive = robot.driveTrain
 
-        // move forward at moderate speed
-        val baseVel = Pose2d(
-                (0.0 ),
-                (0.0),
-                (0.0)
-        )
-
-        val vel = if (abs(baseVel.x) + abs(baseVel.y) + abs(baseVel.heading) > 1) {
-            // re-normalize the powers according to the weights
-            val denom = VX_WEIGHT * abs(baseVel.x) + VY_WEIGHT * abs(baseVel.y) + OMEGA_WEIGHT * abs(baseVel.heading)
-            Pose2d(
-                    VX_WEIGHT * baseVel.x,
-                    VY_WEIGHT * baseVel.y,
-                    OMEGA_WEIGHT * baseVel.heading
-            ).div(denom)
-        } else {
-            baseVel
-        }
-        val wheelVels = MecanumKinematics.robotToWheelVelocities(vel, 18.0, 18.0, 1.0)
-        drive.start(DriveTrain.Square(wheelVels[3], wheelVels[2], -wheelVels[0], -wheelVels[1]))
 
         waitForStart()
 
@@ -49,22 +28,15 @@ class LocalizerSpeedRun : LinearOpMode() {
             robot.localizer.update()
             rollingCount++
             telemetry.addData("timer: ", timer)
-            if (timer.seconds() > 5) {
-                telemetry.addData("average update time (ms)", timer.milliseconds() / rollingCount)
+
+            if (timer.seconds() > 10) {
                 timer.reset()
                 rollingCount = 0
-                telemetry.update()
-                sleep(1000)
-            }
-            if (gamepad1.a) {
-                break
+
+            } else if (timer.seconds() > 5) {
+                telemetry.addData("average update time (ms)", timer.milliseconds() / rollingCount)
             }
             telemetry.update()
         }
-    }
-    companion object {
-        var VX_WEIGHT = 1.0
-        var VY_WEIGHT = 1.0
-        var OMEGA_WEIGHT = 1.0
     }
 }

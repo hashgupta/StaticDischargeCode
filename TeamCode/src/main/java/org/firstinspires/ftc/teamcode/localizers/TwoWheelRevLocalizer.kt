@@ -43,13 +43,6 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralN
         )
     }
 
-    override fun getWheelVelocities(): List<Double>? {
-        return listOf(
-                odometryEncoderTicksToInches(lateralEncoder.correctedVelocity),
-                odometryEncoderTicksToInches(frontEncoder.correctedVelocity)
-        )
-    }
-
     override fun getHeading(): Double {
         return imu_Gyro.measureRadians()
     }

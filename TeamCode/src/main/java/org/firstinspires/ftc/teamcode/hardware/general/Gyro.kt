@@ -19,8 +19,6 @@ class Gyro// initialize sensor
         val params = BNO055IMU.Parameters()
         params.mode = BNO055IMU.SensorMode.IMU
         params.angleUnit = BNO055IMU.AngleUnit.RADIANS
-        params.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
-        params.loggingEnabled = false
         device.initialize(params)
         headingOffset = 0.0
         while (!device.isGyroCalibrated) {

@@ -64,8 +64,8 @@ class SecondBotTele : SparkOpModeBase() {
         }
 
         if (IntakeOn) {
-            robot.roller.start(0.9)
-            robot.intake.start(-0.9)
+            robot.roller.start(0.95)
+            robot.intake.start(0.95)
         } else {
             robot.roller.start(0.0)
             robot.intake.start(0.0)
@@ -77,7 +77,7 @@ class SecondBotTele : SparkOpModeBase() {
         }
 
         if (gamepad1.dpad_up) {
-            driveSpeed = 0.9
+            driveSpeed = 0.85
         } else if (gamepad1.dpad_down){
             driveSpeed = 0.3
         }
@@ -96,7 +96,7 @@ class SecondBotTele : SparkOpModeBase() {
 
 
         try {
-//            //output values for robot movement
+            //output values for robot movement
             robot.driveTrain.start(DriveTrain.Vector(
                     hori * driveSpeed * (if (reverse) -1 else 1).toDouble(),
                     vert * driveSpeed * (if (reverse) -1 else 1).toDouble(),
