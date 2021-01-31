@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
 
-const val ROBOT_RADIUS = 18.0
+const val ROBOT_RADIUS = 9.0
 @Config
 @TeleOp(name = "Localizer Accuracy",group = "tests")
 class LocalizerAccuracy : LinearOpMode() {
@@ -29,7 +29,6 @@ class LocalizerAccuracy : LinearOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
         val robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         val drive = robot.driveTrain
-        val telemetryDouble = MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry())
         
 
         waitForStart()
@@ -46,18 +45,12 @@ class LocalizerAccuracy : LinearOpMode() {
 
             drive.start(DriveTrain.Vector(vel.y, vel.x, vel.heading).speeds())
 
-
-            val (x, y, heading) = robot.localizer.poseEstimate
-
             val packet = TelemetryPacket()
+            FtcDashboard.getInstance().telemetry.addData("localizer", robot.localizer.poseEstimate)
 
             val fieldOverlay: Canvas = packet.fieldOverlay()
             fieldOverlay.setStroke("#3F51B5");
             drawRobot(fieldOverlay, robot.localizer.poseEstimate);
-            telemetryDouble.addData("x", x)
-            telemetryDouble.addData("y", y)
-            telemetryDouble.addData("heading", heading)
-            telemetryDouble.update()
             FtcDashboard.getInstance().sendTelemetryPacket(packet);
         }
     }

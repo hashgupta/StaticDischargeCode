@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.ElapsedTime
@@ -15,6 +16,7 @@ import kotlin.math.abs
 
 const val TILE_LENGTH = 24.0
 
+@Disabled
 @TeleOp(name = "SparkyTele", group = "StaticDischarge")
 class SparkyTele : SparkOpModeBase() {
     // robot
@@ -153,11 +155,11 @@ class SparkyTele : SparkOpModeBase() {
         }
 
 
-        if (gamepad2.dpad_up) {
-            robot.arm.grabTele()
-        } else if (gamepad2.dpad_down) {
-            robot.arm.dropTele()
-        }
+//        if (gamepad2.dpad_up) {
+//            robot.arm.grabTele()
+//        } else if (gamepad2.dpad_down) {
+//            robot.arm.dropTele()
+//        }
 
 
         if (gamepad2.left_trigger > 0.3) {

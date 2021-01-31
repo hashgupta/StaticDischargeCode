@@ -1,17 +1,19 @@
 package org.firstinspires.ftc.teamcode.purePursuit
 
+import com.acmerobotics.dashboard.FtcDashboard
+import com.acmerobotics.dashboard.canvas.Canvas
 import com.acmerobotics.dashboard.config.Config
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.kinematics.TankKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
-import com.acmerobotics.roadrunner.util.Angle
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import java.lang.Thread.sleep
+import org.firstinspires.ftc.teamcode.tests.ROBOT_RADIUS
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sign
@@ -25,14 +27,15 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
     var index = 0
     var start:Pose2d
 
-    private val lookAhead = 7.5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    val lookAhead = 7.5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
     private val translationalTol = 0.75 //inches
-    private val angularTol = Math.toRadians(0.25) // one degree angular tolerance
+    private val angularTol = Math.toRadians(0.75) // one degree angular tolerance
     private val kStatic = 0.1
+    val runSpeed = 0.8
 
-    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.20)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.50)
+    val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.30)
+    val headingCoeffs: PIDCoefficients = PIDCoefficients(0.90)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs, kStatic=kStatic)
@@ -50,10 +53,6 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 
     // follow until path is complete
     fun FollowSync(drivetrain: DriveTrain, mecanum:Boolean = true, telemetry: Telemetry) {
-        telemetry.addLine("starting pure pursuit")
-        telemetry.addLine(waypoints.toString())
-
-        telemetry.update()
         runAction(0)
 
         var done = false
@@ -64,6 +63,19 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
             telemetry.addLine(waypoints[index].end.toString())
             telemetry.addLine(Kinematics.calculatePoseError(waypoints[index].end, localizer.poseEstimate).toString())
             telemetry.update()
+
+            val packet = TelemetryPacket()
+
+            val fieldOverlay: Canvas = packet.fieldOverlay()
+            fieldOverlay.setStroke("#3F51B5")
+            drawRobot(fieldOverlay, localizer.poseEstimate)
+
+            fieldOverlay.setStrokeWidth(1)
+            fieldOverlay.setStroke("#4CAF50")
+            drawSampledPath(fieldOverlay, waypoints[index])
+
+            FtcDashboard.getInstance().sendTelemetryPacket(packet);
+
             done = followStep(drivetrain, mecanum)
         }
         this.waypoints.clear()
@@ -83,7 +95,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         if (abs(poseError.x) < translationalTol && abs(poseError.y) < translationalTol &&
                 abs(poseError.heading) < angularTol) {
             // go to next waypoint
-            drivetrain.startFromRRPower(Pose2d(0.0,0.0,0.0))
+            drivetrain.startFromRRPower(Pose2d(0.0,0.0,0.0), 0.0)
             runAction(index+1)
 
             return if (index == waypoints.size-1) {
@@ -116,7 +128,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
 //            val wheelVel = getVelocityFromTarget(target = target, currentPos = currentPos)
 //            drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
             val vel = getVelocityFromTarget(target, currentPos)
-            drivetrain.startFromRRPower(vel)
+            drivetrain.startFromRRPower(vel, runSpeed)
         } else {
             //TODO figure out how to make drivetrain more generic for tank and mecanum
 //            val wheelVel = getWheelVelocityFromTargetTank(target, currentPos)
@@ -356,4 +368,31 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
                 headingCorrection
         )
     }
+}
+
+
+fun drawRobot(canvas: Canvas, pose: Pose2d) {
+    canvas.strokeCircle(pose.x, pose.y, ROBOT_RADIUS)
+    val (x, y) = pose.headingVec().times(ROBOT_RADIUS)
+    val x1 = pose.x + x / 2
+    val y1 = pose.y + y / 2
+    val x2 = pose.x + x
+    val y2 = pose.y + y
+    canvas.strokeLine(x1, y1, x2, y2)
+}
+
+fun drawSampledPath(canvas: Canvas, path: Path, resolution: Double = 2.0) {
+    val samples = Math.ceil(path.length / resolution).toInt()
+    val xPoints = DoubleArray(samples)
+    val yPoints = DoubleArray(samples)
+    val dx: Double = 1.0 / samples
+    for (i in 0 until samples) {
+        val t = i * dx
+        val pose = path.getPointfromT(t)
+        val x = pose.x
+        val y = pose.y
+        xPoints[i] = x
+        yPoints[i] = y
+    }
+    canvas.strokePolyline(xPoints, yPoints)
 }

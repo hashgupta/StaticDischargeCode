@@ -27,7 +27,6 @@ class LocalizerSpeedRun : LinearOpMode() {
         while (!isStopRequested) {
             robot.localizer.update()
             rollingCount++
-            telemetry.addData("timer: ", timer)
 
             if (timer.seconds() > 10) {
                 timer.reset()
@@ -35,8 +34,9 @@ class LocalizerSpeedRun : LinearOpMode() {
 
             } else if (timer.seconds() > 5) {
                 telemetry.addData("average update time (ms)", timer.milliseconds() / rollingCount)
+                telemetry.update()
             }
-            telemetry.update()
+
         }
     }
 }

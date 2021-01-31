@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.robotConfigs.TestRobot
 
+
+@Disabled
 @TeleOp(name = "Special Drive Tele", group = "StaticDischarge")
 class ExtraTele : OpMode() {
     // robot

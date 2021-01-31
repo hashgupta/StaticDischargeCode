@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.hardware.general
 
+import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
-import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
+import org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
 import org.firstinspires.ftc.teamcode.hardware.type.Output
@@ -74,8 +74,14 @@ class Motor(private val name: String, // motor information
         var angularVelocity = velocity/(r*gr) //radians/s
         val angularVelocityRevS = angularVelocity / (2*PI) // rev/s
         angularVelocity = angularVelocityRevS * tpr //ticks/s
+
+        val dashboard = FtcDashboard.getInstance()
+        val DashBoardtelemetry = dashboard.telemetry
         telemetry.addData("ticks/s speed", angularVelocity)
         telemetry.addData("actual ticks/s", device.velocity)
+        DashBoardtelemetry.addData("ticks/s speed", angularVelocity)
+        DashBoardtelemetry.addData("actual ticks/s", device.velocity)
+        DashBoardtelemetry.update()
         device.velocity = angularVelocity
     }
 }

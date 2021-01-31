@@ -5,15 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @Autonomous(name = "SparkyTests", group = "StaticDischarge")
 class SparkAutoTests : SparkOpModeBase() {
 
-    lateinit var robot: SparkyRobot
+    lateinit var robot: SparkyV2Robot
 
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
-        robot = SparkyRobot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested() }
+        robot = SparkyV2Robot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested() }
         waitForStart()
 
 
@@ -25,8 +26,13 @@ class SparkAutoTests : SparkOpModeBase() {
 //        }
 //        robot.arm.run(0.0)
 //        sleep(4000)
-        robot.pursuiter.addAction { robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
-        sleep(2500)}
+        robot.pursuiter.addAction { robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 36.0))
+        sleep(3000)
+        robot.shooter.shoot()
+            sleep(1250)
+            robot.shooter.shoot()
+            sleep(1250)
+            robot.shooter.shoot()}
         robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
 
 

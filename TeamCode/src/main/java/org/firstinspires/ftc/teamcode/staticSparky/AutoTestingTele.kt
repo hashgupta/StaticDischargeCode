@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 @TeleOp(name = "AutoTestingTele", group = "StaticDischarge")
 class AutoTestingTele : SparkOpModeBase() {
 
-    lateinit var robot: SparkyRobot
+    lateinit var robot: SparkyV2Robot
 
 
     private var previousGamepad1Guide: Boolean = false
@@ -35,7 +35,7 @@ class AutoTestingTele : SparkOpModeBase() {
 
     private fun initRobot() {
         //initialize and set robot behavior
-        robot = SparkyRobot(hardwareMap, telemetry) { true }
+        robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         robot.driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
 
     }

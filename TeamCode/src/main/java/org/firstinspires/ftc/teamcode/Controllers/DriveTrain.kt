@@ -30,12 +30,15 @@ class DriveTrain// initialize drive train
         lb.start(motion.lb)
     }
 
-    fun startFromRRPower(velocity: Pose2d) {
+    fun startFromRRPower(velocity: Pose2d, speed:Double) {
+
+
         val vert = velocity.x
         val hori = -velocity.y
 
         val turn = -velocity.heading
-        val square = Vector(hori, vert, turn).speeds()
+        var square = Vector(hori, vert, turn).speeds()
+        square = multiplySquare(square, speed)
         start(square)
     }
 
@@ -118,8 +121,12 @@ class DriveTrain// initialize drive train
     }
 
     companion object {
-        fun addSquares(first: Square<Double>, second: Square<Double>): Square<Double> {
-            return Square(first.rf + second.rf, first.rb + second.rb, first.lf + second.lf, first.lb + second.lb)
+        fun multiplySquare(speeds: Square<Double>, scalar: Double): Square<Double> {
+            return Square(
+                    speeds.rf * scalar,
+                    speeds.rb * scalar,
+                    speeds.lf * scalar,
+                    speeds.lb * scalar)
         }
     }
 }
