@@ -38,9 +38,11 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         intake = Motor("intake", 288.0, 1.0, hardwareMap)
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
         roller = Motor("under roller", 560.0, 0.5, hardwareMap)
+
+
         val wobble = Motor("wobble", 1120.0,2.0, hardwareMap)
         wobble.device.direction = DcMotorSimple.Direction.REVERSE
-        arm = Arm(arm_motor = wobble, startAngle = Math.toRadians(170.0), grabber = null)
+        arm = Arm(arm_motor = wobble, startAngle = Math.toRadians(160.0), grabber = null)
 
 
 
@@ -51,6 +53,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         shooter = Shooter(flywheel, Math.toRadians(30.0), 8.0, telemetry, flicker)
 
         setDriveTrain(rf, rb, lf, lb)
+
 
         localizer = TwoWheelRevLocalizer(hardwareMap, "lb", "lf", gyro)
 

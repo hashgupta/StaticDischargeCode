@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode.opmodeTests
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
-import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
+import org.firstinspires.ftc.teamcode.staticSparky.SparkOpModeBase
 
 @Autonomous(name = "SparkyTests", group = "StaticDischarge")
 class SparkAutoTests : SparkOpModeBase() {

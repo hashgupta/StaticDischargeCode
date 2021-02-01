@@ -13,7 +13,7 @@ import com.acmerobotics.roadrunner.localization.Localizer
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import org.firstinspires.ftc.teamcode.tests.ROBOT_RADIUS
+import org.firstinspires.ftc.teamcode.opmodeTests.ROBOT_RADIUS
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sign

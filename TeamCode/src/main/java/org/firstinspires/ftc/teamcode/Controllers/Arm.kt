@@ -45,7 +45,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
     fun dropAuto() {
 
         grabber?.start(0.6)
-        toAngle(Math.toRadians(45.0))
+        toAngle(Math.toRadians(0.0))
         while ( arm_motor.isBusy) {
 
         }

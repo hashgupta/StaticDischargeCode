@@ -46,8 +46,7 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
 //        stopCV()
 
         //NOTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // i changed the start left red to start at Pi radians, so just start the robot flipped
-        // then you wont have to turn to shoot
+        // i changed the start left red to start at 0.0 radians, so just start the facing straight with webcam
 
         robot.pursuiter.addPoint(-TILE_LENGTH, -0.5* TILE_LENGTH, PI)
 

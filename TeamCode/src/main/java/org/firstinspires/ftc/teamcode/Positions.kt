@@ -23,8 +23,8 @@ object Positions {
     val bZoneRed = Vector2d(1.5* tile_length, -1.5* tile_length)
     val cZoneRed = Vector2d(2.5* tile_length, -2.5* tile_length)
 
-    val startLeftRed = Pose2d(-3* tile_length + Constants.robotLength * 0.5, -tile_length, PI)
-    val startRightRed = Pose2d(-3* tile_length + Constants.robotLength * 0.5, -2* tile_length, PI)
+    val startLeftRed = Pose2d(-3* tile_length + Constants.robotLength * 0.5, -tile_length, 0.0)
+    val startRightRed = Pose2d(-3* tile_length + Constants.robotLength * 0.5, -2* tile_length, 0.0)
 
     val startLeftBlue = Pose2d(-3* tile_length + Constants.robotLength * 0.5, 2* tile_length, 0.0)
     val startRightBlue = Pose2d(-3* tile_length + Constants.robotLength * 0.5, tile_length, 0.0)
