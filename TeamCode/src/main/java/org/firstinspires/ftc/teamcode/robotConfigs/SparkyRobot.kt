@@ -53,6 +53,6 @@ class SparkyRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: 
 
 //        localizer = TwoWheelRevLocalizer(hardwareMap, "front", "side")
 //
-        pursuiter = FastPurePursuit(localizer, Pose2d())
+        pursuiter = FastPurePursuit(localizer)
     }
 }

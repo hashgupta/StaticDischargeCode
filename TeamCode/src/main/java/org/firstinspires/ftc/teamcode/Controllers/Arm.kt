@@ -8,21 +8,22 @@ import kotlin.math.PI
 
 class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
     val reduction = 0.225
-    val auto_speed = 0.3
+    val auto_speed = 0.75
 
     init {
         arm_motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
         arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+        arm_motor.setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         arm_motor.device.setVelocityPIDFCoefficients(5.0, 0.0, 0.0,12.4)
         arm_motor.device.setPositionPIDFCoefficients(5.0)
 
-        arm_motor.setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
-
         arm_motor.device.targetPositionTolerance = 10
+
+
     }
 
     fun toAngle(targetAngle:Double) {
-        val revToTurn = -(targetAngle - startAngle) / (2* PI)
+        val revToTurn = (targetAngle - startAngle) / (2* PI)
         arm_motor.device.targetPosition = (revToTurn * arm_motor.adjusted_tpr).toInt()
         arm_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION)
         arm_motor.start(auto_speed)
@@ -31,27 +32,43 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
     fun grabAuto() {
 
 
-        grabber?.start(0.0)
-
-
-        toAngle(Math.toRadians(160.0))
-        while ( arm_motor.isBusy) {
-
-        }
-        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+        run(auto_speed / 2)
+        sleep(500)
         run(0.0)
+        grabber?.start(1.0)
+
+
+//        toAngle(Math.toRadians(160.0))
+//        while ( arm_motor.isBusy) {
+//
+//        }
+//        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+//        run(0.0)
     }
 
     fun dropAuto() {
 
-        grabber?.start(0.6)
-        toAngle(Math.toRadians(0.0))
-        while ( arm_motor.isBusy) {
 
-        }
-        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+//        toAngle(Math.toRadians(90.0))
+////        while ( arm_motor.isBusy) {
+////
+////        }
+////        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+
+        run(-auto_speed)
+        sleep(1500)
         run(0.0)
+        grabber?.start(0.25)
+        sleep(300)
 
+    }
+
+    fun grabTele() {
+        grabber?.start(1.0)
+    }
+
+    fun dropTele() {
+        grabber?.start(0.25)
     }
 
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Controllers
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
+import com.acmerobotics.roadrunner.util.Angle
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import org.firstinspires.ftc.robotcore.external.Telemetry
@@ -15,13 +16,13 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val telemetry: Telemetry, val flicker: ServoM? = null){
-    var flickerTimingMS = 400.0
-    var slip = 1.07 // flywheel shooter slip, MUST BE TUNED
+    var flickerTimingMS = 200.0
+    var slip = 1.046 // flywheel shooter slip, MUST BE TUNED
     val turnCorrection = PI
 
     init {
         //https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.4vkznp7wtsch
-        flywheel.device.setVelocityPIDFCoefficients(20.0, 0.0, 0.2,13.6)
+        flywheel.device.setVelocityPIDFCoefficients(50.0, 0.0, 0.1,13.6)
         flywheel.device.setPositionPIDFCoefficients(5.0)
 
         flywheel.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
@@ -49,16 +50,16 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
         val targetVector = Vector2d(target.x, target.y)
         val shootingHeadingVector = targetVector.minus(position)
 
-        return shootingHeadingVector.angle() + turnCorrection
+        return Angle.norm(shootingHeadingVector.angle() + turnCorrection)
 
     }
 
     fun shoot() {
         //release chamber servo to let a ring into flywheel
         if (flicker != null) {
-            flicker.start(0.4)
+            flicker.start(0.50)
             Thread.sleep(flickerTimingMS.toLong())
-            flicker.start(0.8)
+            flicker.start(0.9)
         }
     //dpad up clockwise
         //dpad down ccw

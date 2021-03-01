@@ -30,9 +30,9 @@ class RingPipeline(): OpenCvPipeline(){
          * The core values which define the location and size of the sample regions
          */
     // set where the right and left boxes are
-    val REGION_WIDTH = 65
+    val REGION_WIDTH = 50
     val REGION_HEIGHT = 40
-    val REGION_TOPLEFT_ANCHOR_POINT = if (right) Point(240.0, 140.0) else Point(80.0 - REGION_WIDTH, 140.0)
+    val REGION_TOPLEFT_ANCHOR_POINT = if (right) Point(250.0, 130.0) else Point(80.0 - REGION_WIDTH, 140.0)
 
 
     /*

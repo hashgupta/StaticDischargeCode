@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
-import com.acmerobotics.roadrunner.drive.Drive
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.Positions
-import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
-import java.lang.Math.abs
 
 @TeleOp(name = "Second Robot Tele", group = "StaticDischarge")
 class SecondBotTele : SparkOpModeBase() {
@@ -18,10 +14,18 @@ class SecondBotTele : SparkOpModeBase() {
     lateinit var robot: SparkyV2Robot
 
     // speeds
-    private var driveSpeed = 0.95
+    enum class DriveSpeeds {
+        Normal,
+        Slow
+    }
+    private var driveSpeed = DriveSpeeds.Normal
     private var lastTriggerRight = 0.0
     private var IntakeOn = false
-    private var previousGamepad1Guide = false
+    private var previousGamepad1X = false
+    private var IntakeBackwards = false
+
+    private val normalSpeed = 0.95
+    private val slowSpeed = 0.3
 
 
     override fun runOpMode() {
@@ -64,10 +68,33 @@ class SecondBotTele : SparkOpModeBase() {
 
             IntakeOn = false
         }
+//
+//
+//        if (gamepad2.a) {
+//
+//            robot.arm.arm_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
+//
+//        } else if (gamepad2.b) {
+//
+//            robot.arm.arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+//
+//        }
+
+        if (gamepad1.right_bumper) {
+            IntakeBackwards = true
+        } else if (gamepad1.left_bumper) {
+            IntakeBackwards = false
+        }
+        
 
         if (IntakeOn) {
-            robot.roller.start(0.7)
-            robot.intake.start(-0.35)
+            if (IntakeBackwards) {
+                robot.roller.start(-0.75)
+                robot.intake.start(0.30)
+            } else {
+                robot.roller.start(0.75)
+                robot.intake.start(-0.30)
+            }
         } else {
             robot.roller.start(0.0)
             robot.intake.start(0.0)
@@ -75,23 +102,45 @@ class SecondBotTele : SparkOpModeBase() {
 
 
         if (gamepad2.right_trigger  > lastTriggerRight) {
+
             robot.shooter.shoot()
+
         }
+
 
         if (gamepad1.dpad_up) {
-            driveSpeed = 0.9
+
+            driveSpeed = DriveSpeeds.Normal
+
         } else if (gamepad1.dpad_down){
-            driveSpeed = 0.3
+
+            driveSpeed = DriveSpeeds.Slow
+
         }
 
-        if (gamepad2.left_trigger > 0.3) {
-            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 36.0))
+
+        if (gamepad2.left_trigger > 0.3 && gamepad2.a) {
+
+            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 32.0))
+
+        } else if (gamepad2.left_trigger > 0.3) {
+
+            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 34.0))
 //            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate, Positions.highGoalRed)
+
         } else {
+
             robot.shooter.stopWheel()
+
         }
 
-        if (gamepad1.guide && !previousGamepad1Guide) {
+        if (gamepad2.dpad_up) {
+            robot.arm.grabTele()
+        } else if (gamepad2.dpad_down) {
+            robot.arm.dropTele()
+        }
+
+        if (gamepad1.x && !previousGamepad1X) {
 //            if (timer.seconds() < 90.0) {
 //                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
 //                robot.pursuiter.addTurnAbsolute(
@@ -115,7 +164,7 @@ class SecondBotTele : SparkOpModeBase() {
 
         robot.arm.run(wobble)
         lastTriggerRight = gamepad2.right_trigger.toDouble()
-        previousGamepad1Guide = gamepad1.guide
+        previousGamepad1X = gamepad1.x
 
 
 
@@ -123,7 +172,11 @@ class SecondBotTele : SparkOpModeBase() {
         try {
             //output values for robot movement
             var wheelSpeeds = DriveTrain.Vector(hori, vert, turn).speeds()
-            wheelSpeeds = DriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = driveSpeed)
+            wheelSpeeds = if (driveSpeed == DriveSpeeds.Normal) {
+                DriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = normalSpeed)
+            } else {
+                DriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = slowSpeed)
+            }
             robot.driveTrain.start(wheelSpeeds)
             telemetry.addData("Pose Estimate", robot.localizer.poseEstimate)
             telemetry.update()

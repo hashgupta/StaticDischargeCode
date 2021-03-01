@@ -40,15 +40,18 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         roller = Motor("under roller", 560.0, 0.5, hardwareMap)
 
 
-        val wobble = Motor("wobble", 1120.0,2.0, hardwareMap)
+        val wobble = Motor("wobble", 1120.0,0.75, hardwareMap)
         wobble.device.direction = DcMotorSimple.Direction.REVERSE
-        arm = Arm(arm_motor = wobble, startAngle = Math.toRadians(160.0), grabber = null)
+
+        val grabber = ServoM("grabber", hardwareMap)
+        grabber.start(1.0)
+        arm = Arm(arm_motor = wobble, startAngle = Math.toRadians(130.0), grabber = grabber)
 
 
 
 
         flicker = ServoM("flicker", hardwareMap)
-        flicker.start(0.8)
+        flicker.start(0.9)
         val flywheel = Motor("flywheel", 28.0, 1.0, 4.0, hardwareMap)
         shooter = Shooter(flywheel, Math.toRadians(30.0), 8.0, telemetry, flicker)
 
@@ -60,6 +63,6 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         driveTrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
         driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
 
-        pursuiter = FastPurePursuit(localizer, Pose2d())
+        pursuiter = FastPurePursuit(localizer)
     }
 }

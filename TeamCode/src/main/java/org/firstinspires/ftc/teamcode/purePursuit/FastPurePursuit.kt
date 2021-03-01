@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.kinematics.TankKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
+import com.acmerobotics.roadrunner.util.Angle
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
@@ -21,21 +22,21 @@ import kotlin.math.sin
 
 
 @Config
-class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
+class FastPurePursuit(val localizer: Localizer) {
     val waypoints: MutableList<Path> = mutableListOf()
     val actions: MutableList<Pair<Int, () -> Unit>> = mutableListOf()
     var index = 0
     var start:Pose2d
 
-    val lookAhead = 7.5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    val lookAhead = 8 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
     private val translationalTol = 0.75 //inches
     private val angularTol = Math.toRadians(0.75) // one degree angular tolerance
     private val kStatic = 0.1
-    val runSpeed = 0.8
+    var runSpeed = 0.7
 
     val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.30)
-    val headingCoeffs: PIDCoefficients = PIDCoefficients(0.90)
+    val headingCoeffs: PIDCoefficients = PIDCoefficients(1.00)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs, kStatic=kStatic)
@@ -47,7 +48,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         lateralController.update(0.0)
         headingController.update(0.0)
 
-        start = startPose ?: localizer.poseEstimate
+        start = localizer.poseEstimate
 
     }
 
@@ -237,7 +238,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         } else {
             last = waypoints.last().end
         }
-        waypoints.add(TurnPath(last, Pose2d(last.vec(), last.heading + theta)))
+        waypoints.add(TurnPath(last, Pose2d(last.vec(), Angle.norm(last.heading + theta))))
         return this
     }
 
@@ -248,7 +249,7 @@ class FastPurePursuit(val localizer: Localizer, startPose:Pose2d?) {
         } else {
             last = waypoints.last().end
         }
-        waypoints.add(TurnPath(last, Pose2d(last.vec(), theta)))
+        waypoints.add(TurnPath(last, Pose2d(last.vec(), Angle.norm(theta))))
         return this
     }
 

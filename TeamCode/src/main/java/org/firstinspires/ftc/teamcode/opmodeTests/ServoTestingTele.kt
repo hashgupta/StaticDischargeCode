@@ -3,14 +3,15 @@ package org.firstinspires.ftc.teamcode.opmodeTests
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 import java.lang.Math.abs
 
 @TeleOp(name = "Servo Testing TeleOP", group = "Static Discharge")
 class IntakeTestingTele: OpMode() {
-    lateinit var robot: SparkyRobot
+    lateinit var robot: SparkyV2Robot
 
     override fun init() {
-        robot = SparkyRobot(hardwareMap, telemetry) { false }
+        robot = SparkyV2Robot(hardwareMap, telemetry) { false }
 
     }
 
