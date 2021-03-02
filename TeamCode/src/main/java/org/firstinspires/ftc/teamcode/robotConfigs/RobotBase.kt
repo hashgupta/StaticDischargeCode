@@ -63,7 +63,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
 
         driveTrain.start(allDrive)
 
-        val orientation = gyro.measureRadians()
+//        val orientation = gyro.measureRadians()
 
 
         // do gyro adjustment         |

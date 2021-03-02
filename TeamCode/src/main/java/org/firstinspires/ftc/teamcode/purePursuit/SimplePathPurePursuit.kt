@@ -153,8 +153,8 @@ class SimplePathPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
 
         val wheelCopy = wheelPow.map {abs(it)}
 
-        if (wheelCopy.max() != null && wheelCopy.max()!! > 1) {
-            wheelPow = wheelPow.map {it/wheelCopy.max()!!}
+        if (wheelCopy.maxOrNull() != null && wheelCopy.maxOrNull()!! > 1) {
+            wheelPow = wheelPow.map {it/ wheelCopy.maxOrNull()!!}
         }
 
         return wheelPow
@@ -172,8 +172,8 @@ class SimplePathPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
 
         val wheelCopy = wheelPow.map {abs(it)}
 
-        if (wheelCopy.max() != null && wheelCopy.max()!! > 1) {
-            wheelPow = wheelPow.map {it/wheelCopy.max()!!}
+        if (wheelCopy.maxOrNull() != null && wheelCopy.maxOrNull()!! > 1) {
+            wheelPow = wheelPow.map {it/ wheelCopy.maxOrNull()!!}
         }
 
         return wheelPow

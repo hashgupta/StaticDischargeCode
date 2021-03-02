@@ -182,8 +182,8 @@ class PurePursuitDrive(val localizer: Localizer) {
 
         val wheelCopy = wheelPow.map {abs(it)}
 
-        if (wheelCopy.max() != null && wheelCopy.max()!! > 1) {
-            wheelPow = wheelPow.map {it/wheelCopy.max()!!}
+        if (wheelCopy.maxOrNull() != null && wheelCopy.maxOrNull()!! > 1) {
+            wheelPow = wheelPow.map {it/ wheelCopy.maxOrNull()!!}
         }
 
         return wheelPow
