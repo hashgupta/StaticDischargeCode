@@ -3,12 +3,8 @@ package org.firstinspires.ftc.teamcode.localizers
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer
-import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
 import org.firstinspires.ftc.teamcode.Constants.FORWARD_OFFSET
 import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
 import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
@@ -34,7 +30,7 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralN
         Pose2d(FORWARD_OFFSET, 3.25, Math.toRadians(90.0)) )) { //front
     private val lateralEncoder: Encoder = Encoder(hardwareMap.dcMotor[lateralName] as DcMotorEx)
     private val frontEncoder: Encoder = Encoder(hardwareMap.dcMotor[frontName] as DcMotorEx)
-    private val imu_Gyro: Gyro = gyro
+    private val imuGyro: Gyro = gyro
 
     override fun getWheelPositions(): List<Double> {
         return listOf(
@@ -44,7 +40,7 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralN
     }
 
     override fun getHeading(): Double {
-        return imu_Gyro.measureRadians()
+        return imuGyro.measureRadians()
     }
 
 

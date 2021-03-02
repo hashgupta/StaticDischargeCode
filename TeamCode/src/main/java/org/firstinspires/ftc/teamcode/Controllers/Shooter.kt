@@ -4,7 +4,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.util.Angle
 import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoM
@@ -38,7 +37,7 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
         val shotDistance = targetVector distTo position
         telemetry.addData("dist",shotDistance)
         val net_height = target.height - shooterHeight
-        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
+        val requiredVelocity = sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
 
         flywheel.setSpeed(2*requiredVelocity * slip, telemetry) // remove 2 times if using double flywheel, doesnt account for direction
 

@@ -6,15 +6,12 @@ import com.acmerobotics.roadrunner.localization.Localizer
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.HardwareMap
-import com.qualcomm.robotcore.util.ReadWriteFile
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.PoseStorage
 import org.firstinspires.ftc.teamcode.hardware.general.Gyro
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.localizers.MecanumLocalizerRev
-import java.io.File
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sign

@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.hardware.general.Gyro
-import kotlin.math.PI
 
 class MecanumLocalizerRev constructor(
         hardwareMap: HardwareMap,
@@ -22,7 +21,7 @@ class MecanumLocalizerRev constructor(
         set(value) {
             lastWheelPositions = emptyList()
             lastExtHeading = Double.NaN
-            if (gyro != null) gyro.setExternalHeading(value.heading)
+            gyro?.setExternalHeading(value.heading)
             _poseEstimate = value
         }
     override var poseVelocity: Pose2d? = null

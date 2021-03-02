@@ -15,10 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.opmodeTests.ROBOT_RADIUS
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.sign
-import kotlin.math.sin
+import kotlin.math.*
 
 
 @Config
@@ -75,7 +72,7 @@ class FastPurePursuit(val localizer: Localizer) {
             fieldOverlay.setStroke("#4CAF50")
             drawSampledPath(fieldOverlay, waypoints[index])
 
-            FtcDashboard.getInstance().sendTelemetryPacket(packet);
+            FtcDashboard.getInstance().sendTelemetryPacket(packet)
 
             done = followStep(drivetrain, mecanum)
         }
@@ -232,22 +229,20 @@ class FastPurePursuit(val localizer: Localizer) {
 
 
     fun addTurn(theta: Double): FastPurePursuit {
-        val last: Pose2d
-        if (waypoints.size == 0) {
-            last = start
+        val last: Pose2d = if (waypoints.size == 0) {
+            start
         } else {
-            last = waypoints.last().end
+            waypoints.last().end
         }
         waypoints.add(TurnPath(last, Pose2d(last.vec(), Angle.norm(last.heading + theta))))
         return this
     }
 
     fun addTurnAbsolute(theta: Double): FastPurePursuit {
-        val last: Pose2d
-        if (waypoints.size == 0) {
-            last = start
+        val last: Pose2d = if (waypoints.size == 0) {
+            start
         } else {
-            last = waypoints.last().end
+            waypoints.last().end
         }
         waypoints.add(TurnPath(last, Pose2d(last.vec(), Angle.norm(theta))))
         return this
@@ -336,7 +331,7 @@ class FastPurePursuit(val localizer: Localizer) {
 
         val error = Kinematics.calculatePoseError(target, currentPos)
 
-        val velocity = TankerrorToPower(error)
+        val velocity = tankErrorToPower(error)
 
         var wheelPow = TankKinematics.robotToWheelVelocities(velocity, Constants.trackwidth)
 
@@ -352,7 +347,7 @@ class FastPurePursuit(val localizer: Localizer) {
     }
 
     // TODO edit using tank pidva follower from roadrunner
-    fun TankerrorToPower(poseError: Pose2d): Pose2d {
+    fun tankErrorToPower(poseError: Pose2d): Pose2d {
         axialController.targetPosition = poseError.x
         lateralController.targetPosition = poseError.y
         headingController.targetPosition = poseError.heading
@@ -383,7 +378,7 @@ fun drawRobot(canvas: Canvas, pose: Pose2d) {
 }
 
 fun drawSampledPath(canvas: Canvas, path: Path, resolution: Double = 2.0) {
-    val samples = Math.ceil(path.length / resolution).toInt()
+    val samples = ceil(path.length / resolution).toInt()
     val xPoints = DoubleArray(samples)
     val yPoints = DoubleArray(samples)
     val dx: Double = 1.0 / samples

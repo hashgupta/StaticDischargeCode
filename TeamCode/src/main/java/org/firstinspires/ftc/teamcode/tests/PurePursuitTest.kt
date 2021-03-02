@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
-import com.acmerobotics.roadrunner.drive.MecanumDrive
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import org.firstinspires.ftc.teamcode.purePursuit.SimplePathPurePursuit
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

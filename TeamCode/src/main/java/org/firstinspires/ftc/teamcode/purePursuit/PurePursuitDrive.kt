@@ -10,10 +10,12 @@ import com.acmerobotics.roadrunner.localization.Localizer
 import com.acmerobotics.roadrunner.util.epsilonEquals
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.max
 
-const val TAU = Math.PI * 2
 
+@Deprecated(message = "Don't use this class, it is old and has not been properly tested. None of the important changes have been added to make this functional. Please just use FastPurePursuit class for your movement needs")
 @Config
 class PurePursuitDrive(val localizer: Localizer) {
     val waypoints: MutableList<Path> = mutableListOf()
@@ -229,27 +231,4 @@ class PurePursuitDrive(val localizer: Localizer) {
                     angleBetween (waypoints[index].end.vec() - waypoints[index].start.vec()) ) ) // calculate how similar the next path and the current are
         }
     }
-}
-
-fun lerp(a: Double, b: Double, t: Double): Double {
-    return (b - a) * t + a
-}
-
-fun lerpAngle(a: Double, b: Double, t: Double): Double {
-
-    return when {
-        (b-a) > PI -> {
-            lerp(a, b-TAU, t) % TAU
-        }
-        (b-a) < -PI -> {
-            lerp(a, b-TAU, t) % TAU
-        }
-        else -> {
-            lerp(a, b, t) % TAU
-        }
-    }
-}
-
-fun limit(value: Double, min: Double, max: Double): Double {
-    return max(min, min(value, max))
 }

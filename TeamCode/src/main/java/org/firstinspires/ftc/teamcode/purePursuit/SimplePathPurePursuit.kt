@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import kotlin.math.abs
 import kotlin.math.sign
 
-
+@Deprecated(message = "Don't use this class, it is old and has not been properly tested. None of the important changes have been added to make this functional. Please just use FastPurePursuit class for your movement needs")
 @Config
 class SimplePathPurePursuit(val localizer: Localizer, val startPose:Pose2d) {
     val waypoints: MutableList<Path> = mutableListOf()

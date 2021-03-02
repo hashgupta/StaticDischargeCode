@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 import kotlin.math.PI
 
@@ -30,7 +27,7 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
 
 
 
-        robot = SparkyV2Robot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested() }
+        robot = SparkyV2Robot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested }
         robot.pursuiter.setStartPoint(Positions.startLeftRed)
         initCV(Side.Right)
         startCV()

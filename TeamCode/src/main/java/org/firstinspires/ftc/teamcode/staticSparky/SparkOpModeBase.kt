@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.pipelines.FindRingAutoPipeline
 import org.firstinspires.ftc.teamcode.pipelines.Ring
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import org.openftc.easyopencv.*
 
 abstract class SparkOpModeBase : LinearOpMode() {

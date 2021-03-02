@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.StaticSparky
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @TeleOp(name = "Wobble Testing TeleOP", group = "Static Discharge")

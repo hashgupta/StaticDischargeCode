@@ -7,8 +7,8 @@ import java.lang.Thread.sleep
 import kotlin.math.PI
 
 class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
-    val reduction = 0.225
-    val auto_speed = 0.75
+    private val reduction = 0.225
+    private val autoSpeed = 0.75
 
     init {
         arm_motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
@@ -26,13 +26,13 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
         val revToTurn = (targetAngle - startAngle) / (2* PI)
         arm_motor.device.targetPosition = (revToTurn * arm_motor.adjusted_tpr).toInt()
         arm_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION)
-        arm_motor.start(auto_speed)
+        arm_motor.start(autoSpeed)
     }
 
     fun grabAuto() {
 
 
-        run(auto_speed / 2)
+        run(autoSpeed / 2)
         sleep(500)
         run(0.0)
         grabber?.start(1.0)
@@ -56,7 +56,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 ////        }
 ////        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
 
-        run(-auto_speed)
+        run(-autoSpeed)
         sleep(1500)
         run(0.0)
         grabber?.start(0.25)
@@ -74,8 +74,8 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 
 
     fun run(raw_speed: Double) {
-        val adjusted_speed = raw_speed * reduction
-        arm_motor.start(adjusted_speed)
+        val adjustedSpeed = raw_speed * reduction
+        arm_motor.start(adjustedSpeed)
     }
 
 

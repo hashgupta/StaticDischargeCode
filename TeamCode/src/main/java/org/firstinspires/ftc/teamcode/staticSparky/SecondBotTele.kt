@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.staticSparky
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.Positions
@@ -18,6 +17,7 @@ class SecondBotTele : SparkOpModeBase() {
         Normal,
         Slow
     }
+
     private var driveSpeed = DriveSpeeds.Normal
     private var lastTriggerRight = 0.0
     private var IntakeOn = false
@@ -85,7 +85,7 @@ class SecondBotTele : SparkOpModeBase() {
         } else if (gamepad1.left_bumper) {
             IntakeBackwards = false
         }
-        
+
 
         if (IntakeOn) {
             if (IntakeBackwards) {
@@ -101,7 +101,7 @@ class SecondBotTele : SparkOpModeBase() {
         }
 
 
-        if (gamepad2.right_trigger  > lastTriggerRight) {
+        if (gamepad2.right_trigger > lastTriggerRight) {
 
             robot.shooter.shoot()
 
@@ -112,7 +112,7 @@ class SecondBotTele : SparkOpModeBase() {
 
             driveSpeed = DriveSpeeds.Normal
 
-        } else if (gamepad1.dpad_down){
+        } else if (gamepad1.dpad_down) {
 
             driveSpeed = DriveSpeeds.Slow
 

@@ -17,6 +17,7 @@ import kotlin.math.sign
 
 
 //NOTE just mecanum, if tank is needed look at SimplePathPurePursuit
+@Deprecated(message = "Don't use this class, it is old and has not been properly tested. None of the important changes have been added to make this functional. Please just use FastPurePursuit class for your movement needs")
 @Config
 class SimplePurePursuit(val localizer: Localizer, val startPose:Pose2d) {
     val waypoints: MutableList<Pose2d> = mutableListOf()

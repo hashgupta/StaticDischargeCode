@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.opmodeTests
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 import java.lang.Math.abs
 

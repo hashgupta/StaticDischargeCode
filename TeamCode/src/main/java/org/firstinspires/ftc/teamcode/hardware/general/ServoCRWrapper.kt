@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.hardware.type.Output
 
 // rev servo
 class ServoCRWrapper// initialize servo
-(private val name: String, map: HardwareMap) : Device<CRServo>(map.crservo.get(name)), Input<Double>, Output<Double> {
+(name: String, map: HardwareMap) : Device<CRServo>(map.crservo.get(name)), Input<Double>, Output<Double> {
 
     // sense position
     override fun measure(): Double {
@@ -19,6 +19,6 @@ class ServoCRWrapper// initialize servo
     // start motion
     override fun start(motion: Double) {
 //        device.power = checkRange(motion, -1.0, 1.0, this.name)
-        device.setPower(motion)
+        device.power = motion
     }
 }

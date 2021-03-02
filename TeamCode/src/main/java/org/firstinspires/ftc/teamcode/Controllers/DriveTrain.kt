@@ -49,7 +49,7 @@ class DriveTrain// initialize drive train
         lb.setTarget(inches.lb)
     }
     fun getPosition():Square<Int> {
-        return Square<Int>(rf.device.currentPosition, rb.device.currentPosition, lf.device.currentPosition, lb.device.currentPosition)
+        return Square(rf.device.currentPosition, rb.device.currentPosition, lf.device.currentPosition, lb.device.currentPosition)
     }
 
     fun setMode(mode: DcMotor.RunMode) {
@@ -60,7 +60,7 @@ class DriveTrain// initialize drive train
     }
 
     fun getTarget():Square<Int> {
-        return Square<Int>(rf.device.targetPosition,rb.device.targetPosition, lf.device.targetPosition, lb.device.targetPosition)
+        return Square(rf.device.targetPosition,rb.device.targetPosition, lf.device.targetPosition, lb.device.targetPosition)
     }
 
     fun setZeroBehavior(behavior: DcMotor.ZeroPowerBehavior) {
@@ -116,7 +116,7 @@ class DriveTrain// initialize drive train
     // square
     data class Square<T> (var rf: T, var rb: T, var lf: T, var lb: T) {
         override fun toString(): String {
-            return "rf: "+rf+", rb: "+rb+", lf: "+ lf +", lb: " + lb
+            return "rf: $rf, rb: $rb, lf: $lf, lb: $lb"
         }
     }
 
