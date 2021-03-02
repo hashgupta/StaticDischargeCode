@@ -55,7 +55,7 @@ class SecondBotTele : SparkOpModeBase() {
         // get gamepad input
         // moving the joystick up is actually negative, not positive, so use negative to flip it
         val vert = -gamepad1.left_stick_y.toDouble()
-        val hori = gamepad1.left_stick_x.toDouble()
+        val hori = gamepad1.left_stick_x.toDouble() * 1.1
         val turn = gamepad1.right_stick_x.toDouble()
         val wobble = -gamepad2.right_stick_y.toDouble()
 

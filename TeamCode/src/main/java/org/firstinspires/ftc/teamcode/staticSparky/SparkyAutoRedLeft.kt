@@ -48,34 +48,39 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
         //NOTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // i changed the start left red to start at 0.0 radians, so just start the facing straight with webcam
 
-//        robot.pursuiter.addPoint(-0.0, -0.5* TILE_LENGTH, PI)
 
 
 
 
-        robot.pursuiter.addPoint(-1* TILE_LENGTH, -0.5* TILE_LENGTH, PI)
 
-        robot.pursuiter.addAction {}
-        robot.pursuiter.addPoint(Pose2d(x = -0.20* TILE_LENGTH, y = Positions.highGoalRed.y - 5, heading = robot.shooter.turningTarget(Vector2d(-0.0* TILE_LENGTH, Positions.highGoalRed.y), Positions.highGoalRed)))
+        robot.pursuiter.addPoint(-0.75* TILE_LENGTH, -0.5* TILE_LENGTH, PI)
 
+
+
+        /* HIGH GOAL */
+
+//        robot.pursuiter.addPoint(Pose2d(x = -0.20* TILE_LENGTH, y = Positions.highGoalRed.y - 5, heading = robot.shooter.turningTarget(Vector2d(-0.0* TILE_LENGTH, Positions.highGoalRed.y), Positions.highGoalRed)))
+//
+//        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+//                    Positions.highGoalRed); sleep(1500);  robot.shooter.shoot()
+//        sleep(500); robot.shooter.shoot(); sleep(500);robot.shooter.shoot(); robot.shooter.stopWheel()}
+
+
+
+        /* POWER SHOTS */
+
+
+        robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerFarRed.y - 5, PI))
         robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
-                    Positions.highGoalRed); sleep(1500);  robot.shooter.shoot()
-        sleep(500); robot.shooter.shoot(); sleep(500);robot.shooter.shoot(); robot.shooter.stopWheel()}
+                    Positions.powerFarRed); sleep(1500);  robot.shooter.shoot()}
 
+        robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerMidRed.y - 5, PI))
+        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+                Positions.powerMidRed); sleep(500);  robot.shooter.shoot()}
 
-
-
-//        robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerFarRed.y - 5, PI))
-//        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
-//                    Positions.powerFarRed); sleep(1500);  robot.shooter.shoot()}
-//
-//        robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerMidRed.y - 5, PI))
-//        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
-//                Positions.powerMidRed); sleep(750);  robot.shooter.shoot()}
-//
-//        robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerNearRed.y - 6, PI))
-//        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
-//                Positions.powerNearRed); sleep(750);  robot.shooter.shoot(); robot.shooter.stopWheel()}
+        robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerNearRed.y - 5, PI))
+        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+                Positions.powerNearRed); sleep(500);  robot.shooter.shoot(); robot.shooter.stopWheel()}
 
 
 
@@ -91,6 +96,8 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
             }
         }
 
+        /* FIRST WOBBLE */
+
         robot.pursuiter.addPoint(goalZone + Pose2d(-12.0, 8.0, -PI/4))
         robot.pursuiter.addAction{
             robot.arm.dropAuto()
@@ -105,9 +112,12 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
         robot.pursuiter.addAction { robot.arm.grabAuto() }
 
         robot.pursuiter.addPoint(goalZone + Pose2d(-12.0, 5.0))
-        robot.pursuiter.addAction { robot.arm.dropTele() }
+        robot.pursuiter.addAction { robot.arm.dropTele()
+        sleep(500)}
 
 
+
+        /* PARK */
 
         robot.pursuiter.addPoint(0.5 * TILE_LENGTH, -1* TILE_LENGTH, PI)
 

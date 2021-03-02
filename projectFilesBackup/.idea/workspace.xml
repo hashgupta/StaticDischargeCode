@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0bfd3202-d099-4b7c-a735-9a1abc90fcb2" name="Default Changelist" comment="reorganization">
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Controllers/Arm.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Controllers/Arm.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Controllers/Shooter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Controllers/Shooter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Positions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Positions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodeTests/ServoTestingTele.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodeTests/ServoTestingTele.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pipelines/RingPipeline.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pipelines/RingPipeline.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/purePursuit/FastPurePursuit.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/purePursuit/FastPurePursuit.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/robotConfigs/SparkyRobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/robotConfigs/SparkyRobot.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/robotConfigs/SparkyV2Robot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/robotConfigs/SparkyV2Robot.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/robotConfigs/TestRobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/robotConfigs/TestRobot.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/staticSparky/SecondBotTele.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/staticSparky/SecondBotTele.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/staticSparky/SparkyAutoRedLeft.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/staticSparky/SparkyAutoRedLeft.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tests/DrivetrainTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tests/DrivetrainTest.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[192.168.43.1:5555]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1m46GnTgMXdXz2uKkrdASqq2bxZ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="192.168.43.1:5555" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2021-01-30T18:07:38.422Z" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="memory.settings.postsync.last.time.stamp" value="1611609295191" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="PsdUISettings">
+    <option name="LAST_EDITED_BUILD_TYPE" value="debug" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="org.firstinspires.ftc.teamcode.opmodeTests" />
+      <recent name="org.firstinspires.ftc.teamcode.robotConfigs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodeTests" />
+      <recent name="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/staticSparky" />
+      <recent name="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode" />
+      <recent name="$PROJECT_DIR$/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/robotConfigs" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Android App.TeamCode">
+    <configuration name="DrivetrainTest (1)" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="StaticDischargeCode.TeamCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.firstinspires.ftc.teamcode.tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.firstinspires.ftc.teamcode.tests" />
+      <option name="MAIN_CLASS_NAME" value="org.firstinspires.ftc.teamcode.tests.DrivetrainTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DrivetrainTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="StaticDischargeCode.TeamCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.firstinspires.ftc.teamcode.tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.firstinspires.ftc.teamcode.tests" />
+      <option name="MAIN_CLASS_NAME" value="org.firstinspires.ftc.teamcode.tests.DrivetrainTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PurePursuitTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="StaticDischargeCode.TeamCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.firstinspires.ftc.teamcode.tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.firstinspires.ftc.teamcode.tests" />
+      <option name="MAIN_CLASS_NAME" value="org.firstinspires.ftc.teamcode.tests.PurePursuitTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TeamCode" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="StaticDischargeCode.TeamCode" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PurePursuitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="StaticDischargeCode.TeamCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.firstinspires.ftc.teamcode.tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.firstinspires.ftc.teamcode.tests" />
+      <option name="MAIN_CLASS_NAME" value="org.firstinspires.ftc.teamcode.tests.PurePursuitTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="timeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="StaticDischargeCode.TeamCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.firstinspires.ftc.teamcode.tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.firstinspires.ftc.teamcode.tests" />
+      <option name="MAIN_CLASS_NAME" value="org.firstinspires.ftc.teamcode.tests.timeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android JUnit.DrivetrainTest" />
+        <item itemvalue="Android JUnit.PurePursuitTest" />
+        <item itemvalue="Android JUnit.DrivetrainTest (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0bfd3202-d099-4b7c-a735-9a1abc90fcb2" name="Default Changelist" comment="" />
+      <created>1608740422891</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1608740422891</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Code ready for meet 2 plus added SparkV2 bot config">
+      <created>1609340961748</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1609340961748</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Code ready for meet 2 plus added SparkV2 bot config">
+      <created>1609379119288</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1609379119288</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Code ready for meet 2">
+      <created>1610239145381</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1610239145381</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Preparing for automating Teleop, improving Auto">
+      <created>1610483127988</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1610483127988</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Moved some files around to allow better organization">
+      <created>1610635173395</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1610635173395</updated>
+    </task>
+    <task id="LOCAL-00006" summary="more code updates, hopefully improving for robot v2">
+      <created>1610983623283</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1610983623283</updated>
+    </task>
+    <task id="LOCAL-00007" summary="more code updates, hopefully improving for robot v2">
+      <created>1611111154300</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1611111154300</updated>
+    </task>
+    <task id="LOCAL-00008" summary="more code updates, hopefully improving for robot v2">
+      <created>1611515923719</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1611515923719</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added FTC dashboard">
+      <created>1611610370899</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1611610370899</updated>
+    </task>
+    <task id="LOCAL-00010" summary="improved loop times">
+      <created>1611717282878</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1611717282878</updated>
+    </task>
+    <task id="LOCAL-00011" summary="post practice 1/31/21, fully tuned Shooter.kt and working on automating teleop">
+      <created>1612132762097</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1612132762097</updated>
+    </task>
+    <task id="LOCAL-00012" summary="reorganization">
+      <created>1612188490049</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1612188490050</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Code ready for meet 2 plus added SparkV2 bot config" />
+    <MESSAGE value="Code ready for meet 2" />
+    <MESSAGE value="Preparing for automating Teleop, improving Auto" />
+    <MESSAGE value="Moved some files around to allow better organization" />
+    <MESSAGE value="more code updates, hopefully improving for robot v2" />
+    <MESSAGE value="added FTC dashboard" />
+    <MESSAGE value="improved loop times" />
+    <MESSAGE value="post practice 1/31/21, fully tuned Shooter.kt and working on automating teleop" />
+    <MESSAGE value="reorganization" />
+    <option name="LAST_COMMIT_MESSAGE" value="reorganization" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="245" y="162" key="#PSD" timestamp="1609182846159">
+      <screen x="0" y="23" width="1440" height="802" />
+    </state>
+    <state x="245" y="162" key="#PSD/0.23.1440.802@0.23.1440.802" timestamp="1609182846159" />
+    <state x="184" y="86" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608740638587">
+      <screen x="0" y="23" width="1440" height="802" />
+    </state>
+    <state x="184" y="86" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.802@0.23.1440.802" timestamp="1608740638587" />
+    <state x="502" y="120" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1609371053600">
+      <screen x="0" y="23" width="1440" height="802" />
+    </state>
+    <state x="502" y="120" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.802@0.23.1440.802" timestamp="1609371053600" />
+    <state x="458" y="176" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1611152223828">
+      <screen x="0" y="23" width="1440" height="799" />
+    </state>
+    <state x="458" y="176" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1440.799@0.23.1440.799" timestamp="1611152223828" />
+    <state x="484" y="260" key="#com.intellij.tools.ToolEditorDialog" timestamp="1609182939043">
+      <screen x="0" y="23" width="1440" height="802" />
+    </state>
+    <state x="484" y="260" key="#com.intellij.tools.ToolEditorDialog/0.23.1440.802@0.23.1440.802" timestamp="1609182939043" />
+    <state x="400" y="239" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1612138529442">
+      <screen x="0" y="23" width="1440" height="805" />
+    </state>
+    <state x="400" y="237" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.23.1440.799@0.23.1440.799" timestamp="1610662362918" />
+    <state x="400" y="239" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.23.1440.805@0.23.1440.805" timestamp="1612138529442" />
+    <state x="120" y="123" width="1200" height="601" key="AVDManager" timestamp="1609183259693">
+      <screen x="0" y="23" width="1440" height="802" />
+    </state>
+    <state x="120" y="123" width="1200" height="601" key="AVDManager/0.23.1440.802@0.23.1440.802" timestamp="1609183259693" />
+    <state width="1398" height="154" key="GridCell.Tab.0.bottom" timestamp="1613948575572">
+      <screen x="0" y="23" width="1440" height="810" />
+    </state>
+    <state width="1398" height="154" key="GridCell.Tab.0.bottom/0.23.1440.799@0.23.1440.799" timestamp="1611153558562" />
+    <state width="1398" height="155" key="GridCell.Tab.0.bottom/0.23.1440.802@0.23.1440.802" timestamp="1609614712228" />
+    <state width="1398" height="128" key="GridCell.Tab.0.bottom/0.23.1440.805@0.23.1440.805" timestamp="1612760475217" />
+    <state width="1398" height="154" key="GridCell.Tab.0.bottom/0.23.1440.810@0.23.1440.810" timestamp="1613948575572" />
+    <state width="1398" height="154" key="GridCell.Tab.0.center" timestamp="1613948575571">
+      <screen x="0" y="23" width="1440" height="810" />
+    </state>
+    <state width="1398" height="154" key="GridCell.Tab.0.center/0.23.1440.799@0.23.1440.799" timestamp="1611153558561" />
+    <state width="1398" height="155" key="GridCell.Tab.0.center/0.23.1440.802@0.23.1440.802" timestamp="1609614712228" />
+    <state width="1398" height="128" key="GridCell.Tab.0.center/0.23.1440.805@0.23.1440.805" timestamp="1612760475217" />
+    <state width="1398" height="154" key="GridCell.Tab.0.center/0.23.1440.810@0.23.1440.810" timestamp="1613948575571" />
+    <state width="1398" height="154" key="GridCell.Tab.0.left" timestamp="1613948575571">
+      <screen x="0" y="23" width="1440" height="810" />
+    </state>
+    <state width="1398" height="154" key="GridCell.Tab.0.left/0.23.1440.799@0.23.1440.799" timestamp="1611153558561" />
+    <state width="1398" height="155" key="GridCell.Tab.0.left/0.23.1440.802@0.23.1440.802" timestamp="1609614712228" />
+    <state width="1398" height="128" key="GridCell.Tab.0.left/0.23.1440.805@0.23.1440.805" timestamp="1612760475216" />
+    <state width="1398" height="154" key="GridCell.Tab.0.left/0.23.1440.810@0.23.1440.810" timestamp="1613948575571" />
+    <state width="1398" height="154" key="GridCell.Tab.0.right" timestamp="1613948575571">
+      <screen x="0" y="23" width="1440" height="810" />
+    </state>
+    <state width="1398" height="154" key="GridCell.Tab.0.right/0.23.1440.799@0.23.1440.799" timestamp="1611153558562" />
+    <state width="1398" height="155" key="GridCell.Tab.0.right/0.23.1440.802@0.23.1440.802" timestamp="1609614712228" />
+    <state width="1398" height="128" key="GridCell.Tab.0.right/0.23.1440.805@0.23.1440.805" timestamp="1612760475217" />
+    <state width="1398" height="154" key="GridCell.Tab.0.right/0.23.1440.810@0.23.1440.810" timestamp="1613948575571" />
+    <state x="183" y="43" key="SettingsEditor" timestamp="1612294577331">
+      <screen x="0" y="23" width="1440" height="805" />
+    </state>
+    <state x="221" y="62" key="SettingsEditor/0.23.1440.802@0.23.1440.802" timestamp="1609340934516" />
+    <state x="183" y="43" key="SettingsEditor/0.23.1440.805@0.23.1440.805" timestamp="1612294577331" />
+    <state x="300" y="163" key="Vcs.Push.Dialog.v2" timestamp="1612188492146">
+      <screen x="0" y="23" width="1440" height="805" />
+    </state>
+    <state x="300" y="162" key="Vcs.Push.Dialog.v2/0.23.1440.799@0.23.1440.799" timestamp="1611111165666" />
+    <state x="300" y="163" key="Vcs.Push.Dialog.v2/0.23.1440.802@0.23.1440.802" timestamp="1609379167805" />
+    <state x="300" y="163" key="Vcs.Push.Dialog.v2/0.23.1440.805@0.23.1440.805" timestamp="1612188492146" />
+    <state x="410" y="247" key="com.android.tools.idea.run.deployment.ModifyDeviceSetDialog" timestamp="1609259955562">
+      <screen x="0" y="23" width="1440" height="802" />
+    </state>
+    <state x="410" y="247" key="com.android.tools.idea.run.deployment.ModifyDeviceSetDialog/0.23.1440.802@0.23.1440.802" timestamp="1609259955562" />
+    <state x="503" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1608743295600">
+      <screen x="0" y="23" width="1440" height="802" />
+    </state>
+    <state x="503" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1440.802@0.23.1440.802" timestamp="1608743295600" />
+    <state x="445" y="228" key="refactoring.ChangeSignatureDialog" timestamp="1609528279593">
+      <screen x="0" y="23" width="1440" height="802" />
+    </state>
+    <state x="445" y="228" key="refactoring.ChangeSignatureDialog/0.23.1440.802@0.23.1440.802" timestamp="1609528279593" />
+  </component>
+</project>

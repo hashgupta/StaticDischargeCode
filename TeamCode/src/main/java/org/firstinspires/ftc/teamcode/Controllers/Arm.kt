@@ -36,6 +36,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
         sleep(500)
         run(0.0)
         grabber?.start(1.0)
+        sleep(500)
 
 
 //        toAngle(Math.toRadians(160.0))

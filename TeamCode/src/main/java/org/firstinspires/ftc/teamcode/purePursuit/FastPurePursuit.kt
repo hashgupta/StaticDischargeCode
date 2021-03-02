@@ -33,7 +33,7 @@ class FastPurePursuit(val localizer: Localizer) {
     private val translationalTol = 0.75 //inches
     private val angularTol = Math.toRadians(0.75) // one degree angular tolerance
     private val kStatic = 0.1
-    var runSpeed = 0.7
+    var runSpeed = 0.8
 
     val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.30)
     val headingCoeffs: PIDCoefficients = PIDCoefficients(1.00)
@@ -344,8 +344,8 @@ class FastPurePursuit(val localizer: Localizer) {
 
         val wheelCopy = wheelPow.map {abs(it)}
 
-        if (wheelCopy.max() != null && wheelCopy.max()!! > 1) {
-            wheelPow = wheelPow.map {it/wheelCopy.max()!!}
+        if (wheelCopy.maxOrNull() != null && wheelCopy.maxOrNull()!! > 1) {
+            wheelPow = wheelPow.map {it/ wheelCopy.maxOrNull()!!}
         }
 
         return wheelPow
