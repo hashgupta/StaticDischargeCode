@@ -48,8 +48,10 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
 
 
 
+        //WARM UP SHOOTER EARLY
+        robot.pursuiter.addAction { robot.shooter.simpleShootAtTarget(Pose2d(-0.20* TILE_LENGTH, Positions.powerFarRed.y - 5, PI), Positions.powerFarRed) }
 
-
+        // INTERMEDIATE POINT SO WE DONT HIT RING STACK
         robot.pursuiter.addPoint(-0.75* TILE_LENGTH, -0.5* TILE_LENGTH, PI)
 
 
@@ -58,9 +60,17 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
 
 //        robot.pursuiter.addPoint(Pose2d(x = -0.20* TILE_LENGTH, y = Positions.highGoalRed.y - 5, heading = robot.shooter.turningTarget(Vector2d(-0.0* TILE_LENGTH, Positions.highGoalRed.y), Positions.highGoalRed)))
 //
-//        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
-//                    Positions.highGoalRed); sleep(1500);  robot.shooter.shoot()
-//        sleep(500); robot.shooter.shoot(); sleep(500);robot.shooter.shoot(); robot.shooter.stopWheel()}
+//        robot.pursuiter.addAction {
+//        robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+//                Positions.highGoalRed);
+//                sleep(1500);
+//                robot.shooter.shoot()
+//                sleep(500);
+//                robot.shooter.shoot();
+//                sleep(500);
+//                robot.shooter.shoot();
+//                robot.shooter.stopWheel()
+//        }
 
 
 
@@ -68,16 +78,27 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
 
 
         robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerFarRed.y - 5, PI))
-        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
-                    Positions.powerFarRed); sleep(1500);  robot.shooter.shoot()}
+        robot.pursuiter.addAction {
+            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+                    Positions.powerFarRed)
+            robot.shooter.shoot()
+        }
 
         robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerMidRed.y - 5, PI))
-        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
-                Positions.powerMidRed); sleep(500);  robot.shooter.shoot()}
+        robot.pursuiter.addAction {
+            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+                Positions.powerMidRed)
+
+            robot.shooter.shoot()
+        }
 
         robot.pursuiter.addPoint(Pose2d(-0.20* TILE_LENGTH, Positions.powerNearRed.y - 5, PI))
-        robot.pursuiter.addAction {robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
-                Positions.powerNearRed); sleep(500);  robot.shooter.shoot(); robot.shooter.stopWheel()}
+        robot.pursuiter.addAction{
+            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate,
+                Positions.powerNearRed)
+            robot.shooter.shoot()
+            robot.shooter.stopWheel()
+        }
 
 
 

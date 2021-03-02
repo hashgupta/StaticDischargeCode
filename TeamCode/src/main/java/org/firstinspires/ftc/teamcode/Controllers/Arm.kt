@@ -33,10 +33,10 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 
 
         run(autoSpeed / 2)
-        sleep(500)
+        sleep(400)
         run(0.0)
         grabber?.start(1.0)
-        sleep(500)
+        sleep(400)
 
 
 //        toAngle(Math.toRadians(160.0))
@@ -57,10 +57,10 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 ////        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
 
         run(-autoSpeed)
-        sleep(1500)
+        sleep(1250)
         run(0.0)
         grabber?.start(0.25)
-        sleep(300)
+        sleep(200)
 
     }
 

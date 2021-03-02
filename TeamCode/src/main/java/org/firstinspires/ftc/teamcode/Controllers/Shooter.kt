@@ -15,7 +15,7 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Double, val telemetry: Telemetry, val flicker: ServoM? = null){
-    var flickerTimingMS = 200.0
+    var flickerTimingMS = 175.0
     var slip = 1.046 // flywheel shooter slip, MUST BE TUNED
     val turnCorrection = PI
 
@@ -59,6 +59,7 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
             flicker.start(0.50)
             Thread.sleep(flickerTimingMS.toLong())
             flicker.start(0.9)
+            Thread.sleep(flickerTimingMS.toLong() / 2)
         }
     //dpad up clockwise
         //dpad down ccw

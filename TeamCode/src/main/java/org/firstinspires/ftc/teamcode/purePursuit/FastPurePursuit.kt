@@ -14,7 +14,7 @@ import com.acmerobotics.roadrunner.util.Angle
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import org.firstinspires.ftc.teamcode.opmodeTests.ROBOT_RADIUS
+
 import kotlin.math.*
 
 
@@ -30,7 +30,7 @@ class FastPurePursuit(val localizer: Localizer) {
     private val translationalTol = 0.75 //inches
     private val angularTol = Math.toRadians(0.75) // one degree angular tolerance
     private val kStatic = 0.1
-    var runSpeed = 0.8
+    var runSpeed = 0.825
 
     val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.30)
     val headingCoeffs: PIDCoefficients = PIDCoefficients(1.00)
@@ -368,8 +368,8 @@ class FastPurePursuit(val localizer: Localizer) {
 
 
 fun drawRobot(canvas: Canvas, pose: Pose2d) {
-    canvas.strokeCircle(pose.x, pose.y, ROBOT_RADIUS)
-    val (x, y) = pose.headingVec().times(ROBOT_RADIUS)
+    canvas.strokeCircle(pose.x, pose.y, Constants.robotLength)
+    val (x, y) = pose.headingVec().times(Constants.robotLength)
     val x1 = pose.x + x / 2
     val y1 = pose.y + y / 2
     val x2 = pose.x + x

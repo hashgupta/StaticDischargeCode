@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 @Config
 @TeleOp(group = "tests")
 class LocalizerSpeedRun : LinearOpMode() {
-    @Throws(InterruptedException::class)
     override fun runOpMode() {
 
         val robot = SparkyV2Robot(hardwareMap, telemetry) { true }
