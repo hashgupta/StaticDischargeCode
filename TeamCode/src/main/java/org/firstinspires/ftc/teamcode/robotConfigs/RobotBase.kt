@@ -91,13 +91,13 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
 
             val turn = turnCorrection(radians/(2* PI))
             telemetry.addData("Gyro Sensor Off", headingError(radians / (2 * PI)))
-            telemetry.addData("Angle", Math.toDegrees(gyro.measureRadians()))
+            telemetry.addData("Angle", Math.toDegrees(gyro.measure()))
             telemetry.update()
 
             driveTrain.start(DriveTrain.Vector(0.0, 0.0, -turn).speeds())
         }
         driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
-        pose = Pose2d(pose.vec(), gyro.measureRadians())
+        pose = Pose2d(pose.vec(), gyro.measure())
     }
 
     fun toGoal(goalPose: Pose2d) {
@@ -114,7 +114,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
     }
 
     fun headingError(orientation: Double): Double {
-        var rawError = orientation - gyro.measureRadians()
+        var rawError = orientation - gyro.measure()
         if (rawError < -0.5) {
             rawError += 1.0
         }

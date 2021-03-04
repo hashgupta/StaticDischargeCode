@@ -26,16 +26,13 @@ class Gyro// initialize sensor
 
     // sense angle
     override fun measure(): Double {
-        return measureRadians()
-    }
-
-    fun measureRadians(): Double {
         val angles = device.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS)
         return Angle.norm(angles.firstAngle.toDouble() + headingOffset)
     }
 
+
     fun setExternalHeading(value: Double) {
-        headingOffset = value - measureRadians()
+        headingOffset = value - measure()
 
     }
 }

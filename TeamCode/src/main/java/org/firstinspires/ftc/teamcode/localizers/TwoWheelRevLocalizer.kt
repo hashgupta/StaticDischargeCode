@@ -40,7 +40,7 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralN
     }
 
     override fun getHeading(): Double {
-        return imuGyro.measureRadians()
+        return imuGyro.measure()
     }
 
 

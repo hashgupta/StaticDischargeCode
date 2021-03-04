@@ -101,7 +101,7 @@ class MecanumLocalizerRev constructor(
     }
 
     fun getExternalHeading(): Double {
-        return gyro!!.measureRadians()
+        return gyro!!.measure()
     }
     fun getExternalHeadingVelocity() : Double {
         return gyro!!.device.angularVelocity.zRotationRate.toDouble()
