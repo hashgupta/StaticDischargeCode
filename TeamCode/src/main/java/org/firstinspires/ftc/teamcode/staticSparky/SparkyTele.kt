@@ -134,11 +134,11 @@ class SparkyTele : SparkOpModeBase() {
 //
 //                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
 //            }
-            robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
-            robot.pursuiter.addTurnAbsolute(
+            robot.pursuiter.startAt(robot.localizer.poseEstimate)
+            robot.pursuiter.turnTo(
                         robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
 
-            robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+            robot.pursuiter.follow(robot.driveTrain, telemetry = telemetry)
         }
 
         // *******************
@@ -160,7 +160,7 @@ class SparkyTele : SparkOpModeBase() {
 
 
         if (gamepad2.left_trigger > 0.3) {
-            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 35.0))
 //            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate, Positions.highGoalRed)
         } else {
             robot.shooter.stopWheel()

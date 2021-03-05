@@ -15,7 +15,7 @@ import kotlin.math.cos
 import kotlin.math.max
 
 
-@Deprecated(message = "Don't use this class, it is old and has not been properly tested. None of the important changes have been added to make this functional. Please just use FastPurePursuit class for your movement needs")
+//@Deprecated(message = "Don't use this class, it is old and has not been properly tested. None of the important changes have been added to make this functional. Please just use FastPurePursuit class for your movement needs")
 @Config
 class PurePursuitDrive(val localizer: Localizer) {
     val waypoints: MutableList<Path> = mutableListOf()

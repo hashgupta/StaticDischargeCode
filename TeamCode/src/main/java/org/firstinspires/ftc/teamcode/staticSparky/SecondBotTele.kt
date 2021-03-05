@@ -22,10 +22,12 @@ class SecondBotTele : SparkOpModeBase() {
     private var lastTriggerRight = 0.0
     private var IntakeOn = false
     private var previousGamepad1X = false
+    private var previousGamepad1Y = false
     private var IntakeBackwards = false
 
     private val normalSpeed = 0.95
     private val slowSpeed = 0.3
+    private var aimBotOn = false
 
 
     override fun runOpMode() {
@@ -68,17 +70,7 @@ class SecondBotTele : SparkOpModeBase() {
 
             IntakeOn = false
         }
-//
-//
-//        if (gamepad2.a) {
-//
-//            robot.arm.arm_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
-//
-//        } else if (gamepad2.b) {
-//
-//            robot.arm.arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
-//
-//        }
+
 
         if (gamepad1.right_bumper) {
             IntakeBackwards = true
@@ -98,6 +90,12 @@ class SecondBotTele : SparkOpModeBase() {
         } else {
             robot.roller.start(0.0)
             robot.intake.start(0.0)
+        }
+
+        if (gamepad2.left_bumper) {
+            aimBotOn = false
+        } else if (gamepad2.right_bumper) {
+            aimBotOn = true
         }
 
 
@@ -121,12 +119,12 @@ class SecondBotTele : SparkOpModeBase() {
 
         if (gamepad2.left_trigger > 0.3 && gamepad2.a) {
 
-            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 32.0))
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 32.0))
 
         } else if (gamepad2.left_trigger > 0.3) {
-
-            robot.shooter.simpleShootAtTarget(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 34.0))
-//            robot.shooter.simpleShootAtTarget(robot.localizer.poseEstimate, Positions.highGoalRed)
+            if (aimBotOn) robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
+            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 34.0))
+//
 
         } else {
 
@@ -141,6 +139,7 @@ class SecondBotTele : SparkOpModeBase() {
         }
 
         if (gamepad1.x && !previousGamepad1X) {
+            // TODO: 3/4/21 make this function move between powershots in endgame automatically
 //            if (timer.seconds() < 90.0) {
 //                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
 //                robot.pursuiter.addTurnAbsolute(
@@ -155,16 +154,38 @@ class SecondBotTele : SparkOpModeBase() {
 //
 //                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
 //            }
-            robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
-            robot.pursuiter.addTurnAbsolute(
+            robot.pursuiter.startAt(robot.localizer.poseEstimate)
+            robot.pursuiter
+            .turnTo(
                     robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+            .follow(robot.driveTrain, telemetry = telemetry)
+        }
 
-            robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
+
+
+        //auto aim and shoot three shots, no human involvement
+        if (gamepad1.y && !previousGamepad1Y) {
+            robot.pursuiter.startAt(robot.localizer.poseEstimate)
+
+            robot.pursuiter
+                    .turnTo(
+                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+                    .follow(robot.driveTrain, telemetry = telemetry)
+
+            robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
+            sleep(1000)
+            robot.shooter.shoot()
+            sleep(250)
+            robot.shooter.shoot()
+            sleep(250)
+            robot.shooter.shoot()
+
         }
 
         robot.arm.run(wobble)
         lastTriggerRight = gamepad2.right_trigger.toDouble()
         previousGamepad1X = gamepad1.x
+        previousGamepad1Y = gamepad1.y
 
 
 

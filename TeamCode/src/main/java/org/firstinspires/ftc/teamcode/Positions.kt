@@ -8,8 +8,8 @@ const val tile_length = 24.0
 
 object Positions {
 
-    val highGoalRed = shootingGoal(3 * tile_length, -1.5* tile_length, 35.0)
-    val highGoalBlue = shootingGoal(3 * tile_length, 1.5* tile_length, 35.0)
+    val highGoalRed = shootingGoal(3 * tile_length, -1.5* tile_length, 34.5)
+    val highGoalBlue = shootingGoal(3 * tile_length, 1.5* tile_length, 34.5)
 
     val midGoalRed = shootingGoal(3 * tile_length, -1.5* tile_length, 28.0)
     val midGoalBlue = shootingGoal(3 * tile_length, 1.5* tile_length, 28.0)

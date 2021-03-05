@@ -4,7 +4,11 @@ package org.firstinspires.ftc.teamcode.tests
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.kinematics.Kinematics
+import org.firstinspires.ftc.teamcode.BuildConfig
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.localizers.MockedLocalizer
+import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -14,7 +18,7 @@ import kotlin.math.abs
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PurePursuitTest {
     @Test
-    fun testPurePursuitLibrary() {
+    fun testPurePursuitSpeeds() {
         val translationalTol = 1.0 //inches
         val angularTol = Math.toRadians(0.5) // one degree angular tolerance
         val kStatic = 0.1
@@ -76,8 +80,51 @@ class PurePursuitTest {
         println(square.hori)
         println(square.vert)
         println(square.turn)
-        println(square.speeds())
+    }
+    @Test
+    fun testPursuitStopping() {
 
-        println(DriveTrain.Vector(0.0, 1.0, 0.0).speeds())
+        val localizer = MockedLocalizer()
+        localizer.poseEstimate = Pose2d(0.0,0.0,Math.toRadians(153.0))
+        val pursuiter = FastPurePursuit(localizer)
+
+        val pose = Pose2d(0.4, 0.3, Math.toRadians(180.55))
+        val target = Pose2d(0.0,0.0,Math.toRadians(180.0))
+        val poseError = Kinematics.calculatePoseError(target, pose)
+        val translationalTol = 1.0
+
+        val angularTol = Math.toRadians(0.5)
+
+        if (abs(poseError.x) < translationalTol && abs(poseError.y) < translationalTol &&
+                abs(poseError.heading) < angularTol) {
+            // go to next waypoint
+            println("next waypoint")
+        }
+
+        pursuiter.startAt(pose)
+        pursuiter.move(target)
+
+
+
+        println("velocity"+pursuiter.getVelocityFromTarget(target, pose))
+
+        println("pose error: "+ Kinematics.calculatePoseError(target, pose))
+        println(pursuiter.testStep())
+    }
+
+    @Test
+    fun testPurePursuitMath() {
+        val localizer = MockedLocalizer()
+        localizer.poseEstimate = Pose2d(15.0, 13.0, Math.toRadians(180.0))
+        val pursuiter = FastPurePursuit(localizer)
+
+        pursuiter.relative(10.0, 40.0, 0.0)
+
+        val target = Pose2d(-25.0, 23.0, Math.toRadians(180.0))
+        if (BuildConfig.DEBUG && !pursuiter.waypoints.last().end.epsilonEquals(target)) {
+            println(target - pursuiter.waypoints.last().end)
+            error("Assertion failed")
+        }
+
     }
 }
