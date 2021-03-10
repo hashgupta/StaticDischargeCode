@@ -26,12 +26,12 @@ class FastPurePursuit(val localizer: Localizer) {
     var index = 0
     var start:Pose2d
 
-    private val lookAhead = 8 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    @JvmField var lookAhead = 8 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
     private val translationalTol = 0.75 //inches
     private val angularTol = Math.toRadians(0.75) // one degree angular tolerance
     private val kStatic = 0.1
-    private var runSpeed = 0.825
+    @JvmField var runSpeed = 0.85
 
     private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.30)
     private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.00)

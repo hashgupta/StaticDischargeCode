@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
+import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @TeleOp(name = "Second Robot Tele", group = "StaticDischarge")
+@Config
 class SecondBotTele : SparkOpModeBase() {
     // robot
     lateinit var robot: SparkyV2Robot
@@ -28,6 +30,9 @@ class SecondBotTele : SparkOpModeBase() {
     private val normalSpeed = 0.95
     private val slowSpeed = 0.3
     private var aimBotOn = false
+
+    @JvmField var intakeRollerSpeed = 0.8
+    @JvmField var intakeMainSpeed = -0.6
 
 
     override fun runOpMode() {
@@ -81,11 +86,11 @@ class SecondBotTele : SparkOpModeBase() {
 
         if (IntakeOn) {
             if (IntakeBackwards) {
-                robot.roller.start(-0.75)
-                robot.intake.start(0.30)
+                robot.roller.start(-intakeRollerSpeed)
+                robot.intake.start(-intakeMainSpeed)
             } else {
-                robot.roller.start(0.75)
-                robot.intake.start(-0.30)
+                robot.roller.start(intakeRollerSpeed)
+                robot.intake.start(intakeMainSpeed)
             }
         } else {
             robot.roller.start(0.0)
@@ -156,9 +161,8 @@ class SecondBotTele : SparkOpModeBase() {
 //            }
             robot.pursuiter.startAt(robot.localizer.poseEstimate)
             robot.pursuiter
-            .turnTo(
-                    robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
-            .follow(robot.driveTrain, telemetry = telemetry)
+                .turnTo(robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+                .follow(robot.driveTrain, telemetry = telemetry)
         }
 
 
@@ -168,8 +172,7 @@ class SecondBotTele : SparkOpModeBase() {
             robot.pursuiter.startAt(robot.localizer.poseEstimate)
 
             robot.pursuiter
-                    .turnTo(
-                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+                    .turnTo(robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
                     .follow(robot.driveTrain, telemetry = telemetry)
 
             robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)

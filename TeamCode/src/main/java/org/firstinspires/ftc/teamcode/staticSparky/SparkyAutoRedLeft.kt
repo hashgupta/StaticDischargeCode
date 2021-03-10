@@ -33,7 +33,7 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
         startCV()
         var analysis: RingPipeline.RingPosition = RingPipeline.RingPosition.NONE
         while (!isStarted) {
-            analysis= (pipeline as RingPipeline).position()
+            analysis = (pipeline as RingPipeline).position()
             telemetry.addData("analysis",analysis)
             telemetry.update()
         }
@@ -74,24 +74,27 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
         /* POWER SHOTS */
 
 
-        robot.pursuiter.move(Pose2d(-0.20* TILE_LENGTH, Positions.powerFarRed.y - 5, PI))
-        robot.pursuiter.action {
+        robot.pursuiter
+                .move(Pose2d(-0.20* TILE_LENGTH, Positions.powerFarRed.y - 5, PI))
+                .action {
             robot.shooter.aimShooter(robot.localizer.poseEstimate,
                     Positions.powerFarRed)
             sleep(250)
             robot.shooter.shoot()
         }
 
-        robot.pursuiter.move(Pose2d(-0.20* TILE_LENGTH, Positions.powerMidRed.y - 5, PI))
-        robot.pursuiter.action {
+        robot.pursuiter
+                .move(Pose2d(-0.20* TILE_LENGTH, Positions.powerMidRed.y - 5, PI))
+                .action {
             robot.shooter.aimShooter(robot.localizer.poseEstimate,
                 Positions.powerMidRed)
             sleep(250)
             robot.shooter.shoot()
         }
 
-        robot.pursuiter.move(Pose2d(-0.20* TILE_LENGTH, Positions.powerNearRed.y - 5, PI))
-        robot.pursuiter.action{
+        robot.pursuiter
+                .move(Pose2d(-0.20* TILE_LENGTH, Positions.powerNearRed.y - 5, PI))
+                .action {
             robot.shooter.aimShooter(robot.localizer.poseEstimate,
                 Positions.powerNearRed)
             sleep(250)
@@ -115,22 +118,26 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
 
         /* FIRST WOBBLE */
 
-        robot.pursuiter.move(goalZone + Pose2d(-12.0, 8.0, -PI/4))
-        robot.pursuiter.action{
-            robot.arm.dropAuto()
-        }
+        robot.pursuiter
+                .move(goalZone + Pose2d(-12.0, 8.0, -PI/4))
+                .action{ robot.arm.dropAuto()
+                }
 
         /* SECOND WOBBLE */
 
-        robot.pursuiter.move(-1* TILE_LENGTH,-2.25* TILE_LENGTH, PI)
-        robot.pursuiter.action {  }
+        robot.pursuiter
+                .move(-1* TILE_LENGTH,-2.25* TILE_LENGTH, PI)
+                .action {  }
 
-        robot.pursuiter.move(-2.5 * TILE_LENGTH, -2.25*TILE_LENGTH, PI)
-        robot.pursuiter.action { robot.arm.grabAuto() }
+        robot.pursuiter
+                .move(-2.5 * TILE_LENGTH, -2.25*TILE_LENGTH, PI)
+                .action { robot.arm.grabAuto() }
 
-        robot.pursuiter.move(goalZone + Pose2d(-12.0, 5.0))
-        robot.pursuiter.action { robot.arm.dropTele()
-        sleep(500)}
+        robot.pursuiter
+                .move(goalZone + Pose2d(-12.0, 5.0))
+                .action { robot.arm.dropTele()
+                    sleep(500)
+                }
 
 
 

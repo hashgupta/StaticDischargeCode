@@ -25,7 +25,7 @@ class ShooterTest {
         val position = pose.vec()
         val targetVector = Vector2d(target.x, target.y)
         val shotDistance = position distTo targetVector
-        val net_height = 36 - 8.0
+        val net_height = 36 - - shooterHeight
         val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
         println((requiredVelocity).toString())
         println((2*requiredVelocity*slip / (2*2*PI)) * 60)
