@@ -5,16 +5,16 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyRobot
+import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @Autonomous(name = "SparkyAutoRedRight", group = "StaticDischarge")
-class SparkyAutoRedRight : SparkOpModeBase() {
+class SparkyAutoRedRight : GenericOpModeBase() {
 
-    lateinit var robot: SparkyRobot
+    lateinit var robot: SparkyV2Robot
 
     override fun runOpMode() {
         // UNCOMMENT THIS IF SOUNDS ARE NEEDED
-        robot = SparkyRobot(hardwareMap, telemetry, { opModeIsActive() && !isStopRequested() })
+        robot = SparkyV2Robot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested() }
         robot.pose = Positions.startRightRed
 
 

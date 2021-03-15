@@ -9,7 +9,7 @@ import kotlin.math.PI
 
 
 @Autonomous(name = "SparkyAutoRedLeft", group = "StaticDischarge")
-class SparkyAutoRedLeft : SparkOpModeBase() {
+class SparkyAutoRedLeft : GenericOpModeBase() {
 
     lateinit var robot: SparkyV2Robot
 
@@ -48,7 +48,7 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
         //WARM UP SHOOTER EARLY
         robot.pursuiter.action { robot.shooter.aimShooter(Pose2d(-0.20* TILE_LENGTH, Positions.powerFarRed.y - 5, PI), Positions.powerFarRed) }
 
-        // INTERMEDIATE POINT SO WE DONT HIT RING STACK
+        // INTERMEDIATE POINT SO WE DON'T HIT RING STACK
         robot.pursuiter.move(-0.75* TILE_LENGTH, -0.5* TILE_LENGTH, PI)
 
 
@@ -93,7 +93,7 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
         }
 
         robot.pursuiter
-                .move(Pose2d(-0.20* TILE_LENGTH, Positions.powerNearRed.y - 5, PI))
+                .move(-0.20* TILE_LENGTH, Positions.powerNearRed.y - 5, PI)
                 .action {
             robot.shooter.aimShooter(robot.localizer.poseEstimate,
                 Positions.powerNearRed)
@@ -120,8 +120,7 @@ class SparkyAutoRedLeft : SparkOpModeBase() {
 
         robot.pursuiter
                 .move(goalZone + Pose2d(-12.0, 8.0, -PI/4))
-                .action{ robot.arm.dropAuto()
-                }
+                .action{ robot.arm.dropAuto() }
 
         /* SECOND WOBBLE */
 

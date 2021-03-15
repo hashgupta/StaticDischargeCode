@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @TeleOp(name = "Second Robot Tele", group = "StaticDischarge")
 @Config
-class SecondBotTele : SparkOpModeBase() {
+class SecondBotTele : GenericOpModeBase() {
     // robot
     lateinit var robot: SparkyV2Robot
 

@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
-import org.firstinspires.ftc.teamcode.staticSparky.SparkOpModeBase
+import org.firstinspires.ftc.teamcode.staticSparky.GenericOpModeBase
 
 @TeleOp(name = "AutoTestingTele", group = "StaticDischarge")
-class AutoTestingTele : SparkOpModeBase() {
+class AutoTestingTele : GenericOpModeBase() {
 
     lateinit var robot: SparkyV2Robot
 

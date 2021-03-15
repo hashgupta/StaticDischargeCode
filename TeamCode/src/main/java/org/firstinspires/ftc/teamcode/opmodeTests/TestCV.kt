@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.opmodeTests
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.staticSparky.SparkOpModeBase
+import org.firstinspires.ftc.teamcode.staticSparky.GenericOpModeBase
 
 @Autonomous(name = "CVAUTOTEST")
-class SparkTestCV : SparkOpModeBase() {
+class TestCV : GenericOpModeBase() {
 
     @Throws(InterruptedException::class)
     override fun runOpMode() {

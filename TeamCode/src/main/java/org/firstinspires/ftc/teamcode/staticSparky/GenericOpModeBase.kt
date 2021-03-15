@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 import org.openftc.easyopencv.*
 
-abstract class SparkOpModeBase : LinearOpMode() {
+abstract class GenericOpModeBase : LinearOpMode() {
 
 
 

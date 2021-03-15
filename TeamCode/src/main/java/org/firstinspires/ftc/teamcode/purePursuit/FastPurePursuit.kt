@@ -270,12 +270,15 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
+
     fun spline(end:Pose2d, endTanAngle:Double) : FastPurePursuit {
         val startTan = if (waypoints.last() is CubicSplinePath) {
             val path = waypoints.last() as CubicSplinePath
             path.endTangent
         } else {
-            (waypoints.last().end - waypoints.last().start).vec().angle()
+            val lastPath = waypoints.last()
+            val tangent = lastPath.getPointfromT(0.999).vec() - lastPath.getPointfromT(0.998).vec()
+            tangent.angle()
         }
         return spline(end, startTan, endTanAngle)
     }

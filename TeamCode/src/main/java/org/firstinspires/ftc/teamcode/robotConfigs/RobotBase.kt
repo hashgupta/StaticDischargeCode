@@ -42,17 +42,17 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         }
     }
 
-    fun move(hori: Double, vert: Double) {
+    fun move(horizontal: Double, forward: Double) {
         telemetry.addData("Encoders", "moving")
-        telemetry.addData("Horizontal", hori)
-        telemetry.addData("Vertical", vert)
+        telemetry.addData("Horizontal", horizontal)
+        telemetry.addData("Vertical", forward)
 
 
         driveTrain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
         telemetry.addData("drivetrain", driveTrain.getPosition())
         telemetry.update()
         Thread.sleep(1000)
-        driveTrain.setTarget(DriveTrain.Direction(hori, -vert, 0.0).speeds())
+        driveTrain.setTarget(DriveTrain.Direction(horizontal, -forward, 0.0).speeds())
         driveTrain.setMode(DcMotor.RunMode.RUN_TO_POSITION)
 
 
@@ -79,7 +79,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
 //            val turnSquare =  DriveTrain.Square(0.0, 0.0, 0.0, 0.0)
 //            driveTrain.start(DriveTrain.addSquares(allDrive, turnSquare))
         }
-        val robotPoseDelta = Pose2d(vert, -hori, 0.0)
+        val robotPoseDelta = Pose2d(forward, -horizontal, 0.0)
         pose = Kinematics.relativeOdometryUpdate(pose, robotPoseDelta)
         driveTrain.start(DriveTrain.Square(0.0, 0.0, 0.0, 0.0))
         driveTrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
