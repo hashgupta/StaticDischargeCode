@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.purePursuit
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.canvas.Canvas
-import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
@@ -19,22 +18,22 @@ import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import kotlin.math.*
 
 
-@Config
+
 class FastPurePursuit(val localizer: Localizer) {
     val waypoints: MutableList<Path> = mutableListOf()
     val actions: MutableList<Pair<Int, () -> Unit>> = mutableListOf()
     var index = 0
     var start:Pose2d
 
-    @JvmField var lookAhead = 8 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    @JvmField var lookAhead = 5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
     private val translationalTol = 0.75 //inches
-    private val angularTol = Math.toRadians(0.75) // one degree angular tolerance
+    private val angularTol = Math.toRadians(0.50) // one degree angular tolerance
     private val kStatic = 0.1
-    @JvmField var runSpeed = 0.85
+    @JvmField var runSpeed = 0.75
 
     private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.30)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.00)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.10)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs, kStatic=kStatic)
@@ -63,17 +62,17 @@ class FastPurePursuit(val localizer: Localizer) {
             telemetry.addLine(Kinematics.calculatePoseError(waypoints[index].end, localizer.poseEstimate).toString())
             telemetry.update()
 
-            val packet = TelemetryPacket()
-
-            val fieldOverlay: Canvas = packet.fieldOverlay()
-            fieldOverlay.setStroke("#3F51B5")
-            drawRobot(fieldOverlay, localizer.poseEstimate)
-
-            fieldOverlay.setStrokeWidth(1)
-            fieldOverlay.setStroke("#4CAF50")
-            drawSampledPath(fieldOverlay, waypoints[index])
-
-            FtcDashboard.getInstance().sendTelemetryPacket(packet)
+//            val packet = TelemetryPacket()
+//
+//            val fieldOverlay: Canvas = packet.fieldOverlay()
+//            fieldOverlay.setStroke("#3F51B5")
+//            drawRobot(fieldOverlay, localizer.poseEstimate)
+//
+//            fieldOverlay.setStrokeWidth(1)
+//            fieldOverlay.setStroke("#4CAF50")
+//            drawSampledPath(fieldOverlay, waypoints[index])
+//
+//            FtcDashboard.getInstance().sendTelemetryPacket(packet)
 
             done = step(drivetrain, mecanum)
         }
@@ -253,6 +252,24 @@ class FastPurePursuit(val localizer: Localizer) {
     }
 
     fun action(action : () -> Unit): FastPurePursuit {
+
+        val candidate = actions.find { it.first == waypoints.size }
+
+        if (candidate != null) {
+            // already an action at this point
+            // combine the new and old actions into one action and replace in place
+            val actionOld = candidate.second
+            fun combine(first: () -> Unit, second: () -> Unit) {
+                first()
+                second()
+            }
+            actions[actions.size - 1] = Pair(waypoints.size) {actionOld(); action()}
+
+            return this
+
+
+        }
+
         actions.add(Pair(waypoints.size, action))
         return this
     }

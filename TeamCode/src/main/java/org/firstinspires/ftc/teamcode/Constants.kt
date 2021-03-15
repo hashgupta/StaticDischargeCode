@@ -24,7 +24,7 @@ object Constants {
         return WHEEL_DIAMETER * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV
     }
     fun odometryEncoderTicksToInches(ticks: Double): Double {
-        return ODO_WHEEL_DIAM * Math.PI * ticks / ODO_TICKS_PER_REV
+        return (ODO_WHEEL_DIAM * Math.PI * ticks) / ODO_TICKS_PER_REV
     }
 
 }

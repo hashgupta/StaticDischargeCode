@@ -57,9 +57,9 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 ////        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
 
         run(-autoSpeed)
-        sleep(1250)
+        sleep(800)
         run(0.0)
-        grabber?.start(0.25)
+        grabber?.start(0.2)
         sleep(200)
 
     }

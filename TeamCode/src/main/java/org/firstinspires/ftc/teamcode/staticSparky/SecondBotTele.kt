@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.staticSparky
 
-import com.acmerobotics.dashboard.config.Config
+
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @TeleOp(name = "Second Robot Tele", group = "StaticDischarge")
-@Config
 class SecondBotTele : GenericOpModeBase() {
     // robot
     lateinit var robot: SparkyV2Robot
@@ -25,14 +24,15 @@ class SecondBotTele : GenericOpModeBase() {
     private var IntakeOn = false
     private var previousGamepad1X = false
     private var previousGamepad1Y = false
+    private var previousGamepad2Y = false
     private var IntakeBackwards = false
 
     private val normalSpeed = 0.95
     private val slowSpeed = 0.3
     private var aimBotOn = false
 
-    @JvmField var intakeRollerSpeed = 0.8
-    @JvmField var intakeMainSpeed = -0.6
+    @JvmField var intakeRollerSpeed = 0.7
+    @JvmField var intakeMainSpeed = -0.4
 
 
     override fun runOpMode() {
@@ -128,7 +128,7 @@ class SecondBotTele : GenericOpModeBase() {
 
         } else if (gamepad2.left_trigger > 0.3) {
             if (aimBotOn) robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
-            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 34.0))
+            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 36.0))
 //
 
         } else {
@@ -165,10 +165,18 @@ class SecondBotTele : GenericOpModeBase() {
                 .follow(robot.driveTrain, telemetry = telemetry)
         }
 
+        if (gamepad1.y && !previousGamepad1Y) {
+            robot.pursuiter.startAt(robot.localizer.poseEstimate)
+            robot.pursuiter.action { robot.pursuiter.runSpeed = 0.35 }
+            robot.pursuiter.relative(7.0, 0.0, 0.0)
+            robot.pursuiter.action { robot.pursuiter.runSpeed = 0.75 }
+            robot.pursuiter.follow(robot.driveTrain, telemetry = telemetry)
+        }
+
 
 
         //auto aim and shoot three shots, no human involvement
-        if (gamepad1.y && !previousGamepad1Y) {
+        if (gamepad2.y && !previousGamepad2Y) {
             robot.pursuiter.startAt(robot.localizer.poseEstimate)
 
             robot.pursuiter
@@ -185,23 +193,30 @@ class SecondBotTele : GenericOpModeBase() {
 
         }
 
-        robot.arm.run(wobble)
+
         lastTriggerRight = gamepad2.right_trigger.toDouble()
         previousGamepad1X = gamepad1.x
+        previousGamepad2Y = gamepad2.y
         previousGamepad1Y = gamepad1.y
 
 
 
 
         try {
+
             //output values for robot movement
+            robot.arm.run(wobble)
+
             var wheelSpeeds = DriveTrain.Vector(hori, vert, turn).speeds()
+
             wheelSpeeds = if (driveSpeed == DriveSpeeds.Normal) {
                 DriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = normalSpeed)
             } else {
                 DriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = slowSpeed)
             }
+
             robot.driveTrain.start(wheelSpeeds)
+
             telemetry.addData("Pose Estimate", robot.localizer.poseEstimate)
             telemetry.update()
 

@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodeTests
 
-import com.acmerobotics.dashboard.config.Config
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
-@Config
+
 @TeleOp(group = "tests")
 class LocalizerSpeedRun : LinearOpMode() {
     override fun runOpMode() {

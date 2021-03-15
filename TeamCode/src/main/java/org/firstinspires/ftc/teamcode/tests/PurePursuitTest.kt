@@ -127,4 +127,21 @@ class PurePursuitTest {
         }
 
     }
+
+    @Test
+    fun testPurePursuitActions() {
+        val localizer = MockedLocalizer()
+        localizer.poseEstimate = Pose2d(15.0, 13.0, Math.toRadians(180.0))
+        val pursuiter = FastPurePursuit(localizer)
+
+        pursuiter.relative(10.0, 40.0, 0.0)
+
+        pursuiter.action { println("action #1") }
+        pursuiter.action { println("action #2") }
+
+        if (BuildConfig.DEBUG && pursuiter.actions.size != 1) {
+            println(pursuiter.actions)
+            error("Assertion failed")
+        }
+    }
 }
