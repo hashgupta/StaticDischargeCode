@@ -71,7 +71,7 @@ class Shooter(val flywheel: Motor, val shooterAngle:Double, val shooterHeight:Do
             flicker.start(0.50)
             Thread.sleep(flickerTimingMS.toLong())
             flicker.start(0.9)
-            Thread.sleep(flickerTimingMS.toLong() / 2)
+            Thread.sleep(flickerTimingMS.toLong())
         }
     //dpad up clockwise
         //dpad down ccw

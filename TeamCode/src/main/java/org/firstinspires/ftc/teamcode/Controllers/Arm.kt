@@ -59,7 +59,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
         run(-autoSpeed)
         sleep(800)
         run(0.0)
-        grabber?.start(0.2)
+        grabber?.start(0.15)
         sleep(200)
 
     }
