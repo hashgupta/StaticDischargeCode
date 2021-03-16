@@ -34,6 +34,10 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
         startCV()
         var analysis: RingPipeline.RingPosition = RingPipeline.RingPosition.NONE
         while (!isStarted) {
+            if (isStopRequested) {
+                return
+            }
+
             analysis = (pipeline as RingPipeline).position()
             telemetry.addData("analysis",analysis)
             telemetry.update()

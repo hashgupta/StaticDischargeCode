@@ -32,6 +32,7 @@ abstract class GenericOpModeBase : LinearOpMode() {
         //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
         webcam.openCameraDevice()
+        webcam.openCameraDevice()
 
         /*
          * Specify the image processing pipeline we wish to invoke upon receipt
