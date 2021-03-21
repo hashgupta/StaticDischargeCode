@@ -30,7 +30,7 @@ class DriveTrain// initialize drive train
         lb.start(motion.lb)
     }
 
-    fun startFromRRPower(velocity: Pose2d, speed:Double) {
+    fun startFromRRPower(velocity: Pose2d, speed: Double) {
 
 
         val vert = velocity.x
@@ -48,7 +48,8 @@ class DriveTrain// initialize drive train
         lf.setTarget(inches.lf)
         lb.setTarget(inches.lb)
     }
-    fun getPosition():Square<Int> {
+
+    fun getPosition(): Square<Int> {
         return Square(rf.device.currentPosition, rb.device.currentPosition, lf.device.currentPosition, lb.device.currentPosition)
     }
 
@@ -59,8 +60,8 @@ class DriveTrain// initialize drive train
         lb.setMode(mode)
     }
 
-    fun getTarget():Square<Int> {
-        return Square(rf.device.targetPosition,rb.device.targetPosition, lf.device.targetPosition, lb.device.targetPosition)
+    fun getTarget(): Square<Int> {
+        return Square(rf.device.targetPosition, rb.device.targetPosition, lf.device.targetPosition, lb.device.targetPosition)
     }
 
     fun setZeroBehavior(behavior: DcMotor.ZeroPowerBehavior) {
@@ -85,7 +86,7 @@ class DriveTrain// initialize drive train
         }
     }
 
-    class Vector(hori: Double, vert: Double, turn: Double): Direction(hori, vert, turn) {
+    class Vector(hori: Double, vert: Double, turn: Double) : Direction(hori, vert, turn) {
         // initialize speeds
 //         Device.checkRange(hori, -1, 1, "hori"),
 //         Device.checkRange(vert, -1, 1, "vert"),
@@ -114,7 +115,7 @@ class DriveTrain// initialize drive train
 
     // set of data on four objects arranged in a square
     // square
-    data class Square<T> (var rf: T, var rb: T, var lf: T, var lb: T) {
+    data class Square<T>(var rf: T, var rb: T, var lf: T, var lb: T) {
         override fun toString(): String {
             return "rf: $rf, rb: $rb, lf: $lf, lb: $lb"
         }

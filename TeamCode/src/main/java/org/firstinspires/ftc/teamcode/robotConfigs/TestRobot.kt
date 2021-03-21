@@ -20,7 +20,6 @@ class TestRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: ()
         setDriveTrain(rf, rb, lf, lb)
 
 
-
 //        localizer = TwoWheelRevLocalizer(hardwareMap, "front", "side")
         pursuiter = FastPurePursuit(localizer)
     }

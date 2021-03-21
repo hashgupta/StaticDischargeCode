@@ -45,5 +45,6 @@ android {
         exclude 'META-INF/LICENSE-notice.md'
 //        exclude("META-INF/*.kotlin_module")
     }
+    kotlinOptions.useIR = true
 }
 

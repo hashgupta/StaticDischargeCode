@@ -12,17 +12,18 @@ object Constants {
 
     const val TICKS_PER_REV = 1120.0
     const val WHEEL_DIAMETER = 2.95 // in
-    const val GEAR_RATIO = 1.0/1.0 // output (wheel) speed / input (encoder) speed
+    const val GEAR_RATIO = 1.0 / 1.0 // output (wheel) speed / input (encoder) speed
 
 
     const val LATERAL_DISTANCE = 8.0 // in; distance between the left odometry wheel and center
-    const val FORWARD_OFFSET = -3.6 // in; offset of the front/back wheel from center
+    const val FORWARD_OFFSET = -3.0 // in; offset of the front/back wheel from center
     const val ODO_WHEEL_DIAM = 2.3622
     const val ODO_TICKS_PER_REV = 8192
 
     fun encoderTicksToInches(ticks: Double): Double {
         return WHEEL_DIAMETER * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV
     }
+
     fun odometryEncoderTicksToInches(ticks: Double): Double {
         return (ODO_WHEEL_DIAM * Math.PI * ticks) / ODO_TICKS_PER_REV
     }

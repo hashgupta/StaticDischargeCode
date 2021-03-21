@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.Constants.LATERAL_DISTANCE
 import org.firstinspires.ftc.teamcode.Constants.odometryEncoderTicksToInches
 
 @Config
-class ThreeWheelRevLocalizer(hardwareMap: HardwareMap, leftEncoderName: String,rightEncoderName: String, verticalEncoderName: String) : ThreeTrackingWheelLocalizer(listOf(
+class ThreeWheelRevLocalizer(hardwareMap: HardwareMap, leftEncoderName: String, rightEncoderName: String, verticalEncoderName: String) : ThreeTrackingWheelLocalizer(listOf(
         Pose2d(0.0, LATERAL_DISTANCE / 2, 0.0),  // lateral left
-    Pose2d(-FORWARD_OFFSET, 0.0, Math.toRadians(90.0)), // back
-    Pose2d(0.0, -LATERAL_DISTANCE / 2, Math.toRadians(180.0)))) { // lateral right
+        Pose2d(-FORWARD_OFFSET, 0.0, Math.toRadians(90.0)), // back
+        Pose2d(0.0, -LATERAL_DISTANCE / 2, Math.toRadians(180.0)))) { // lateral right
 
     private val leftEncoder: DcMotorEx
     private val verticalEncoder: DcMotorEx
@@ -27,14 +27,13 @@ class ThreeWheelRevLocalizer(hardwareMap: HardwareMap, leftEncoderName: String,r
         )
     }
 
-    override fun getWheelVelocities(): List<Double>? {
+    override fun getWheelVelocities(): List<Double> {
         return listOf(
                 odometryEncoderTicksToInches(leftEncoder.velocity),
                 odometryEncoderTicksToInches(verticalEncoder.velocity),
                 odometryEncoderTicksToInches(rightEncoder.velocity)
         )
     }
-
 
 
     init {

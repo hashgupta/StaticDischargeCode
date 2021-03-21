@@ -14,7 +14,6 @@ class MockedLocalizer constructor() : Localizer {
         private set
 
 
-
     override fun update() {
 
     }

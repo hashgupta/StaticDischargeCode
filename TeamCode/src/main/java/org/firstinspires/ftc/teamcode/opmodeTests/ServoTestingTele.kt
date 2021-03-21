@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 import java.lang.Math.abs
 
 @TeleOp(name = "Servo Testing TeleOP", group = "Static Discharge")
-class ServoTestingTele: OpMode() {
+class ServoTestingTele : OpMode() {
     lateinit var robot: SparkyV2Robot
 
     override fun init() {

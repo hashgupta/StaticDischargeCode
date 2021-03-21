@@ -11,11 +11,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import kotlin.math.abs
 
-class LiftController (val actuator: Motor, pid: PIDCoefficients, start: Double = 0.0, val maxVel: Double, val maxAcc: Double){
+class LiftController(val actuator: Motor, pid: PIDCoefficients, start: Double = 0.0, val maxVel: Double, val maxAcc: Double) {
     var goal: Double = 0.0
     private var controller = PIDFController(pid)
     var current: Double = start
-    var profile: MotionProfile = MotionProfileGenerator.generateSimpleMotionProfile(MotionState(0.0, 0.0), MotionState(0.0,0.0), 0.0, 0.0)
+    var profile: MotionProfile = MotionProfileGenerator.generateSimpleMotionProfile(MotionState(0.0, 0.0), MotionState(0.0, 0.0), 0.0, 0.0)
     val timer = ElapsedTime()
 
     init {
@@ -32,11 +32,12 @@ class LiftController (val actuator: Motor, pid: PIDCoefficients, start: Double =
         return current
     }
 
-    private fun getVelocity() : Double {
+    private fun getVelocity(): Double {
         return actuator.device.getVelocity(AngleUnit.RADIANS) * actuator.r
     }
+
     fun to(goal: Double): LiftController {
-        profile = MotionProfileGenerator.generateSimpleMotionProfile(MotionState(getPosition(), getVelocity()), MotionState(goal,0.0), maxVel, maxAcc)
+        profile = MotionProfileGenerator.generateSimpleMotionProfile(MotionState(getPosition(), getVelocity()), MotionState(goal, 0.0), maxVel, maxAcc)
         this.goal = goal
         timer.reset()
         return this
@@ -46,14 +47,14 @@ class LiftController (val actuator: Motor, pid: PIDCoefficients, start: Double =
         val desiredState = profile[timer.seconds()]
         controller.targetPosition = desiredState.x
         controller.targetVelocity = desiredState.v
-        return controller.update(getPosition(),getVelocity())
+        return controller.update(getPosition(), getVelocity())
     }
 
     fun runToTarget() {
         actuator.start(correctionVelocity())
     }
 
-    fun runAtSpeed(speed:Double) {
+    fun runAtSpeed(speed: Double) {
         actuator.start(speed)
     }
 
@@ -66,7 +67,7 @@ class LiftController (val actuator: Motor, pid: PIDCoefficients, start: Double =
         return this
     }
 
-    fun isDone() : Boolean {
+    fun isDone(): Boolean {
         return abs(current - goal) < 0.5
     }
 

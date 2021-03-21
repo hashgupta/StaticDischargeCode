@@ -86,10 +86,10 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
     }
 
     fun turnTo(radians: Double) {
-        while (abs(headingError(radians / (2* PI))) > 0.02 && opModeActive()) {
+        while (abs(headingError(radians / (2 * PI))) > 0.02 && opModeActive()) {
 //            localizer.update()
 
-            val turn = turnCorrection(radians/(2* PI))
+            val turn = turnCorrection(radians / (2 * PI))
             telemetry.addData("Gyro Sensor Off", headingError(radians / (2 * PI)))
             telemetry.addData("Angle", Math.toDegrees(gyro.measure()))
             telemetry.update()

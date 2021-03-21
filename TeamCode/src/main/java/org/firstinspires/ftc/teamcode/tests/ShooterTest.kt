@@ -25,18 +25,18 @@ class ShooterTest {
         val position = pose.vec()
         val targetVector = Vector2d(target.x, target.y)
         val shotDistance = position distTo targetVector
-        val net_height = 36 - - shooterHeight
-        val requiredVelocity = Math.sqrt(g /2) * shotDistance/( cos(shooterAngle) * sqrt( shotDistance * tan(shooterAngle) - net_height))
+        val net_height = 36 - -shooterHeight
+        val requiredVelocity = Math.sqrt(g / 2) * shotDistance / (cos(shooterAngle) * sqrt(shotDistance * tan(shooterAngle) - net_height))
         println((requiredVelocity).toString())
-        println((2*requiredVelocity*slip / (2*2*PI)) * 60)
-        println((2*requiredVelocity*slip / (2*2*PI)) * 28)
+        println((2 * requiredVelocity * slip / (2 * 2 * PI)) * 60)
+        println((2 * requiredVelocity * slip / (2 * 2 * PI)) * 28)
 
-        val velocity = 2*requiredVelocity * slip
+        val velocity = 2 * requiredVelocity * slip
         val r = 2.0
         val tpr = 28
         val gr = 1.0
-        var angularVelocity = velocity/(r*gr) //radians/s
-        angularVelocity = angularVelocity / (2*PI) // rev/s
+        var angularVelocity = velocity / (r * gr) //radians/s
+        angularVelocity = angularVelocity / (2 * PI) // rev/s
         angularVelocity = angularVelocity * tpr //ticks/s
         println("ticks/s speed: " + angularVelocity)
     }

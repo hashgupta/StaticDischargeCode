@@ -31,9 +31,10 @@ class SecondBotTele : GenericOpModeBase() {
     private val slowSpeed = 0.3
     private var aimBotOn = false
 
-    @JvmField var intakeRollerSpeed = 0.7
-    @JvmField var intakeMainSpeed = -0.4
-
+    @JvmField
+    var intakeRollerSpeed = 0.95
+    @JvmField
+    var intakeMainSpeed = -0.95
 
     override fun runOpMode() {
         initRobot()
@@ -61,10 +62,10 @@ class SecondBotTele : GenericOpModeBase() {
 
         // get gamepad input
         // moving the joystick up is actually negative, not positive, so use negative to flip it
-        val vert = -gamepad1.left_stick_y.toDouble()
-        val hori = gamepad1.left_stick_x.toDouble() * 1.1
-        val turn = gamepad1.right_stick_x.toDouble()
-        val wobble = -gamepad2.right_stick_y.toDouble()
+        val vert: Double = -gamepad1.left_stick_y.toDouble()
+        val hori: Double = gamepad1.left_stick_x.toDouble() * 1.1
+        val turn: Double = gamepad1.right_stick_x.toDouble()
+        val wobble: Double = -gamepad2.right_stick_y.toDouble()
 
         // process input
         if (gamepad1.a) {
@@ -128,8 +129,8 @@ class SecondBotTele : GenericOpModeBase() {
 
         } else if (gamepad2.left_trigger > 0.3) {
             if (aimBotOn) robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
-            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 36.0))
-//
+            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(72.0, 0.0, 36.0))
+
 
         } else {
 
@@ -144,35 +145,19 @@ class SecondBotTele : GenericOpModeBase() {
         }
 
         if (gamepad1.x && !previousGamepad1X) {
-            // TODO: 3/4/21 make this function move between powershots in endgame automatically
-//            if (timer.seconds() < 90.0) {
-//                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
-//                robot.pursuiter.addTurnAbsolute(
-//                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
-//
-//                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
-//            } else {
-//                //turn towards power shots
-//                robot.pursuiter.setStartPoint(robot.localizer.poseEstimate)
-//                robot.pursuiter.addTurnAbsolute(
-//                        robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.powerNearRed))
-//
-//                robot.pursuiter.FollowSync(robot.driveTrain, telemetry = telemetry)
-//            }
             robot.pursuiter.startAt(robot.localizer.poseEstimate)
             robot.pursuiter
-                .turnTo(robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
-                .follow(robot.driveTrain, telemetry = telemetry)
+                    .turnTo(robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+                    .follow(robot.driveTrain, telemetry = telemetry)
         }
 
         if (gamepad1.y && !previousGamepad1Y) {
             robot.pursuiter.startAt(robot.localizer.poseEstimate)
             robot.pursuiter.action { robot.pursuiter.runSpeed = 0.35 }
-            robot.pursuiter.relative(7.0, 0.0, 0.0)
+            robot.pursuiter.relative(7.5, 0.0, 0.0)
             robot.pursuiter.action { robot.pursuiter.runSpeed = 0.75 }
             robot.pursuiter.follow(robot.driveTrain, telemetry = telemetry)
         }
-
 
 
         //auto aim and shoot three shots, no human involvement

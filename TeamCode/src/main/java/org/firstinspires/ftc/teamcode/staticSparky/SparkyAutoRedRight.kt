@@ -24,12 +24,12 @@ class SparkyAutoRedRight : GenericOpModeBase() {
 
         while (opModeIsActive()) {
             analysis = (pipeline as RingPipeline).position()
-            telemetry.addData("analysis",analysis)
+            telemetry.addData("analysis", analysis)
             telemetry.update()
         }
 
         waitForStart()
-        if (isStopRequested()) return;
+        if (isStopRequested()) return
         stopCV()
 
         robot.move(0.5 * TILE_LENGTH, 2 * TILE_LENGTH)
@@ -41,7 +41,7 @@ class SparkyAutoRedRight : GenericOpModeBase() {
         } else {
             robot.toGoal(Pose2d(Positions.aZoneRed, 0.0))
         }
-        robot.toGoal(Pose2d(0.5 * TILE_LENGTH, -1.5* TILE_LENGTH, 0.0))
+        robot.toGoal(Pose2d(0.5 * TILE_LENGTH, -1.5 * TILE_LENGTH, 0.0))
 
         // first build a sequential list of commands
         // then, program out your instructions one by one

@@ -14,20 +14,21 @@ abstract class Path {
 
     abstract val length: Double
 
-    abstract fun getPointfromT(t:Double): Pose2d
+    abstract fun getPointfromT(t: Double): Pose2d
 
-    abstract fun findClosestT(position:Pose2d): Double
+    abstract fun findClosestT(position: Pose2d): Double
 
     fun limit(value: Double, min: Double, max: Double): Double {
         return max(min, min(value, max))
     }
 
-    override fun toString():String {
-        return "start: " + start + ", " + "end: " + end    }
+    override fun toString(): String {
+        return "start: " + start + ", " + "end: " + end
+    }
 }
 
-class LinearPath(override val start: Pose2d, override val end:Pose2d) :Path() {
-    override val length = (end.vec()-start.vec()).norm()
+class LinearPath(override val start: Pose2d, override val end: Pose2d) : Path() {
+    override val length = end.vec() distTo start.vec()
     override fun getPointfromT(t: Double): Pose2d {
         val x = lerp(start.x, end.x, t)
         val y = lerp(start.y, end.y, t)
@@ -52,9 +53,9 @@ class LinearPath(override val start: Pose2d, override val end:Pose2d) :Path() {
     }
 }
 
-class TurnPath(override val start: Pose2d, override val end:Pose2d) :Path() {
+class TurnPath(override val start: Pose2d, override val end: Pose2d) : Path() {
     override val length: Double
-        get() = (end.heading-start.heading) * 9.0
+        get() = abs(end.heading - start.heading) * 9.0
 
     override fun findClosestT(position: Pose2d): Double {
         return limit((position.heading - start.heading) / (end.heading - start.heading), 0.0, 1.0)
@@ -69,12 +70,13 @@ class TurnPath(override val start: Pose2d, override val end:Pose2d) :Path() {
     }
 }
 
-class ArcPath(override val start: Pose2d, override val end:Pose2d, mid: Vector2d) :Path() {
+class ArcPath(override val start: Pose2d, mid: Vector2d, override val end: Pose2d) : Path() {
 
     lateinit var center: Vector2d
     var radius: Double = 0.0
     var endAngle: Double = 0.0
     var beginAngle: Double = 0.0
+    var midAngle: Double = 0.0
     override var length = 0.0
 
     init {
@@ -105,7 +107,7 @@ class ArcPath(override val start: Pose2d, override val end:Pose2d, mid: Vector2d
     }
 
     private fun angleFromT(t: Double): Double {
-        return lerp(beginAngle, endAngle, t)
+        return lerpAngle(beginAngle, endAngle, t)
     }
 
     fun length(): Double {
@@ -130,35 +132,51 @@ class ArcPath(override val start: Pose2d, override val end:Pose2d, mid: Vector2d
                 doubleArrayOf(ptMid.x, ptMid.dot(ptMid), 1.0),
                 doubleArrayOf(ptEnd.x, ptEnd.dot(ptEnd), 1.0)
         ))
+
+
         val k = LUDecomposition(kNum).determinant / denom
 
-        val center = Vector2d(h, k)
+        this.center = Vector2d(h, k)
         radius = center distTo (ptBegin)
         beginAngle = (ptBegin - center).angle()
+        midAngle = (ptMid - center).angle()
         endAngle = (ptEnd - center).angle()
+    }
+
+    companion object {
+        fun isCollinear(start: Pose2d, mid: Vector2d, end: Pose2d): Boolean {
+            val denomMat = Array2DRowRealMatrix(arrayOf(
+                    doubleArrayOf(start.x, start.y, 1.0),
+                    doubleArrayOf(mid.x, mid.y, 1.0),
+                    doubleArrayOf(end.x, end.y, 1.0)
+            ))
+            val denom = (2 * LUDecomposition(denomMat).determinant)
+            return denom epsilonEquals 0.0
+        }
     }
 }
 
-class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, startTangent: Double, val endTangent: Double):Path() {
+class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, startTangent: Double, val endTangent: Double) : Path() {
 
-    override val length:Double
+    override val length: Double
     var lastT: Double? = null
-    var xCoeffs : Coeffs
-    var yCoeffs : Coeffs
+    var xCoeffs: Coeffs
+    var yCoeffs: Coeffs
 
     init {
-        val derivMag = (start.vec() distTo end.vec())
-        xCoeffs = calculateCoeffs(start.x, end.x, derivMag * cos(startTangent), derivMag * cos(endTangent))
-        yCoeffs = calculateCoeffs(start.y, end.y, derivMag * sin(startTangent), derivMag * sin(endTangent))
+        val derivMagStrong = 2 * (start.vec() distTo end.vec())
+        val derivMagWeak = (start.vec() distTo end.vec())
+        xCoeffs = calculateCoeffs(start.x, end.x, derivMagWeak * cos(startTangent), derivMagStrong * cos(endTangent))
+        yCoeffs = calculateCoeffs(start.y, end.y, derivMagWeak * sin(startTangent), derivMagStrong * sin(endTangent))
         length = length(0.0, 1.0)
     }
 
-    data class Coeffs(val a:Double, val b:Double, val c:Double, val d:Double)
+    data class Coeffs(val a: Double, val b: Double, val c: Double, val d: Double)
 
     override fun getPointfromT(t: Double): Pose2d {
-        val xPos = xCoeffs.a * (t * t * t) + xCoeffs.b * (t*t) + xCoeffs.c * t + xCoeffs.d
+        val xPos = xCoeffs.a * (t * t * t) + xCoeffs.b * (t * t) + xCoeffs.c * t + xCoeffs.d
 
-        val yPos = yCoeffs.a * (t * t * t) + yCoeffs.b * (t*t) + yCoeffs.c * t + yCoeffs.d
+        val yPos = yCoeffs.a * (t * t * t) + yCoeffs.b * (t * t) + yCoeffs.c * t + yCoeffs.d
 
         val head = lerpAngle(start.heading, end.heading, t)
 
@@ -182,49 +200,46 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
     }
 
     override fun findClosestT(position: Pose2d): Double {
-        var minDist:Double = Double.MAX_VALUE
-        var minT = 0.0
-        var UpperT:Double
-        var LowerT:Double
+        var minDist: Double = Double.MAX_VALUE
+        var UpperT: Double
+        var LowerT: Double
 
         if (lastT != null) {
-            UpperT  = lastT!! + 0.20
-            LowerT = lastT!! - 0.10
+            UpperT = max(lastT!! + 0.30, 1.0)
+            LowerT = max(lastT!! - 0.30, 0.0)
         } else {
             UpperT = 1.0
             LowerT = 0.0
         }
 
+        var bestT = (UpperT + LowerT) / 2.0
+        var range = UpperT - LowerT
 
-        for (i in 0..5) {
-            val testT = lerp(LowerT, UpperT, i/5.0)
-            val newDist = (position.vec() - getPointfromT(testT).vec()).norm()
-            if (newDist < minDist) {
-                minDist = newDist
-                minT = testT
-                UpperT = lerp(LowerT, UpperT, (i + 0.5) / 5.0)
-                LowerT = lerp(LowerT, UpperT,(i - 0.5) / 5.0)
+        val numberOfSteps = 10
+
+        for (q in 1..3) {
+            for (i in 0..numberOfSteps) {
+                val testT = lerp(LowerT, UpperT, i / numberOfSteps.toDouble())
+                val newDist = position.vec() distTo getPointfromT(testT).vec()
+                if (newDist < minDist) {
+                    minDist = newDist
+                    bestT = testT
+                }
             }
+
+
+            UpperT = limit(bestT  + range / 10.0, 0.0, 1.0)
+            LowerT = limit(bestT  - range / 10.0, 0.0, 1.0)
+            range = UpperT - LowerT
         }
 
-        for (i in 0..5) {
-            val testT = lerp(LowerT, UpperT, i/5.0)
-            val newDist = (position.vec() - getPointfromT(testT).vec()).norm()
-            if (newDist < minDist) {
-                minDist = newDist
-                minT = testT
-                UpperT = lerp(LowerT, UpperT, (i + 0.5) / 5.0)
-                LowerT = lerp(LowerT, UpperT,(i - 0.5) / 5.0)
-            }
-        }
+        lastT = bestT
 
-        lastT = minT
-
-        return minT
+        return bestT
     }
 
 
-    fun calculateCoeffs(start:Double, end:Double, startDeri:Double, endDeri:Double): Coeffs {
+    fun calculateCoeffs(start: Double, end: Double, startDeri: Double, endDeri: Double): Coeffs {
         val c = startDeri
         val d = start
         val AandB = end - c - d
@@ -265,7 +280,7 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
                        tHi: Double,
                        vLo: Vector2d = getPointfromT(tLo).vec(),
                        vHi: Vector2d = getPointfromT(tHi).vec(),
-                       depth:Int = 0):Double {
+                       depth: Int = 0): Double {
         var runningLength = 0.0
         if (depth >= 10) {
             return (vHi - vLo).norm()

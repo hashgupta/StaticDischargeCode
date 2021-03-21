@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.purePursuit
 
-import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.canvas.Canvas
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
@@ -14,30 +12,32 @@ import com.acmerobotics.roadrunner.util.Angle
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-
-import kotlin.math.*
-
+import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.sign
 
 
 class FastPurePursuit(val localizer: Localizer) {
     val waypoints: MutableList<Path> = mutableListOf()
     val actions: MutableList<Pair<Int, () -> Unit>> = mutableListOf()
     var index = 0
-    var start:Pose2d
+    var start: Pose2d
 
-    @JvmField var lookAhead = 5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    @JvmField
+    var lookAhead = 5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 0.75 //inches
+    private val translationalTol = 0.5 //inches
     private val angularTol = Math.toRadians(0.50) // one degree angular tolerance
     private val kStatic = 0.1
-    @JvmField var runSpeed = 0.75
+    @JvmField
+    var runSpeed = 0.8
 
     private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.30)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.10)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.0)
 
     private val axialController = PIDFController(translationalCoeffs)
-    private val lateralController = PIDFController(translationalCoeffs, kStatic=kStatic)
-    private val headingController = PIDFController(headingCoeffs, kStatic=kStatic)
+    private val lateralController = PIDFController(translationalCoeffs, kStatic = kStatic)
+    private val headingController = PIDFController(headingCoeffs, kStatic = kStatic)
 
 
     init {
@@ -50,7 +50,7 @@ class FastPurePursuit(val localizer: Localizer) {
     }
 
     // follow until path is complete
-    fun follow(drivetrain: DriveTrain, mecanum:Boolean = true, telemetry: Telemetry) {
+    fun follow(drivetrain: DriveTrain, mecanum: Boolean = true, telemetry: Telemetry) {
         runAction(0)
 
         var done = false
@@ -81,7 +81,7 @@ class FastPurePursuit(val localizer: Localizer) {
     }
 
     // returns whether the path is done
-    fun step(drivetrain: DriveTrain, mecanum:Boolean = true):Boolean {
+    fun step(drivetrain: DriveTrain, mecanum: Boolean = true): Boolean {
         localizer.update()
 
         val path = waypoints[index]
@@ -93,10 +93,10 @@ class FastPurePursuit(val localizer: Localizer) {
         if (abs(poseError.x) < translationalTol && abs(poseError.y) < translationalTol &&
                 abs(poseError.heading) < angularTol) {
             // go to next waypoint
-            drivetrain.startFromRRPower(Pose2d(0.0,0.0,0.0), 0.0)
-            runAction(index+1)
+            drivetrain.startFromRRPower(Pose2d(0.0, 0.0, 0.0), 0.0)
+            runAction(index + 1)
 
-            return if (index == waypoints.size-1) {
+            return if (index == waypoints.size - 1) {
                 true
             } else {
                 index += 1
@@ -104,20 +104,22 @@ class FastPurePursuit(val localizer: Localizer) {
             }
         }
 
-        val target : Pose2d
-        val candidateGoal = path.findClosestT(currentPos) + lookAhead/path.length
+        val target: Pose2d
+        val candidateGoal = path.findClosestT(currentPos) + lookAhead / path.length
 
 
-        target = if (candidateGoal > 1.0 && (actions.find { it.first == index+1 } == null) && index < waypoints.size-1) {
+        target = if (candidateGoal > 1.0 && (actions.find { it.first == index + 1 } == null) && index < waypoints.size - 1) {
             val excessLength = (path.findClosestT(currentPos) + (lookAhead / path.length) - 1.0) * path.length
 
-            if (excessLength > lookAhead/4.0) {
+            if (excessLength > lookAhead / 4.0) {
                 index += 1
                 return false
             }
 
-            waypoints[index+1].getPointfromT(limit(excessLength / waypoints[index+1].length, 0.0, 1.0))
+            waypoints[index + 1].getPointfromT(limit(excessLength / waypoints[index + 1].length, 0.0, 1.0))
         } else {
+
+
             path.getPointfromT(limit(candidateGoal, 0.0, 1.0))
         }
 
@@ -134,7 +136,8 @@ class FastPurePursuit(val localizer: Localizer) {
         }
         return false
     }
-    fun testStep(mecanum:Boolean = true):Boolean {
+
+    fun testStep(mecanum: Boolean = true): Boolean {
         localizer.update()
 
         val path = waypoints[index]
@@ -147,9 +150,9 @@ class FastPurePursuit(val localizer: Localizer) {
         if (abs(poseError.x) < translationalTol && abs(poseError.y) < translationalTol &&
                 abs(poseError.heading) < angularTol) {
             // go to next waypoint
-            runAction(index+1)
+            runAction(index + 1)
 
-            return if (index == waypoints.size-1) {
+            return if (index == waypoints.size - 1) {
                 true
             } else {
                 index += 1
@@ -157,19 +160,19 @@ class FastPurePursuit(val localizer: Localizer) {
             }
         }
 
-        val target : Pose2d
-        val candidateGoal = path.findClosestT(currentPos) + lookAhead/path.length
+        val target: Pose2d
+        val candidateGoal = path.findClosestT(currentPos) + lookAhead / path.length
 
 
-        target = if (candidateGoal > 1.0 && (actions.find { it.first == index+1 } == null) && index < waypoints.size-1) {
+        target = if (candidateGoal > 1.0 && (actions.find { it.first == index + 1 } == null) && index < waypoints.size - 1) {
             val excessLength = (path.findClosestT(currentPos) + (lookAhead / path.length) - 1.0) * path.length
 
-            if (excessLength > lookAhead/4.0) {
+            if (excessLength > lookAhead / 4.0) {
                 index += 1
                 return false
             }
 
-            waypoints[index+1].getPointfromT(limit(excessLength / waypoints[index+1].length, 0.0, 1.0))
+            waypoints[index + 1].getPointfromT(limit(excessLength / waypoints[index + 1].length, 0.0, 1.0))
         } else {
             path.getPointfromT(limit(candidateGoal, 0.0, 1.0))
         }
@@ -180,6 +183,7 @@ class FastPurePursuit(val localizer: Localizer) {
 //            drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
             val vel = getVelocityFromTarget(target, currentPos)
             println(vel)
+//            return vel
         } else {
             //TODO figure out how to make drivetrain more generic for tank and mecanum
 //            val wheelVel = getWheelVelocityFromTargetTank(target, currentPos)
@@ -202,7 +206,7 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    fun relative(right: Double, forward: Double, turn: Double):FastPurePursuit {
+    fun relative(right: Double, forward: Double, turn: Double): FastPurePursuit {
 
         val basis = if (waypoints.size > 0) {
             waypoints.last().end
@@ -218,7 +222,7 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    private fun runAction(index:Int) {
+    private fun runAction(index: Int) {
 
         val action = actions.find { it.first == index }?.second
         if (action != null) action()
@@ -251,7 +255,7 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    fun action(action : () -> Unit): FastPurePursuit {
+    fun action(action: () -> Unit): FastPurePursuit {
 
         val candidate = actions.find { it.first == waypoints.size }
 
@@ -263,7 +267,7 @@ class FastPurePursuit(val localizer: Localizer) {
                 first()
                 second()
             }
-            actions[actions.size - 1] = Pair(waypoints.size) {actionOld(); action()}
+            actions[actions.size - 1] = Pair(waypoints.size) { actionOld(); action() }
 
             return this
 
@@ -274,7 +278,7 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    fun spline(end:Pose2d, startTanAngle: Double, endTanAngle:Double) : FastPurePursuit {
+    fun spline(end: Pose2d, startTanAngle: Double, endTanAngle: Double): FastPurePursuit {
 //        val start = waypoints.last().end
 
         val start = if (waypoints.size > 0) {
@@ -287,20 +291,46 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
+    fun arc(mid: Vector2d, end: Pose2d): FastPurePursuit {
+//        val start = waypoints.last().end
 
-    fun spline(end:Pose2d, endTanAngle:Double) : FastPurePursuit {
-        val startTan = if (waypoints.last() is CubicSplinePath) {
-            val path = waypoints.last() as CubicSplinePath
-            path.endTangent
+//        throw Exception("Dont use this, I couldnt figure out how to make it work. It goes in a circle, and starts and ends correctly. But fails to go through mid point")
+
+        val start = if (waypoints.size > 0) {
+            waypoints.last().end
         } else {
-            val lastPath = waypoints.last()
-            val tangent = lastPath.getPointfromT(0.999).vec() - lastPath.getPointfromT(0.998).vec()
-            tangent.angle()
+            start
         }
+
+        if (ArcPath.isCollinear(start, mid, end)) {
+            throw Exception("Arc Path with start = $start, " +
+                    "mid = $mid and end = $end at waypoint ${waypoints.size + 1} is collinear (the points are on a line), " +
+                    "so just make a line path through start and end")
+        }
+        waypoints.add(ArcPath(start, mid, end))
+
+        return this
+    }
+
+
+    fun spline(end: Pose2d, endTanAngle: Double): FastPurePursuit {
+        val startTan: Double =
+                if (waypoints.size > 0) {
+                    if (waypoints.last() is CubicSplinePath) {
+                        val path = waypoints.last() as CubicSplinePath
+                        path.endTangent
+                    } else {
+                        val lastPath = waypoints.last()
+                        val tangent = lastPath.getPointfromT(0.999).vec() - lastPath.getPointfromT(0.998).vec()
+                        tangent.angle()
+                    }
+                } else {
+                    (end.vec() - start.vec()).angle()
+                }
         return spline(end, startTan, endTanAngle)
     }
 
-    fun getVelocityFromTarget(target:Pose2d, currentPos:Pose2d): Pose2d {
+    fun getVelocityFromTarget(target: Pose2d, currentPos: Pose2d): Pose2d {
 
         val error = Kinematics.calculatePoseError(target, currentPos)
 
@@ -351,7 +381,7 @@ class FastPurePursuit(val localizer: Localizer) {
         )
     }
 
-    private fun getWheelVelocityFromTargetTank(target:Pose2d, currentPos:Pose2d): List<Double> {
+    private fun getWheelVelocityFromTargetTank(target: Pose2d, currentPos: Pose2d): List<Double> {
 
         val error = Kinematics.calculatePoseError(target, currentPos)
 
@@ -361,10 +391,10 @@ class FastPurePursuit(val localizer: Localizer) {
 
         wheelPow = wheelPow.map { it + sign(it) * kStatic }
 
-        val wheelCopy = wheelPow.map {abs(it)}
+        val wheelCopy = wheelPow.map { abs(it) }
 
         if (wheelCopy.maxOrNull() != null && wheelCopy.maxOrNull()!! > 1) {
-            wheelPow = wheelPow.map {it/ wheelCopy.maxOrNull()!!}
+            wheelPow = wheelPow.map { it / wheelCopy.maxOrNull()!! }
         }
 
         return wheelPow

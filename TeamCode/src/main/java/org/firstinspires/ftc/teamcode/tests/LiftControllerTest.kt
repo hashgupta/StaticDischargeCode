@@ -11,7 +11,7 @@ class LiftControllerTest {
     fun testLiftController() {
         val position = 10.0
         val velocity = 40.0
-        val profile = MotionProfileGenerator.generateSimpleMotionProfile(MotionState(position, velocity), MotionState(50.0,0.0), 50.0, 30.0)
+        val profile = MotionProfileGenerator.generateSimpleMotionProfile(MotionState(position, velocity), MotionState(50.0, 0.0), 50.0, 30.0)
         print(profile.duration())
     }
 }

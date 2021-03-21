@@ -58,14 +58,12 @@ class MecanumLocalizerRev constructor(
         }
 
         val wheelVelocities = getWheelVelocities()
-        if (wheelVelocities != null) {
-            poseVelocity = MecanumKinematics.wheelToRobotVelocities(
-                    wheelVelocities, Constants.trackwidth, Constants.wheelBase, 1.0
-            )
-            if (gyro != null) {
-                val extHeadingVel = getExternalHeadingVelocity()
-                poseVelocity = Pose2d(poseVelocity!!.vec(), extHeadingVel)
-            }
+        poseVelocity = MecanumKinematics.wheelToRobotVelocities(
+                wheelVelocities, Constants.trackwidth, Constants.wheelBase, 1.0
+        )
+        if (gyro != null) {
+            val extHeadingVel = getExternalHeadingVelocity()
+            poseVelocity = Pose2d(poseVelocity!!.vec(), extHeadingVel)
         }
 
         lastWheelPositions = wheelPositions
@@ -91,7 +89,7 @@ class MecanumLocalizerRev constructor(
         )
     }
 
-    fun getWheelVelocities(): List<Double>? {
+    fun getWheelVelocities(): List<Double> {
         return listOf(
                 Constants.encoderTicksToInches(leftFrontEncoder.rawVelocity),
                 Constants.encoderTicksToInches(leftRearEncoder.rawVelocity),
@@ -103,7 +101,8 @@ class MecanumLocalizerRev constructor(
     fun getExternalHeading(): Double {
         return gyro!!.measure()
     }
-    fun getExternalHeadingVelocity() : Double {
+
+    fun getExternalHeadingVelocity(): Double {
         return gyro!!.device.angularVelocity.zRotationRate.toDouble()
     }
 }

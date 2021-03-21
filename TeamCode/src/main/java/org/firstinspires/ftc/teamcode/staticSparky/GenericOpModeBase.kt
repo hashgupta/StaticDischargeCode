@@ -13,19 +13,17 @@ import org.openftc.easyopencv.*
 abstract class GenericOpModeBase : LinearOpMode() {
 
 
-
-
     lateinit var webcam: OpenCvCamera
 
 
-    internal var pipeline:OpenCvPipeline = RingPipeline() // set pipeline here, after creating it in pipelines folder
+    internal var pipeline: OpenCvPipeline = RingPipeline() // set pipeline here, after creating it in pipelines folder
 
-    enum class Side{
+    enum class Side {
         Right,
         Left
     }
 
-    fun initCV(side:Side) {
+    fun initCV(side: Side) {
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)
         // OR...  Do Not Activate the Camera Monitor View
@@ -43,9 +41,9 @@ abstract class GenericOpModeBase : LinearOpMode() {
         webcam.setPipeline(pipeline)
     }
 
-    fun initCVNoWebcam(side:Side) {
+    fun initCVNoWebcam(side: Side) {
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
-        webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId)
 
 
         // OR...  Do Not Activate the Camera Monitor View
@@ -94,16 +92,16 @@ abstract class GenericOpModeBase : LinearOpMode() {
 
             if (rings.size == 0) {
 
-                robot.driveTrain.start(DriveTrain.Vector(0.0,0.0,0.5).speeds())
+                robot.driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.5).speeds())
             } else if (rings.size == 1) {
 
-                robot.driveTrain.start(DriveTrain.Vector(0.0,0.75,rings[0].turnControl).speeds())
+                robot.driveTrain.start(DriveTrain.Vector(0.0, 0.75, rings[0].turnControl).speeds())
             } else {
 
-                val sorted_rings = rings.sortedWith(compareBy<Ring> {it.distance })
+                val sorted_rings = rings.sortedWith(compareBy<Ring> { it.distance })
                 val closest_ring = sorted_rings[0]
 
-                robot.driveTrain.start(DriveTrain.Vector(0.0,0.75,closest_ring.turnControl*2).speeds())
+                robot.driveTrain.start(DriveTrain.Vector(0.0, 0.75, closest_ring.turnControl * 2).speeds())
             }
         }
 

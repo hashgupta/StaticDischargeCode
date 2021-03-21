@@ -5,7 +5,7 @@ import org.opencv.imgproc.Imgproc
 import org.openftc.easyopencv.OpenCvPipeline
 
 
-class RingPipeline(): OpenCvPipeline(){
+class RingPipeline() : OpenCvPipeline() {
 
     internal var yCbCrChan2Mat = Mat()
     internal var avg: Double = 0.toDouble()
@@ -16,10 +16,11 @@ class RingPipeline(): OpenCvPipeline(){
         NONE, ONE, FOUR
     }
 
-    var right:Boolean = true
+    var right: Boolean = true
 
     @Volatile
     private var position: RingPosition = RingPosition.NONE
+
     /*
          * Some color constants
          */
@@ -67,16 +68,16 @@ class RingPipeline(): OpenCvPipeline(){
         Core.extractChannel(yCbCrChan2Mat, Cb, 2)
     }
 
-    override fun init(firstFrame: Mat): Unit {
-    /*
-             * We need to call this in order to make sure the 'Cb'
-             * object is initialized, so that the submats we make
-             * will still be linked to it on subsequent frames. (If
-             * the object were to only be initialized in processFrame,
-             * then the submats would become delinked because the backing
-             * buffer would be re-allocated the first time a real frame
-             * was crunched)
-             */
+    override fun init(firstFrame: Mat) {
+        /*
+                 * We need to call this in order to make sure the 'Cb'
+                 * object is initialized, so that the submats we make
+                 * will still be linked to it on subsequent frames. (If
+                 * the object were to only be initialized in processFrame,
+                 * then the submats would become delinked because the backing
+                 * buffer would be re-allocated the first time a real frame
+                 * was crunched)
+                 */
         inputToCb(firstFrame)
         region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
 
@@ -85,7 +86,7 @@ class RingPipeline(): OpenCvPipeline(){
                  * buffer. Any changes to the child affect the parent, and the
                  * reverse also holds true.
                  */
-}
+    }
 
     override fun processFrame(input: Mat): Mat {
 
@@ -116,6 +117,7 @@ class RingPipeline(): OpenCvPipeline(){
     fun average(): Double {
         return avg
     }
+
     fun position(): RingPosition {
         return position
     }

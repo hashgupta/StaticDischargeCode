@@ -17,7 +17,7 @@ class AutoTestingTele : GenericOpModeBase() {
     private var previousGamepad1Guide: Boolean = false
     private var previousGamepad1RT: Double = 0.0
     private var driveSpeed = 1.0
-    private val timer:ElapsedTime = ElapsedTime()
+    private val timer: ElapsedTime = ElapsedTime()
 
     override fun runOpMode() {
         initRobot()

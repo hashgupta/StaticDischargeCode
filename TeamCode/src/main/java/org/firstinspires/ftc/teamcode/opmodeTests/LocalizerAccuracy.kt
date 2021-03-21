@@ -20,15 +20,16 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
  */
 
 const val ROBOT_RADIUS = 9.0
+
 @Config
-@TeleOp(name = "Localizer Accuracy",group = "tests")
+@TeleOp(name = "Localizer Accuracy", group = "tests")
 class LocalizerAccuracy : LinearOpMode() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
         val robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         val drive = robot.driveTrain
-        
+
 
         waitForStart()
         while (!isStopRequested) {
@@ -48,9 +49,9 @@ class LocalizerAccuracy : LinearOpMode() {
             FtcDashboard.getInstance().telemetry.addData("localizer", robot.localizer.poseEstimate)
 
             val fieldOverlay: Canvas = packet.fieldOverlay()
-            fieldOverlay.setStroke("#3F51B5");
-            drawRobot(fieldOverlay, robot.localizer.poseEstimate);
-            FtcDashboard.getInstance().sendTelemetryPacket(packet);
+            fieldOverlay.setStroke("#3F51B5")
+            drawRobot(fieldOverlay, robot.localizer.poseEstimate)
+            FtcDashboard.getInstance().sendTelemetryPacket(packet)
         }
     }
 

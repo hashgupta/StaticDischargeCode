@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.hardware.general
 
-import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
@@ -15,7 +14,7 @@ import kotlin.math.PI
 // rev motor
 // initialize motor
 class Motor(private val name: String, // motor information
-  val tpr: Double, private val gr: Double, d: Double, map: HardwareMap) : Device<DcMotorEx>(map.dcMotor.get(name) as DcMotorEx), Input<Double>, Output<Double> {
+            val tpr: Double, private val gr: Double, d: Double, map: HardwareMap) : Device<DcMotorEx>(map.dcMotor.get(name) as DcMotorEx), Input<Double>, Output<Double> {
 
     private val c: Double
 
@@ -48,7 +47,7 @@ class Motor(private val name: String, // motor information
 
     // sense position
     override fun measure(): Double {
-        return (device.currentPosition * c * gr) /  tpr
+        return (device.currentPosition * c * gr) / tpr
     }
 
     // start motion
@@ -68,10 +67,10 @@ class Motor(private val name: String, // motor information
         device.zeroPowerBehavior = behavior
     }
 
-    fun setSpeed(velocity:Double, telemetry: Telemetry) { // in/s
+    fun setSpeed(velocity: Double, telemetry: Telemetry) { // in/s
 //        setMode(DcMotor.RunMode.RUN_USING_ENCODER)
-        var angularVelocity = velocity/(r*gr) //radians/s
-        val angularVelocityRevS = angularVelocity / (2*PI) // rev/s
+        var angularVelocity = velocity / (r * gr) //radians/s
+        val angularVelocityRevS = angularVelocity / (2 * PI) // rev/s
         angularVelocity = angularVelocityRevS * tpr //ticks/s
 
 //        val dashboard = FtcDashboard.getInstance()

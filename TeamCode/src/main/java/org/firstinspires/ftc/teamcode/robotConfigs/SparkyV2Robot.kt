@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.robotConfigs
 
 
-import com.qualcomm.robotcore.hardware.*
+import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Controllers.Arm
 import org.firstinspires.ftc.teamcode.Controllers.Shooter
@@ -15,8 +17,8 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
     val pursuiter: FastPurePursuit
     val intake: Motor
     val roller: Motor
-    val arm : Arm
-    val flicker : ServoM
+    val arm: Arm
+    val flicker: ServoM
     val shooter: Shooter
 
 
@@ -37,7 +39,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         roller = Motor("under roller", 560.0, 0.5, hardwareMap)
 
 
-        val wobble = Motor("wobble", 1120.0,0.75, hardwareMap)
+        val wobble = Motor("wobble", 1120.0, 0.75, hardwareMap)
         wobble.device.direction = DcMotorSimple.Direction.REVERSE
 
         val grabber = ServoM("grabber", hardwareMap)
@@ -47,8 +49,6 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
 
 //        val digitalTouch = hardwareMap.digitalChannel.get("touch")
 //        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
-
-
 
 
         flicker = ServoM("flicker", hardwareMap)

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 @TeleOp(name = "Wobble Testing TeleOP", group = "Static Discharge")
-class WobbleTestingTele: LinearOpMode() {
+class WobbleTestingTele : LinearOpMode() {
     lateinit var robot: SparkyV2Robot
 
     override fun runOpMode() {

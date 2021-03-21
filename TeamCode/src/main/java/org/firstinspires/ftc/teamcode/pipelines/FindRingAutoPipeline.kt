@@ -5,13 +5,13 @@ import org.opencv.imgproc.Imgproc
 import org.openftc.easyopencv.OpenCvPipeline
 
 
-class FindRingAutoPipeline(): OpenCvPipeline(){
+class FindRingAutoPipeline() : OpenCvPipeline() {
 
     internal var yCbCrChan2Mat = Mat()
     var Cb = Mat()
     var thres = Mat()
     var hierarchy = Mat()
-    val cameraWidth  = 320.0
+    val cameraWidth = 320.0
 
 
     /*
@@ -51,7 +51,7 @@ class FindRingAutoPipeline(): OpenCvPipeline(){
         Core.extractChannel(yCbCrChan2Mat, Cb, 2)
     }
 
-    override fun init(firstFrame: Mat): Unit {
+    override fun init(firstFrame: Mat) {
         /*
                  * We need to call this in order to make sure the 'Cb'
                  * object is initialized, so that the submats we make
@@ -98,7 +98,7 @@ class FindRingAutoPipeline(): OpenCvPipeline(){
                 Imgproc.rectangle(input, boundRect[i], GREEN)
                 val centerx = boundRect[i].x + boundRect[i].width / 2
 
-                val turnControl = (2*centerx/cameraWidth)-1
+                val turnControl = (2 * centerx / cameraWidth) - 1
 
 
                 listofRings.add(Ring(numerator / boundRect[i].width, turnControl))
@@ -120,4 +120,4 @@ class FindRingAutoPipeline(): OpenCvPipeline(){
     }
 }
 
-data class Ring(val distance:Double, val turnControl:Double)
+data class Ring(val distance: Double, val turnControl: Double)

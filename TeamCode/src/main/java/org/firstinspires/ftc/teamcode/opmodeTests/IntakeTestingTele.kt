@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 
 @TeleOp(name = "Intake Testing TeleOP", group = "Static Discharge")
-class IntakeTestingTele: OpMode() {
+class IntakeTestingTele : OpMode() {
     lateinit var intake: Motor
-//    lateinit var intakeTop: Motor
-    var running : Boolean = false
+
+    //    lateinit var intakeTop: Motor
+    var running: Boolean = false
 
     override fun init() {
-        intake = Motor("intake", 1120.0, 1.0,4.0, hardwareMap)
+        intake = Motor("intake", 1120.0, 1.0, 4.0, hardwareMap)
 //        intakeTop = Motor("intakeTop", 1120.0, 17.36,4.0, hardwareMap)
 //        intake.device.direction = DcMotorSimple.Direction.REVERSE
 
@@ -24,7 +25,7 @@ class IntakeTestingTele: OpMode() {
             intake.start(1.0)
 
             running = true
-        } else if(gamepad1.b) {
+        } else if (gamepad1.b) {
 
             intake.start(-1.0)
             running = true

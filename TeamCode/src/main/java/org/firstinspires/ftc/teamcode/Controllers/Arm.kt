@@ -14,7 +14,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
         arm_motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
         arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
         arm_motor.setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
-        arm_motor.device.setVelocityPIDFCoefficients(5.0, 0.0, 0.0,12.4)
+        arm_motor.device.setVelocityPIDFCoefficients(5.0, 0.0, 0.0, 12.4)
         arm_motor.device.setPositionPIDFCoefficients(5.0)
 
         arm_motor.device.targetPositionTolerance = 10
@@ -22,8 +22,8 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 
     }
 
-    fun toAngle(targetAngle:Double) {
-        val revToTurn = (targetAngle - startAngle) / (2* PI)
+    fun toAngle(targetAngle: Double) {
+        val revToTurn = (targetAngle - startAngle) / (2 * PI)
         arm_motor.device.targetPosition = (revToTurn * arm_motor.adjusted_tpr).toInt()
         arm_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION)
         arm_motor.start(autoSpeed)
@@ -32,9 +32,6 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
     fun grabAuto() {
 
 
-        run(autoSpeed / 2)
-        sleep(400)
-        run(0.0)
         grabber?.start(1.0)
         sleep(400)
 
@@ -57,10 +54,10 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 ////        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
 
         run(-autoSpeed)
-        sleep(800)
+        sleep(1300)
         run(0.0)
         grabber?.start(0.15)
-        sleep(200)
+        sleep(500)
 
     }
 
