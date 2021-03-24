@@ -33,7 +33,7 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralN
 
     override fun getWheelPositions(): List<Double> {
         return listOf(
-                odometryEncoderTicksToInches(lateralEncoder.currentPosition.toDouble()),
+                odometryEncoderTicksToInches(lateralEncoder.currentPosition.toDouble() * 1.0169),
                 odometryEncoderTicksToInches(frontEncoder.currentPosition.toDouble())
         )
     }

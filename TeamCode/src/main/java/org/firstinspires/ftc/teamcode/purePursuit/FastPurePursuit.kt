@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.kinematics.TankKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
 import com.acmerobotics.roadrunner.util.Angle
+import com.acmerobotics.roadrunner.util.epsilonEquals
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
@@ -24,20 +25,22 @@ class FastPurePursuit(val localizer: Localizer) {
     var start: Pose2d
 
     @JvmField
-    var lookAhead = 5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    var lookAhead = 3 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
     private val translationalTol = 0.5 //inches
-    private val angularTol = Math.toRadians(0.50) // one degree angular tolerance
-    private val kStatic = 0.1
+    private val angularTol = Math.toRadians(0.25) // one degree angular tolerance
+    private val kStatic = 0.175 // 7.5% power regardless of distance, to overcome friction
     @JvmField
-    var runSpeed = 0.8
+    var runSpeed = 0.85
 
-    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.30)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.0)
+    private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.2)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.8)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs, kStatic = kStatic)
     private val headingController = PIDFController(headingCoeffs, kStatic = kStatic)
+
+    private var lastPoseError = Pose2d()
 
 
     init {
@@ -54,13 +57,18 @@ class FastPurePursuit(val localizer: Localizer) {
         runAction(0)
 
         var done = false
+        var i = 0
 
         while (!done && !Thread.currentThread().isInterrupted) {
-            telemetry.addLine("running")
-            telemetry.addLine(localizer.poseEstimate.toString())
-            telemetry.addLine(waypoints[index].end.toString())
-            telemetry.addLine(Kinematics.calculatePoseError(waypoints[index].end, localizer.poseEstimate).toString())
-            telemetry.update()
+            if (i == 99) {
+                telemetry.addLine("running")
+                telemetry.addLine(localizer.poseEstimate.toString())
+                telemetry.addLine(waypoints[index].end.toString())
+                telemetry.addLine(Kinematics.calculatePoseError(waypoints[index].end, localizer.poseEstimate).toString())
+                telemetry.update()
+                i = 0
+            }
+            i += 1
 
 //            val packet = TelemetryPacket()
 //
@@ -95,6 +103,7 @@ class FastPurePursuit(val localizer: Localizer) {
             // go to next waypoint
             drivetrain.startFromRRPower(Pose2d(0.0, 0.0, 0.0), 0.0)
             runAction(index + 1)
+            lastPoseError = Pose2d()
 
             return if (index == waypoints.size - 1) {
                 true
@@ -102,7 +111,9 @@ class FastPurePursuit(val localizer: Localizer) {
                 index += 1
                 false
             }
+
         }
+
 
         val target: Pose2d
         val candidateGoal = path.findClosestT(currentPos) + lookAhead / path.length
@@ -263,10 +274,6 @@ class FastPurePursuit(val localizer: Localizer) {
             // already an action at this point
             // combine the new and old actions into one action and replace in place
             val actionOld = candidate.second
-            fun combine(first: () -> Unit, second: () -> Unit) {
-                first()
-                second()
-            }
             actions[actions.size - 1] = Pair(waypoints.size) { actionOld(); action() }
 
             return this
@@ -322,7 +329,11 @@ class FastPurePursuit(val localizer: Localizer) {
                     } else {
                         val lastPath = waypoints.last()
                         val tangent = lastPath.getPointfromT(0.999).vec() - lastPath.getPointfromT(0.998).vec()
-                        tangent.angle()
+                        if ((tangent.x epsilonEquals 0.0) && (tangent.y epsilonEquals 0.0)) {
+                            waypoints.last().end.heading
+                        } else {
+                            tangent.angle()
+                        }
                     }
                 } else {
                     (end.vec() - start.vec()).angle()
@@ -392,6 +403,8 @@ class FastPurePursuit(val localizer: Localizer) {
         wheelPow = wheelPow.map { it + sign(it) * kStatic }
 
         val wheelCopy = wheelPow.map { abs(it) }
+
+
 
         if (wheelCopy.maxOrNull() != null && wheelCopy.maxOrNull()!! > 1) {
             wheelPow = wheelPow.map { it / wheelCopy.maxOrNull()!! }

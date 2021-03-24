@@ -159,7 +159,6 @@ class ArcPath(override val start: Pose2d, mid: Vector2d, override val end: Pose2
 class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, startTangent: Double, val endTangent: Double) : Path() {
 
     override val length: Double
-    var lastT: Double? = null
     var xCoeffs: Coeffs
     var yCoeffs: Coeffs
 
@@ -201,25 +200,22 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
 
     override fun findClosestT(position: Pose2d): Double {
         var minDist: Double = Double.MAX_VALUE
-        var UpperT: Double
-        var LowerT: Double
+        var upperT: Double
+        var lowerT: Double
 
-        if (lastT != null) {
-            UpperT = max(lastT!! + 0.30, 1.0)
-            LowerT = max(lastT!! - 0.30, 0.0)
-        } else {
-            UpperT = 1.0
-            LowerT = 0.0
-        }
 
-        var bestT = (UpperT + LowerT) / 2.0
-        var range = UpperT - LowerT
+        upperT = 1.0
+        lowerT = 0.0
+
+
+        var bestT = (upperT + lowerT) / 2.0
+        var range = upperT - lowerT
 
         val numberOfSteps = 10
 
         for (q in 1..3) {
             for (i in 0..numberOfSteps) {
-                val testT = lerp(LowerT, UpperT, i / numberOfSteps.toDouble())
+                val testT = lerp(lowerT, upperT, i / numberOfSteps.toDouble())
                 val newDist = position.vec() distTo getPointfromT(testT).vec()
                 if (newDist < minDist) {
                     minDist = newDist
@@ -228,12 +224,11 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
             }
 
 
-            UpperT = limit(bestT  + range / 10.0, 0.0, 1.0)
-            LowerT = limit(bestT  - range / 10.0, 0.0, 1.0)
-            range = UpperT - LowerT
+            upperT = limit(bestT  + range / 10.0, 0.0, 1.0)
+            lowerT = limit(bestT  - range / 10.0, 0.0, 1.0)
+            range = upperT - lowerT
         }
 
-        lastT = bestT
 
         return bestT
     }

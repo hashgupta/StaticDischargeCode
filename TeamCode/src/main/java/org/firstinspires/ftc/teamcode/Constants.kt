@@ -15,7 +15,7 @@ object Constants {
     const val GEAR_RATIO = 1.0 / 1.0 // output (wheel) speed / input (encoder) speed
 
 
-    const val LATERAL_DISTANCE = 8.0 // in; distance between the left odometry wheel and center
+    const val LATERAL_DISTANCE = 7.5 // in; distance between the left odometry wheel and center
     const val FORWARD_OFFSET = -3.0 // in; offset of the front/back wheel from center
     const val ODO_WHEEL_DIAM = 2.3622
     const val ODO_TICKS_PER_REV = 8192

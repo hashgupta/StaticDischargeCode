@@ -89,15 +89,17 @@ class PurePursuitTest {
         val localizer = MockedLocalizer()
         val pursuiter = FastPurePursuit(localizer)
 
-        val pose = Pose2d(1.0, 1.0, Math.toRadians(100.0))
+        val pose = Pose2d(1.0, 1.0, Math.toRadians(175.0))
 
         pursuiter.startAt(pose)
 //        pursuiter.spline(end = Pose2d(10.0, 10.0, 0.0), endTanAngle = Math.toRadians(-135.0))
-        pursuiter.move(6.0, 7.8, 0.0)
+//        pursuiter.move(6.0, 7.8, 0.0)
+        pursuiter.turnTo(3.141592)
 
 
-
-    //        println(pursuiter.waypoints)
+        println(pursuiter.waypoints)
+        pursuiter.testStep()
+    //
 
 //        for (i in 0..100) {
 //            val point = pursuiter.waypoints[0].getPointfromT(i / 100.0)

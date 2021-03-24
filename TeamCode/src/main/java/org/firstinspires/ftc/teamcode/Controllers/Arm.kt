@@ -56,17 +56,18 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
         run(-autoSpeed)
         sleep(1300)
         run(0.0)
-        grabber?.start(0.15)
-        sleep(500)
+        grabber?.start(0.40)
+
+        sleep(1000)
 
     }
 
     fun grabTele() {
-        grabber?.start(1.0)
+        grabber?.start(0.75)
     }
 
     fun dropTele() {
-        grabber?.start(0.25)
+        grabber?.start(0.20)
     }
 
 

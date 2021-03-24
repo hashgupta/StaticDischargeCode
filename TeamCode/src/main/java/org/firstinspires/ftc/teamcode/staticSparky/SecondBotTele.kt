@@ -27,14 +27,14 @@ class SecondBotTele : GenericOpModeBase() {
     private var previousGamepad2Y = false
     private var IntakeBackwards = false
 
-    private val normalSpeed = 0.95
+    private val normalSpeed = 0.9
     private val slowSpeed = 0.3
     private var aimBotOn = false
 
     @JvmField
-    var intakeRollerSpeed = 0.95
+    var intakeRollerSpeed = 0.75
     @JvmField
-    var intakeMainSpeed = -0.95
+    var intakeMainSpeed = -0.75
 
     override fun runOpMode() {
         initRobot()
@@ -50,7 +50,7 @@ class SecondBotTele : GenericOpModeBase() {
         //initialize and set robot behavior
         robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         robot.localizer.poseEstimate = Pose2d()
-        robot.loadPose()
+//        robot.loadPose()
     }
 
     fun startRobot() {
@@ -64,7 +64,7 @@ class SecondBotTele : GenericOpModeBase() {
         // moving the joystick up is actually negative, not positive, so use negative to flip it
         val vert: Double = -gamepad1.left_stick_y.toDouble()
         val hori: Double = gamepad1.left_stick_x.toDouble() * 1.1
-        val turn: Double = gamepad1.right_stick_x.toDouble()
+        val turn: Double = gamepad1.right_stick_x.toDouble() * 0.9
         val wobble: Double = -gamepad2.right_stick_y.toDouble()
 
         // process input
@@ -98,17 +98,26 @@ class SecondBotTele : GenericOpModeBase() {
             robot.intake.start(0.0)
         }
 
-        if (gamepad2.left_bumper) {
-            aimBotOn = false
-        } else if (gamepad2.right_bumper) {
-            aimBotOn = true
-        }
+//        if (gamepad2.left_bumper) {
+//            aimBotOn = false
+//        } else if (gamepad2.right_bumper) {
+//            aimBotOn = true
+//        }
+        
 
+        if (gamepad2.right_trigger > lastTriggerRight || gamepad2.right_trigger > 0.99) {
 
-        if (gamepad2.right_trigger > lastTriggerRight) {
+            if (gamepad2.b) {
 
-            robot.shooter.shoot()
+                robot.shooter.shoot()
+                sleep(150)
+                robot.shooter.shoot()
+                sleep(150)
+                robot.shooter.shoot()
 
+            } else {
+                robot.shooter.shoot()
+            }
         }
 
 
@@ -129,7 +138,7 @@ class SecondBotTele : GenericOpModeBase() {
 
         } else if (gamepad2.left_trigger > 0.3) {
             if (aimBotOn) robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
-            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(72.0, 0.0, 36.0))
+            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 36.0))
 
 
         } else {
@@ -153,9 +162,9 @@ class SecondBotTele : GenericOpModeBase() {
 
         if (gamepad1.y && !previousGamepad1Y) {
             robot.pursuiter.startAt(robot.localizer.poseEstimate)
-            robot.pursuiter.action { robot.pursuiter.runSpeed = 0.35 }
+            robot.pursuiter.action { robot.pursuiter.runSpeed *= 0.5 }
             robot.pursuiter.relative(7.5, 0.0, 0.0)
-            robot.pursuiter.action { robot.pursuiter.runSpeed = 0.75 }
+            robot.pursuiter.action { robot.pursuiter.runSpeed *= 2 }
             robot.pursuiter.follow(robot.driveTrain, telemetry = telemetry)
         }
 

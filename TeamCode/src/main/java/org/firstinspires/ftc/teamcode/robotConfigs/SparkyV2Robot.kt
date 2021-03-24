@@ -43,7 +43,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         wobble.device.direction = DcMotorSimple.Direction.REVERSE
 
         val grabber = ServoM("grabber", hardwareMap)
-        grabber.start(1.0)
+        grabber.start(0.75)
         arm = Arm(arm_motor = wobble, startAngle = Math.toRadians(130.0), grabber = grabber)
 
 

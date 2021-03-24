@@ -15,13 +15,16 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: Double, val telemetry: Telemetry, val flicker: ServoM? = null) {
-    var flickerTimingMS = 200.0
-    var slip = 1.043 // flywheel shooter slip, MUST BE TUNED
-    val turnCorrection = PI
+     // flywheel shooter slip, MUST BE TUNED
+    //              ||
+    //tunable stuff \/
+    var flickerTimingMS = 250.0
+    var slip = 1.005
+    val turnCorrection = PI - Math.toRadians(4.0)
 
     init {
         //https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.4vkznp7wtsch
-        flywheel.device.setVelocityPIDFCoefficients(150.0, 0.0, 0.125, 13.6)
+        flywheel.device.setVelocityPIDFCoefficients(100.0, 0.0, 0.1, 13.6)
         flywheel.device.setPositionPIDFCoefficients(5.0)
 
         flywheel.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
@@ -44,8 +47,8 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
         // since the longer the shot distance, the more work air resistance applies against the projectile
         // thus, we need proportionally more slip to compensate
         // the small number needs to be tuned
-        val adjustedSlip = if (shotDistance > 75) {
-            slip + (shotDistance - 75) * 0.001
+        val adjustedSlip = if (shotDistance > 73.0) {
+            slip + ((shotDistance - 72) * 0.00375)
         } else {
             slip
         }
@@ -65,10 +68,10 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
     fun shoot() {
         //release chamber servo to let a ring into flywheel
         if (flicker != null) {
-            flicker.start(0.52)
+            flicker.start(0.62)
             Thread.sleep(flickerTimingMS.toLong())
             flicker.start(0.9)
-            Thread.sleep(flickerTimingMS.toLong() / 2)
+            Thread.sleep(flickerTimingMS.toLong())
         }
         //dpad up clockwise
         //dpad down ccw
