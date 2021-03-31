@@ -25,11 +25,11 @@ class FastPurePursuit(val localizer: Localizer) {
     var start: Pose2d
 
     @JvmField
-    var lookAhead = 3 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    var lookAhead = 7.5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 0.5 //inches
-    private val angularTol = Math.toRadians(0.25) // one degree angular tolerance
-    private val kStatic = 0.175 // 7.5% power regardless of distance, to overcome friction
+    private val translationalTol = 0.25 //half inch
+    private val angularTol = Math.toRadians(0.2) // quarter degree angular tolerance
+    private val kStatic = 0.125 // 12.5% power regardless of distance, to overcome friction
     @JvmField
     var runSpeed = 0.85
 
@@ -60,11 +60,11 @@ class FastPurePursuit(val localizer: Localizer) {
         var i = 0
 
         while (!done && !Thread.currentThread().isInterrupted) {
-            if (i == 99) {
+            if (i == 20) {
                 telemetry.addLine("running")
                 telemetry.addLine(localizer.poseEstimate.toString())
                 telemetry.addLine(waypoints[index].end.toString())
-                telemetry.addLine(Kinematics.calculatePoseError(waypoints[index].end, localizer.poseEstimate).toString())
+//                telemetry.addLine(Kinematics.calculatePoseError(waypoints[index].end, localizer.poseEstimate).toString())
                 telemetry.update()
                 i = 0
             }
@@ -122,12 +122,16 @@ class FastPurePursuit(val localizer: Localizer) {
         target = if (candidateGoal > 1.0 && (actions.find { it.first == index + 1 } == null) && index < waypoints.size - 1) {
             val excessLength = (path.findClosestT(currentPos) + (lookAhead / path.length) - 1.0) * path.length
 
-            if (excessLength > lookAhead / 4.0) {
+            if (excessLength > lookAhead / 1.5) {
                 index += 1
                 return false
             }
 
-            waypoints[index + 1].getPointfromT(limit(excessLength / waypoints[index + 1].length, 0.0, 1.0))
+            if (excessLength < 0.0) {
+                path.getPointfromT(limit(candidateGoal, 0.0, 1.0))
+            } else {
+                waypoints[index + 1].getPointfromT(limit(excessLength / waypoints[index + 1].length, 0.0, 1.0))
+            }
         } else {
 
 
@@ -178,13 +182,24 @@ class FastPurePursuit(val localizer: Localizer) {
         target = if (candidateGoal > 1.0 && (actions.find { it.first == index + 1 } == null) && index < waypoints.size - 1) {
             val excessLength = (path.findClosestT(currentPos) + (lookAhead / path.length) - 1.0) * path.length
 
-            if (excessLength > lookAhead / 4.0) {
+
+            println(excessLength)
+            println(path.findClosestT(currentPos))
+            println(path.findClosestT(currentPos) + (lookAhead / path.length))
+
+            if (excessLength > lookAhead / 1.5) {
                 index += 1
                 return false
             }
 
-            waypoints[index + 1].getPointfromT(limit(excessLength / waypoints[index + 1].length, 0.0, 1.0))
+
+            if (excessLength < 0.0) {
+                path.getPointfromT(limit(candidateGoal, 0.0, 1.0))
+            } else {
+                waypoints[index + 1].getPointfromT(limit(excessLength / waypoints[index + 1].length, 0.0, 1.0))
+            }
         } else {
+            println("stopping path")
             path.getPointfromT(limit(candidateGoal, 0.0, 1.0))
         }
 

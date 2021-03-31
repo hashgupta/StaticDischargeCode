@@ -35,7 +35,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         lb.device.direction = DcMotorSimple.Direction.REVERSE
 
         intake = Motor("intake", 288.0, 1.0, hardwareMap)
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+//        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
         roller = Motor("under roller", 560.0, 0.5, hardwareMap)
 
 

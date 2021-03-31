@@ -40,16 +40,33 @@ class LinearPath(override val start: Pose2d, override val end: Pose2d) : Path() 
         val v = end.vec().minus(start.vec())
         val u = start.vec().minus(position.vec())
 
-        val t = if (v.norm() == 0.0 && u.norm() == 0.0) {
-            0.5
-        } else if (v.norm() == 0.0) {
-            (position.heading - start.heading) / (end.heading - start.heading)
-        } else if (u.dot(u) epsilonEquals 0.0) {
-            0.0
-        } else {
-            -v.dot(u) / u.dot(u)
+        if (v.y epsilonEquals 0.0 && v.x epsilonEquals 0.0) {
+            throw Exception("cant have a linear path with same start and end x,y positions. Use turn path for this")
+        } else if (v.x epsilonEquals 0.0) {
+            return limit((position.y - start.y) / v.y, 0.0, 1.0)
+        } else if (v.y epsilonEquals 0.0) {
+            return limit((position.x - start.x) / v.x, 0.0, 1.0)
         }
-        return limit(t, 0.0, 1.0)
+
+        val m = v.y / v.x
+
+
+
+        val x = (m*end.x + position.y + (position.x / m) - end.y) / (1/m + m)
+
+        return limit((x - start.x) / v.x, 0.0, 1.0)
+
+
+//        val t = if (v.norm() == 0.0 && u.norm() == 0.0) {
+//            0.5
+//        } else if (v.norm() == 0.0) {
+//            (position.heading - start.heading) / (end.heading - start.heading)
+//        } else if (u.dot(u) epsilonEquals 0.0) {
+//            0.0
+//        } else {
+//            -v.dot(u) / u.dot(u)
+//        }
+//        return limit(t, 0.0, 1.0)
     }
 }
 

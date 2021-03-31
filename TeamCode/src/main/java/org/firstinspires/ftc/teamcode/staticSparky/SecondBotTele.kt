@@ -22,19 +22,19 @@ class SecondBotTele : GenericOpModeBase() {
     private var driveSpeed = DriveSpeeds.Normal
     private var lastTriggerRight = 0.0
     private var IntakeOn = false
-    private var previousGamepad1X = false
+//    private var previousGamepad1X = false
     private var previousGamepad1Y = false
-    private var previousGamepad2Y = false
+//    private var previousGamepad2Y = false
     private var IntakeBackwards = false
 
-    private val normalSpeed = 0.9
+    private val normalSpeed = 0.95
     private val slowSpeed = 0.3
-    private var aimBotOn = false
+//    private var aimBotOn = false
 
     @JvmField
-    var intakeRollerSpeed = 0.75
+    var intakeRollerSpeed = 0.90
     @JvmField
-    var intakeMainSpeed = -0.75
+    var intakeMainSpeed = -0.90
 
     override fun runOpMode() {
         initRobot()
@@ -98,6 +98,9 @@ class SecondBotTele : GenericOpModeBase() {
             robot.intake.start(0.0)
         }
 
+
+
+
 //        if (gamepad2.left_bumper) {
 //            aimBotOn = false
 //        } else if (gamepad2.right_bumper) {
@@ -106,18 +109,9 @@ class SecondBotTele : GenericOpModeBase() {
         
 
         if (gamepad2.right_trigger > lastTriggerRight || gamepad2.right_trigger > 0.99) {
-
-            if (gamepad2.b) {
-
-                robot.shooter.shoot()
-                sleep(150)
-                robot.shooter.shoot()
-                sleep(150)
-                robot.shooter.shoot()
-
-            } else {
-                robot.shooter.shoot()
-            }
+            robot.driveTrain.start(DriveTrain.Square(0.0, 0.0, 0.0, 0.0))
+            robot.shooter.shoot()
+            return
         }
 
 
@@ -134,11 +128,14 @@ class SecondBotTele : GenericOpModeBase() {
 
         if (gamepad2.left_trigger > 0.3 && gamepad2.a) {
 
-            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 32.0))
+
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 32.5))
 
         } else if (gamepad2.left_trigger > 0.3) {
-            if (aimBotOn) robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
-            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 36.0))
+
+//            if (aimBotOn) robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
+//            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 35.0))
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 35.0))
 
 
         } else {
@@ -153,13 +150,13 @@ class SecondBotTele : GenericOpModeBase() {
             robot.arm.dropTele()
         }
 
-        if (gamepad1.x && !previousGamepad1X) {
-            robot.pursuiter.startAt(robot.localizer.poseEstimate)
-            robot.pursuiter
-                    .turnTo(robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
-                    .follow(robot.driveTrain, telemetry = telemetry)
-        }
-
+//        if (gamepad1.x && !previousGamepad1X) {
+//            robot.pursuiter.startAt(robot.localizer.poseEstimate)
+//            robot.pursuiter
+//                    .turnTo(robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+//                    .follow(robot.driveTrain, telemetry = telemetry)
+//        }
+//
         if (gamepad1.y && !previousGamepad1Y) {
             robot.pursuiter.startAt(robot.localizer.poseEstimate)
             robot.pursuiter.action { robot.pursuiter.runSpeed *= 0.5 }
@@ -167,30 +164,34 @@ class SecondBotTele : GenericOpModeBase() {
             robot.pursuiter.action { robot.pursuiter.runSpeed *= 2 }
             robot.pursuiter.follow(robot.driveTrain, telemetry = telemetry)
         }
-
-
-        //auto aim and shoot three shots, no human involvement
-        if (gamepad2.y && !previousGamepad2Y) {
-            robot.pursuiter.startAt(robot.localizer.poseEstimate)
-
-            robot.pursuiter
-                    .turnTo(robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
-                    .follow(robot.driveTrain, telemetry = telemetry)
-
-            robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
-            sleep(1000)
-            robot.shooter.shoot()
-            sleep(250)
-            robot.shooter.shoot()
-            sleep(250)
-            robot.shooter.shoot()
-
+//
+        if (gamepad1.right_trigger.toDouble() == 1.0) {
+            robot.flicker.start(0.65)
         }
+//
+//
+//        //auto aim and shoot three shots, no human involvement
+//        if (gamepad2.y && !previousGamepad2Y) {
+//            robot.pursuiter.startAt(robot.localizer.poseEstimate)
+//
+//            robot.pursuiter
+//                    .turnTo(robot.shooter.turningTarget(robot.localizer.poseEstimate.vec(), Positions.highGoalRed))
+//                    .follow(robot.driveTrain, telemetry = telemetry)
+//
+//            robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
+//            sleep(1000)
+//            robot.shooter.shoot()
+//            sleep(250)
+//            robot.shooter.shoot()
+//            sleep(250)
+//            robot.shooter.shoot()
+//
+//        }
 
 
         lastTriggerRight = gamepad2.right_trigger.toDouble()
-        previousGamepad1X = gamepad1.x
-        previousGamepad2Y = gamepad2.y
+//        previousGamepad1X = gamepad1.x
+//        previousGamepad2Y = gamepad2.y
         previousGamepad1Y = gamepad1.y
 
 

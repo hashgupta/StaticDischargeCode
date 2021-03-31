@@ -33,7 +33,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 
 
         grabber?.start(1.0)
-        sleep(400)
+        sleep(750)
 
 
 //        toAngle(Math.toRadians(160.0))
@@ -54,9 +54,9 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 ////        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
 
         run(-autoSpeed)
-        sleep(1300)
+        sleep(1000)
         run(0.0)
-        grabber?.start(0.40)
+        grabber?.start(0.05)
 
         sleep(1000)
 
@@ -67,7 +67,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
     }
 
     fun dropTele() {
-        grabber?.start(0.20)
+        grabber?.start(0.05)
     }
 
 

@@ -8,6 +8,8 @@ import org.firstinspires.ftc.teamcode.BuildConfig
 import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
 import org.firstinspires.ftc.teamcode.localizers.MockedLocalizer
 import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
+import org.firstinspires.ftc.teamcode.purePursuit.LinearPath
+import org.firstinspires.ftc.teamcode.purePursuit.Path
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -89,12 +91,14 @@ class PurePursuitTest {
         val localizer = MockedLocalizer()
         val pursuiter = FastPurePursuit(localizer)
 
-        val pose = Pose2d(1.0, 1.0, Math.toRadians(175.0))
+        val pose = Pose2d(2.0, 2.0, Math.toRadians(175.0))
 
-        pursuiter.startAt(pose)
+        pursuiter.startAt(Pose2d(0.0, 0.0,0.0))
+        localizer.poseEstimate = pose
 //        pursuiter.spline(end = Pose2d(10.0, 10.0, 0.0), endTanAngle = Math.toRadians(-135.0))
-//        pursuiter.move(6.0, 7.8, 0.0)
-        pursuiter.turnTo(3.141592)
+        pursuiter.move(6.0, 7.8, 0.0)
+        pursuiter.move(20.0, 15.8, 0.0)
+//        pursuiter.turnTo(3.141592)
 
 
         println(pursuiter.waypoints)
@@ -122,6 +126,8 @@ class PurePursuitTest {
 //            println(target - pursuiter.waypoints.last().end)
 //            error("Assertion failed")
 //        }
+        val path = LinearPath(Pose2d(0.0, 0.0, 0.0), Pose2d(10.0, 10.0, Math.toRadians(180.0)))
+        println(path.findClosestT(Pose2d(11.0, 11.0, 0.0)))
 
     }
 

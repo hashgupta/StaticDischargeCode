@@ -18,7 +18,7 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
      // flywheel shooter slip, MUST BE TUNED
     //              ||
     //tunable stuff \/
-    var flickerTimingMS = 250.0
+    var flickerTimingMS = 190.0
     var slip = 1.005
     val turnCorrection = PI - Math.toRadians(4.0)
 
@@ -68,7 +68,7 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
     fun shoot() {
         //release chamber servo to let a ring into flywheel
         if (flicker != null) {
-            flicker.start(0.62)
+            flicker.start(0.7)
             Thread.sleep(flickerTimingMS.toLong())
             flicker.start(0.9)
             Thread.sleep(flickerTimingMS.toLong())

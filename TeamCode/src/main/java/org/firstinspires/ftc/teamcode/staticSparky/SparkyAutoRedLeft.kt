@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.staticSparky
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
@@ -52,36 +53,27 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
         robot.pursuiter.action { robot.shooter.aimShooter(Pose2d(-0.20 * TILE_LENGTH, Positions.powerFarRed.y, PI), Positions.powerFarRed) }
 
         // INTERMEDIATE POINT SO WE DON'T HIT RING STACK
-        robot.pursuiter.move(-0.75 * TILE_LENGTH, -0.5 * TILE_LENGTH, 0.0)
-        robot.pursuiter.action {}
+        robot.pursuiter.move(-0.75 * TILE_LENGTH, -0.75 * TILE_LENGTH, 0.0)
 
 
         /* HIGH GOAL */
 
         //shoots 3 rings
 
-        val shootingPositionHighGoal = Vector2d(x = -0.2 * TILE_LENGTH, y = Positions.highGoalRed.y - 10)
+        val shootingPositionHighGoal = Pose2d(x = -0.1 * TILE_LENGTH, y = Positions.highGoalRed.y - 10.0, PI - Math.toRadians(2.0))
         val shootingPositionPowerShots = Vector2d(x = -0.20 * TILE_LENGTH, y = Positions.highGoalRed.y)
         val powerShotAngleAdjustment = Math.toRadians(-3.0)
 
-        robot.pursuiter.move(Pose2d(shootingPositionHighGoal, heading = PI - Math.toRadians(1.0)))
+        robot.pursuiter.move(shootingPositionHighGoal)
 
         robot.pursuiter.action {
-            robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                Positions.highGoalRed)
-                sleep(350)
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 35.0))
+                sleep(500)
                 robot.shooter.shoot()
-            robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                    Positions.highGoalRed)
-                sleep(150)
-            robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                    Positions.highGoalRed)
-                robot.shooter.shoot()
-            robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                    Positions.highGoalRed)
                 sleep(150)
                 robot.shooter.shoot()
-//                sleep(200)
+                sleep(150)
+                robot.shooter.shoot()
         }
 
         /* POWER SHOTS */
@@ -118,7 +110,7 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 
         //determine if we skip the wobble goal
 //        val skipSecondWobble = !(analysis == RingPipeline.RingPosition.ONE)
-        var skipSecondWobble = true
+        val skipSecondWobble = false
 
 
         //split path based on number of rings in stack
@@ -132,7 +124,7 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
                     robot.roller.start(0.9)
                 }
 
-                robot.pursuiter.spline(end = Pose2d(-TILE_LENGTH - 2, -TILE_LENGTH * 1.6, PI), endTanAngle = PI, startTanAngle = PI/2)
+                robot.pursuiter.spline(end = Pose2d(-TILE_LENGTH - 2, -TILE_LENGTH * 1.7, PI), endTanAngle = PI, startTanAngle = PI/2)
 
                 robot.pursuiter.action {
                     sleep(750)
@@ -140,12 +132,11 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
                     robot.roller.start(0.0)
                 }
 
-                robot.pursuiter.move(Pose2d(shootingPositionHighGoal, heading = PI))
+                robot.pursuiter.move(shootingPositionHighGoal)
 
                 robot.pursuiter.action {
-                    robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                            Positions.highGoalRed)
-                    sleep(500)
+                    robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 35.0))
+                    sleep(300)
                     robot.shooter.shoot()
                 }
             }
@@ -228,11 +219,9 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 //                    sleep(500)
 //                    robot.shooter.shoot()
 //                }
-//                skipSecondWobble = false
 
             }
             else -> {
-//                skipSecondWobble = false
             }
         }
 
@@ -257,9 +246,8 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
         /* FIRST WOBBLE */
 
         robot.pursuiter
-                .move(goalZone + Pose2d(-2.0, 9.0, -PI / 4))
+                .move(goalZone + Pose2d(-2.0, 5.0, -PI / 4))
                 .action { robot.arm.dropAuto() }
-//                .relative(0.0, -5.0, 0.0)
 
 
 //        /* SECOND WOBBLE */
@@ -268,34 +256,32 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 
             robot.pursuiter
                     .move(-1 * TILE_LENGTH, -2.4 * TILE_LENGTH, PI)
-                    .action { robot.pursuiter.runSpeed *= 0.5 }
-            robot.pursuiter.action {
-                robot.arm.run(0.75)
-                Thread.sleep(300)
-                robot.arm.run(0.0)
-            }
+                    .action { robot.arm.run(0.75)
+                        Thread.sleep(300)
+                        robot.arm.run(0.0)
+                    robot.pursuiter.runSpeed *= 0.75}
 
             robot.pursuiter
-                    .move(-1.5 * TILE_LENGTH, -2.30 * TILE_LENGTH, PI)
+                    .move(-1.6 * TILE_LENGTH, -2.4 * TILE_LENGTH, PI)
                     .action {
                         robot.arm.grabAuto()
-                        robot.pursuiter.runSpeed *= 2
+                        robot.pursuiter.runSpeed *= 1.33
+                        //buck it to the target zone
                     }
 
             robot.pursuiter
-                    .move(goalZone + Pose2d(-18.0, 10.0, -Math.toRadians((10.0))))
+                    .move(goalZone + Pose2d(-15.0, 2.0, -Math.toRadians((10.0))))
                     .action {
                         robot.arm.dropTele()
-                        sleep(500)
+                        sleep(1000)
                     }
-                    .relative(0.0, -5.0, 0.0)
-                    .action{ }
+                    .relative(0.0, -10.0, 0.0)
         }
 
 
         /* PARK */
 
-        robot.pursuiter.move(0.5 * TILE_LENGTH, -1 * TILE_LENGTH, PI)
+        robot.pursuiter.move(0.5 * TILE_LENGTH, -1 * TILE_LENGTH, 0.0)
 
 
         // the entire auto program above is dynamically building the path and actions
