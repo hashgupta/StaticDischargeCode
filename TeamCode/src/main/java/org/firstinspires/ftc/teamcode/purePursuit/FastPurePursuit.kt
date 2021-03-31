@@ -34,7 +34,7 @@ class FastPurePursuit(val localizer: Localizer) {
     var runSpeed = 0.85
 
     private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.2)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.8)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.9)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs, kStatic = kStatic)

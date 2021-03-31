@@ -32,9 +32,9 @@ class SecondBotTele : GenericOpModeBase() {
 //    private var aimBotOn = false
 
     @JvmField
-    var intakeRollerSpeed = 0.90
+    var intakeRollerSpeed = 0.95
     @JvmField
-    var intakeMainSpeed = -0.90
+    var intakeMainSpeed = -0.95
 
     override fun runOpMode() {
         initRobot()
@@ -108,7 +108,7 @@ class SecondBotTele : GenericOpModeBase() {
 //        }
         
 
-        if (gamepad2.right_trigger > lastTriggerRight || gamepad2.right_trigger > 0.99) {
+        if ((gamepad2.right_trigger > lastTriggerRight || gamepad2.right_trigger > 0.99) && (gamepad2.right_trigger > 0.10)) {
             robot.driveTrain.start(DriveTrain.Square(0.0, 0.0, 0.0, 0.0))
             robot.shooter.shoot()
             return
