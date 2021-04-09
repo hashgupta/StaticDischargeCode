@@ -1,20 +1,19 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode.matchOpmodes
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
 import org.firstinspires.ftc.teamcode.robotConfigs.TestRobot
 
 
 @Disabled
-@TeleOp(name = "Special Drive Tele", group = "StaticDischarge")
+@TeleOp(name = "Example Tele", group = "StaticDischarge")
 class ExtraTele : OpMode() {
     // robot
     private lateinit var robot: TestRobot
-    private var reverse = false
 
     // speeds
     private var driveSpeed = 1.0
@@ -35,17 +34,15 @@ class ExtraTele : OpMode() {
         val hori = gamepad1.left_stick_x.toDouble()
         val turn = gamepad1.right_stick_x.toDouble()
 
-        // process input
-
 
         try {
 //            //output values for robot movement
-            robot.driveTrain.start(DriveTrain.Vector(
-                    hori * driveSpeed * (if (reverse) -1 else 1).toDouble(),
-                    vert * driveSpeed * (if (reverse) -1 else 1).toDouble(),
+            robot.driveTrain.start(MecanumDriveTrain.Vector(
+                    hori * driveSpeed,
+                    vert * driveSpeed,
                     turn * driveSpeed)
                     .speeds())
-            telemetry.addData("drivetrain positions", robot.driveTrain.getPosition())
+
             telemetry.addData("Pose Estimate", robot.localizer.poseEstimate)
             telemetry.update()
 
@@ -62,11 +59,6 @@ class ExtraTele : OpMode() {
     override fun start() {}
 
     override fun stop() {
-        robot.driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
-    }
-
-    companion object {
-        // field measurements
-
+        robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.0, 0.0).speeds())
     }
 }

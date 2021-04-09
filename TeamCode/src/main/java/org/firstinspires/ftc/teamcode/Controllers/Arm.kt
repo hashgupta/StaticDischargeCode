@@ -2,12 +2,12 @@ package org.firstinspires.ftc.teamcode.Controllers
 
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
-import org.firstinspires.ftc.teamcode.hardware.general.ServoM
+import org.firstinspires.ftc.teamcode.hardware.general.ServoNormal
 import java.lang.Thread.sleep
 import kotlin.math.PI
 
-class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
-    private val reduction = 0.225
+class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoNormal?) {
+    private val reduction = 0.30
     private val autoSpeed = 0.75
 
     init {
@@ -54,7 +54,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoM?) {
 ////        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
 
         run(-autoSpeed)
-        sleep(1000)
+        sleep(1300)
         run(0.0)
         grabber?.start(0.05)
 

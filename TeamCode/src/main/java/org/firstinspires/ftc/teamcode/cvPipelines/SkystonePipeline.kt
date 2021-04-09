@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.pipelines
+package org.firstinspires.ftc.teamcode.cvPipelines
 
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc

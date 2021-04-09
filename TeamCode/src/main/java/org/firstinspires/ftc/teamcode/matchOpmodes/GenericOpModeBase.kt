@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode.matchOpmodes
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
-import org.firstinspires.ftc.teamcode.pipelines.FindRingAutoPipeline
-import org.firstinspires.ftc.teamcode.pipelines.Ring
-import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
+import org.firstinspires.ftc.teamcode.Constants
+import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
+import org.firstinspires.ftc.teamcode.cvPipelines.FindRingAutoPipeline
+import org.firstinspires.ftc.teamcode.cvPipelines.Ring
+import org.firstinspires.ftc.teamcode.cvPipelines.RingPipeline
 import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 import org.openftc.easyopencv.*
 
@@ -73,7 +74,7 @@ abstract class GenericOpModeBase : LinearOpMode() {
     companion object {
 
         // field constants.
-        const val TILE_LENGTH = 24.0
+        const val TILE_LENGTH = Constants.tile_length
     }
 
     fun AutoFindRings(gamepad: Gamepad, robot: RobotBase) {
@@ -92,16 +93,16 @@ abstract class GenericOpModeBase : LinearOpMode() {
 
             if (rings.size == 0) {
 
-                robot.driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.5).speeds())
+                robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.0, 0.5).speeds())
             } else if (rings.size == 1) {
 
-                robot.driveTrain.start(DriveTrain.Vector(0.0, 0.75, rings[0].turnControl).speeds())
+                robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.75, rings[0].turnControl).speeds())
             } else {
 
                 val sorted_rings = rings.sortedWith(compareBy<Ring> { it.distance })
                 val closest_ring = sorted_rings[0]
 
-                robot.driveTrain.start(DriveTrain.Vector(0.0, 0.75, closest_ring.turnControl * 2).speeds())
+                robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.75, closest_ring.turnControl * 2).speeds())
             }
         }
 

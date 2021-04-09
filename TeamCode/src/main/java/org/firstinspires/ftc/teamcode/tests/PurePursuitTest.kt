@@ -4,18 +4,14 @@ package org.firstinspires.ftc.teamcode.tests
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import org.firstinspires.ftc.teamcode.BuildConfig
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
 import org.firstinspires.ftc.teamcode.localizers.MockedLocalizer
 import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 import org.firstinspires.ftc.teamcode.purePursuit.LinearPath
-import org.firstinspires.ftc.teamcode.purePursuit.Path
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.math.abs
-import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
 
 @Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -79,7 +75,7 @@ class PurePursuitTest {
         val hori = -velocity.y
 
         val turn = -velocity.heading
-        val square = DriveTrain.Vector(hori, vert, turn)
+        val square = MecanumDriveTrain.Vector(hori, vert, turn)
         println(square.hori)
         println(square.vert)
         println(square.turn)
@@ -142,7 +138,7 @@ class PurePursuitTest {
         pursuiter.action { println("action #1") }
         pursuiter.action { println("action #2") }
 
-        if (BuildConfig.DEBUG && pursuiter.actions.size != 1) {
+        if (pursuiter.actions.size != 1) {
             println(pursuiter.actions)
             error("Assertion failed")
         }

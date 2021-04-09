@@ -9,9 +9,9 @@ import kotlin.math.abs
 import kotlin.math.max
 
 // Holonomic Mecanum/quad-omni drive train
-class DriveTrain// initialize drive train
+class MecanumDriveTrain// initialize drive train
 (// motors
-        private val rf: Motor, private val rb: Motor, private val lf: Motor, private val lb: Motor) : Input<DriveTrain.Square<Double>>, Output<DriveTrain.Square<Double>> {
+        private val rf: Motor, private val rb: Motor, private val lf: Motor, private val lb: Motor) : Input<MecanumDriveTrain.Square<Double>>, Output<MecanumDriveTrain.Square<Double>> {
 
 
     val isBusy: Boolean

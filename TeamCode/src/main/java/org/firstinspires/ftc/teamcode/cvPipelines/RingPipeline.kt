@@ -1,30 +1,39 @@
-package org.firstinspires.ftc.teamcode.pipelines
+package org.firstinspires.ftc.teamcode.cvPipelines
 
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
 import org.openftc.easyopencv.OpenCvPipeline
 
 
-class FindRingAutoPipeline() : OpenCvPipeline() {
+class RingPipeline() : OpenCvPipeline() {
 
     internal var yCbCrChan2Mat = Mat()
+    internal var avg: Double = 0.toDouble()
+    var region_Cb: Mat = Mat()
     var Cb = Mat()
-    var thres = Mat()
-    var hierarchy = Mat()
-    val cameraWidth = 320.0
 
+    enum class RingPosition {
+        NONE, ONE, FOUR
+    }
+
+    var right: Boolean = true
+
+    @Volatile
+    private var position: RingPosition = RingPosition.NONE
 
     /*
          * Some color constants
          */
+    val BLUE = Scalar(0.0, 0.0, 255.0)
     val GREEN = Scalar(0.0, 255.0, 0.0)
-    val FocalLength = 481.0
-    val ringWidth = 5.0
-    val numerator = FocalLength * ringWidth
 
-    val listofRings = mutableListOf<Ring>()
-
-    //distance = focal length * ring width / pixel width
+    /*
+         * The core values which define the location and size of the sample regions
+         */
+    // set where the right and left boxes are
+    val REGION_WIDTH = 50
+    val REGION_HEIGHT = 40
+    val REGION_TOPLEFT_ANCHOR_POINT = if (right) Point(250.0, 130.0) else Point(80.0 - REGION_WIDTH, 140.0)
 
 
     /*
@@ -44,7 +53,15 @@ class FindRingAutoPipeline() : OpenCvPipeline() {
          *   ------------------------------------
          *
          */
+    var region_pointA = Point(
+            REGION_TOPLEFT_ANCHOR_POINT.x,
+            REGION_TOPLEFT_ANCHOR_POINT.y)
+    var region_pointB = Point(
+            REGION_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+            REGION_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT)
 
+    val FOUR_RING_THRESHOLD = 100
+    val ONE_RING_THRESHOLD = 120
 
     fun inputToCb(input: Mat) {
         Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb)
@@ -62,6 +79,7 @@ class FindRingAutoPipeline() : OpenCvPipeline() {
                  * was crunched)
                  */
         inputToCb(firstFrame)
+        region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
 
         /*
                  * Submats are a persistent reference to a region of the parent
@@ -73,51 +91,34 @@ class FindRingAutoPipeline() : OpenCvPipeline() {
     override fun processFrame(input: Mat): Mat {
 
         //
-        listofRings.clear()
 
         inputToCb(input)
-        Imgproc.threshold(Cb, thres, 90.0, 255.0, 2)
-        val contours = mutableListOf<MatOfPoint>()
-
-        Imgproc.findContours(thres, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE)
-
-        val contoursPoly = mutableListOf<MatOfPoint2f>()
-        val boundRect = mutableListOf<Rect>()
-        for (i in contours.indices) {
-            contoursPoly[i] = MatOfPoint2f()
-            Imgproc.approxPolyDP(MatOfPoint2f(*contours[i].toArray()), contoursPoly[i], 3.0, true)
-            boundRect[i] = Imgproc.boundingRect(MatOfPoint(*contoursPoly[i].toArray()))
-        }
-
-        for (i in 0 until boundRect.size) {
-
-            // draw green bounding rectangles on mat
-
-
-            if (boundRect[i].height > 10 && boundRect[i].width > boundRect[i].height * 3) {
-                Imgproc.rectangle(input, boundRect[i], GREEN)
-                val centerx = boundRect[i].x + boundRect[i].width / 2
-
-                val turnControl = (2 * centerx / cameraWidth) - 1
-
-
-                listofRings.add(Ring(numerator / boundRect[i].width, turnControl))
-            }
-        }
-
-
+//        return input
+        region_Cb = Cb.submat(Rect(region_pointA, region_pointB))
+//        avg = Core.mean(region_Cb).`val`[0]
+        avg = Core.mean(region_Cb).`val`[0]
 //
-
+        Imgproc.rectangle(input, region_pointA,
+                region_pointB,
+                BLUE, 4)
 //
-
+        if (avg < FOUR_RING_THRESHOLD) {
+            position = RingPosition.FOUR
+        } else if (avg < ONE_RING_THRESHOLD) {
+            position = RingPosition.ONE
+        } else {
+            position = RingPosition.NONE
+        }
 //
 //
         return input
     }
 
-    fun rings(): List<Ring> {
-        return listofRings
+    fun average(): Double {
+        return avg
+    }
+
+    fun position(): RingPosition {
+        return position
     }
 }
-
-data class Ring(val distance: Double, val turnControl: Double)

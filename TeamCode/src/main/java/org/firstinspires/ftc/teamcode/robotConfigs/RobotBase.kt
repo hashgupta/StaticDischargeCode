@@ -7,7 +7,7 @@ import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
 import org.firstinspires.ftc.teamcode.PoseStorage
 import org.firstinspires.ftc.teamcode.hardware.general.Gyro
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
@@ -17,7 +17,7 @@ import kotlin.math.abs
 import kotlin.math.sign
 
 abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry, val opModeActive: () -> Boolean) {
-    var driveTrain: DriveTrain
+    var driveTrain: MecanumDriveTrain
     var localizer: Localizer
     val gyro: Gyro
     var pose: Pose2d = Pose2d(0.0, 0.0, 0.0)
@@ -29,7 +29,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         val lf = Motor("lf", 1120.0, 1.0, 2.95, hardwareMap)
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
 
-        driveTrain = DriveTrain(rf, rb, lf, lb)
+        driveTrain = MecanumDriveTrain(rf, rb, lf, lb)
 
         gyro = Gyro("gyro", hardwareMap)
 
@@ -52,11 +52,11 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         telemetry.addData("drivetrain", driveTrain.getPosition())
         telemetry.update()
         Thread.sleep(1000)
-        driveTrain.setTarget(DriveTrain.Direction(horizontal, -forward, 0.0).speeds())
+        driveTrain.setTarget(MecanumDriveTrain.Direction(horizontal, -forward, 0.0).speeds())
         driveTrain.setMode(DcMotor.RunMode.RUN_TO_POSITION)
 
 
-        val allDrive = DriveTrain.Square(0.8, 0.8, 0.8, 0.8)
+        val allDrive = MecanumDriveTrain.Square(0.8, 0.8, 0.8, 0.8)
 
         driveTrain.start(allDrive)
 
@@ -81,7 +81,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
         }
         val robotPoseDelta = Pose2d(forward, -horizontal, 0.0)
         pose = Kinematics.relativeOdometryUpdate(pose, robotPoseDelta)
-        driveTrain.start(DriveTrain.Square(0.0, 0.0, 0.0, 0.0))
+        driveTrain.start(MecanumDriveTrain.Square(0.0, 0.0, 0.0, 0.0))
         driveTrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
     }
 
@@ -94,9 +94,9 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
             telemetry.addData("Angle", Math.toDegrees(gyro.measure()))
             telemetry.update()
 
-            driveTrain.start(DriveTrain.Vector(0.0, 0.0, -turn).speeds())
+            driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.0, -turn).speeds())
         }
-        driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
+        driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.0, 0.0).speeds())
         pose = Pose2d(pose.vec(), gyro.measure())
     }
 
@@ -129,7 +129,7 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
     }
 
     fun setDriveTrain(rf: Motor, rb: Motor, lf: Motor, lb: Motor) {
-        driveTrain = DriveTrain(rf, rb, lf, lb)
+        driveTrain = MecanumDriveTrain(rf, rb, lf, lb)
     }
 
     fun savePose() {

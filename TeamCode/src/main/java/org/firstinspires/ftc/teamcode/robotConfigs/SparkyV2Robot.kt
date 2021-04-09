@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Controllers.Arm
 import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
-import org.firstinspires.ftc.teamcode.hardware.general.ServoM
+import org.firstinspires.ftc.teamcode.hardware.general.ServoNormal
 import org.firstinspires.ftc.teamcode.localizers.TwoWheelRevLocalizer
 import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
 
@@ -18,7 +18,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
     val intake: Motor
     val roller: Motor
     val arm: Arm
-    val flicker: ServoM
+    val flicker: ServoNormal
     val shooter: Shooter
 
 
@@ -42,7 +42,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         val wobble = Motor("wobble", 1120.0, 0.75, hardwareMap)
         wobble.device.direction = DcMotorSimple.Direction.REVERSE
 
-        val grabber = ServoM("grabber", hardwareMap)
+        val grabber = ServoNormal("grabber", hardwareMap)
         grabber.start(0.75)
         arm = Arm(arm_motor = wobble, startAngle = Math.toRadians(130.0), grabber = grabber)
 
@@ -51,7 +51,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
 //        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
 
-        flicker = ServoM("flicker", hardwareMap)
+        flicker = ServoNormal("flicker", hardwareMap)
         flicker.start(0.9)
         val flywheel = Motor("flywheel", 28.0, 1.0, 4.0, hardwareMap)
         shooter = Shooter(flywheel, Math.toRadians(30.0), 8.0, telemetry, flicker)

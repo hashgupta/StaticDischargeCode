@@ -1,12 +1,11 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode.matchOpmodes
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
-import org.firstinspires.ftc.teamcode.Positions
-import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
+import org.firstinspires.ftc.teamcode.UltimateGoalPositions
+import org.firstinspires.ftc.teamcode.cvPipelines.RingPipeline
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 import kotlin.math.PI
 
@@ -15,8 +14,8 @@ import kotlin.math.PI
 class SparkyAutoRedLeft : GenericOpModeBase() {
 
     lateinit var robot: SparkyV2Robot
-    val shootingPositionHighGoal = Pose2d(x = -0.1 * TILE_LENGTH, y = Positions.highGoalRed.y - 10.0, PI - Math.toRadians(2.0))
-    val shootingPositionPowerShots = Vector2d(x = -0.20 * TILE_LENGTH, y = Positions.highGoalRed.y)
+    val shootingPositionHighGoal = Pose2d(x = -0.1 * TILE_LENGTH, y = UltimateGoalPositions.highGoalRed.y - 10.0, PI - Math.toRadians(2.0))
+    val shootingPositionPowerShots = Vector2d(x = -0.20 * TILE_LENGTH, y = UltimateGoalPositions.highGoalRed.y)
     val powerShotAngleAdjustment = Math.toRadians(-3.0)
 
     override fun runOpMode() {
@@ -30,7 +29,7 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
         */
 
         robot = SparkyV2Robot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested }
-        robot.pursuiter.startAt(Positions.startLeftRed)
+        robot.pursuiter.startAt(UltimateGoalPositions.startLeftRed)
         initCV(Side.Right)
         startCV()
         var analysis: RingPipeline.RingPosition = RingPipeline.RingPosition.NONE
@@ -47,13 +46,13 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 
         val goalZone = when (analysis) {
             RingPipeline.RingPosition.NONE -> {
-                Pose2d(Positions.aZoneRed, 0.0)
+                Pose2d(UltimateGoalPositions.aZoneRed, 0.0)
             }
             RingPipeline.RingPosition.ONE -> {
-                Pose2d(Positions.bZoneRed, 0.0)
+                Pose2d(UltimateGoalPositions.bZoneRed, 0.0)
             }
             else -> {
-                Pose2d(Positions.cZoneRed, 0.0)
+                Pose2d(UltimateGoalPositions.cZoneRed, 0.0)
             }
         }
 
@@ -63,7 +62,7 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 
 
         // WARM UP SHOOTER EARLY
-        robot.pursuiter.action { robot.shooter.aimShooter(Pose2d(-0.20 * TILE_LENGTH, Positions.powerFarRed.y, PI), Positions.powerFarRed) }
+        robot.pursuiter.action { robot.shooter.aimShooter(Pose2d(-0.20 * TILE_LENGTH, UltimateGoalPositions.powerFarRed.y, PI), UltimateGoalPositions.powerFarRed) }
 
         // INTERMEDIATE POINT SO WE DON'T HIT RING STACK
         robot.pursuiter.move(-0.75 * TILE_LENGTH, -0.75 * TILE_LENGTH, 0.0)
@@ -89,8 +88,8 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
             RingPipeline.RingPosition.ONE -> {
 
                 robot.pursuiter.action {
-                    robot.intake.start(-0.9)
-                    robot.roller.start(0.9)
+                    robot.intake.start(-0.95)
+                    robot.roller.start(0.85)
                 }
 
                 robot.pursuiter.spline(end = Pose2d(-TILE_LENGTH - 2, -TILE_LENGTH * 1.7, PI), endTanAngle = PI, startTanAngle = PI)
@@ -195,28 +194,28 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 /* POWER SHOTS */
 fun shootPowerShots(robot: SparkyV2Robot, shootingPosition: Vector2d, angleAdjustment: Double) {
         robot.pursuiter
-                .move(Pose2d(shootingPosition, angleAdjustment + robot.shooter.turningTarget(shootingPosition, Positions.powerNearRed)))
+                .move(Pose2d(shootingPosition, angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerNearRed)))
                 .action {
                     robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                            Positions.powerNearRed)
+                            UltimateGoalPositions.powerNearRed)
                     Thread.sleep(500)
                     robot.shooter.shoot()
                 }
 
         robot.pursuiter
-                .turnTo(angleAdjustment + robot.shooter.turningTarget(shootingPosition, Positions.powerMidRed))
+                .turnTo(angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerMidRed))
                 .action {
                     robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                            Positions.powerMidRed)
+                            UltimateGoalPositions.powerMidRed)
                     Thread.sleep(500)
                     robot.shooter.shoot()
                 }
 
         robot.pursuiter
-                .turnTo(angleAdjustment + robot.shooter.turningTarget(shootingPosition, Positions.powerFarRed))
+                .turnTo(angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerFarRed))
                 .action {
                     robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                            Positions.powerFarRed)
+                            UltimateGoalPositions.powerFarRed)
                     Thread.sleep(500)
                     robot.shooter.shoot()
                 }
@@ -229,13 +228,13 @@ fun shootHighGoals(robot: SparkyV2Robot, shootingPosition: Pose2d, rings: Int) {
     robot.pursuiter.move(shootingPosition)
 
     robot.pursuiter.action {
-        robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 34.8))
+        robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(77.0, 0.0, 35.0))
         // first ring
-        Thread.sleep(500)
+        Thread.sleep(700)
         robot.shooter.shoot()
         // all other rings
         for (i in 1 until rings) {
-            Thread.sleep(150)
+            Thread.sleep(200)
             robot.shooter.shoot()
         }
     }

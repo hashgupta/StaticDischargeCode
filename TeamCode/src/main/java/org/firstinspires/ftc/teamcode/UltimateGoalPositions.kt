@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
 
 const val tile_length = 24.0
 
-object Positions {
+object UltimateGoalPositions {
 
     val highGoalRed = shootingGoal(3 * tile_length, -1.5 * tile_length, 36.0)
     val highGoalBlue = shootingGoal(3 * tile_length, 1.5 * tile_length, 36.0)

@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.opmodeTests
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import org.firstinspires.ftc.teamcode.pipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.staticSparky.GenericOpModeBase
+import org.firstinspires.ftc.teamcode.cvPipelines.RingPipeline
+import org.firstinspires.ftc.teamcode.matchOpmodes.GenericOpModeBase
 
-@Autonomous(name = "CVAUTOTEST")
+@Autonomous(group = "Opmodes for testing", name = "CV test")
 class TestCV : GenericOpModeBase() {
 
     @Throws(InterruptedException::class)

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class LiftControllerTest {
+class LinearLiftTest {
     @Test
     fun testLiftController() {
         val position = 10.0

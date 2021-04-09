@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import kotlin.math.abs
 
-class LiftController(val actuator: Motor, pid: PIDCoefficients, start: Double = 0.0, val maxVel: Double, val maxAcc: Double) {
+class LinearLift(val actuator: Motor, pid: PIDCoefficients, start: Double = 0.0, val maxVel: Double, val maxAcc: Double) {
     var goal: Double = 0.0
     private var controller = PIDFController(pid)
     var current: Double = start
@@ -36,7 +36,7 @@ class LiftController(val actuator: Motor, pid: PIDCoefficients, start: Double = 
         return actuator.device.getVelocity(AngleUnit.RADIANS) * actuator.r
     }
 
-    fun to(goal: Double): LiftController {
+    fun to(goal: Double): LinearLift {
         profile = MotionProfileGenerator.generateSimpleMotionProfile(MotionState(getPosition(), getVelocity()), MotionState(goal, 0.0), maxVel, maxAcc)
         this.goal = goal
         timer.reset()
@@ -58,7 +58,7 @@ class LiftController(val actuator: Motor, pid: PIDCoefficients, start: Double = 
         actuator.start(speed)
     }
 
-    fun toSync(goal: Double): LiftController {
+    fun toSync(goal: Double): LinearLift {
         this.to(goal)
         while (!isDone()) {
             runToTarget()

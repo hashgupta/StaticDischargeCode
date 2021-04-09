@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.staticSparky
+package org.firstinspires.ftc.teamcode.matchOpmodes
 
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
 import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
-import org.firstinspires.ftc.teamcode.Positions
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
+import kotlin.math.abs
 
 @TeleOp(name = "Second Robot Tele", group = "StaticDischarge")
 class SecondBotTele : GenericOpModeBase() {
@@ -32,9 +32,9 @@ class SecondBotTele : GenericOpModeBase() {
 //    private var aimBotOn = false
 
     @JvmField
-    var intakeRollerSpeed = 0.95
+    var intakeRollerSpeed = 0.80
     @JvmField
-    var intakeMainSpeed = -0.95
+    var intakeMainSpeed = -0.90
 
     override fun runOpMode() {
         initRobot()
@@ -62,10 +62,19 @@ class SecondBotTele : GenericOpModeBase() {
 
         // get gamepad input
         // moving the joystick up is actually negative, not positive, so use negative to flip it
-        val vert: Double = -gamepad1.left_stick_y.toDouble()
-        val hori: Double = gamepad1.left_stick_x.toDouble() * 1.1
+        var vert: Double = -gamepad1.left_stick_y.toDouble()
+        var hori: Double = gamepad1.left_stick_x.toDouble() * 1.1
         val turn: Double = gamepad1.right_stick_x.toDouble() * 0.9
         val wobble: Double = -gamepad2.right_stick_y.toDouble()
+
+        if (abs(vert) < 0.1) {
+            vert = 0.0
+        }
+
+        if (abs(hori) < 0.1) {
+            hori = 0.0
+        }
+
 
         // process input
         if (gamepad1.a) {
@@ -109,7 +118,7 @@ class SecondBotTele : GenericOpModeBase() {
         
 
         if ((gamepad2.right_trigger > lastTriggerRight || gamepad2.right_trigger > 0.99) && (gamepad2.right_trigger > 0.10)) {
-            robot.driveTrain.start(DriveTrain.Square(0.0, 0.0, 0.0, 0.0))
+            robot.driveTrain.start(MecanumDriveTrain.Square(0.0, 0.0, 0.0, 0.0))
             robot.shooter.shoot()
             return
         }
@@ -129,13 +138,13 @@ class SecondBotTele : GenericOpModeBase() {
         if (gamepad2.left_trigger > 0.3 && gamepad2.a) {
 
 
-            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 32.5))
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(70.0, 0.0, 32.25))
 
         } else if (gamepad2.left_trigger > 0.3) {
 
 //            if (aimBotOn) robot.shooter.aimShooter(robot.localizer.poseEstimate, Positions.highGoalRed)
 //            else robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 35.0))
-            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(75.0, 0.0, 35.0))
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(77.0, 0.0, 35.0))
 
 
         } else {
@@ -159,13 +168,13 @@ class SecondBotTele : GenericOpModeBase() {
 //
         if (gamepad1.y && !previousGamepad1Y) {
             robot.pursuiter.startAt(robot.localizer.poseEstimate)
-            robot.pursuiter.action { robot.pursuiter.runSpeed *= 0.5 }
+            robot.pursuiter.action { robot.pursuiter.runSpeed *= 0.8 }
             robot.pursuiter.relative(7.5, 0.0, 0.0)
-            robot.pursuiter.action { robot.pursuiter.runSpeed *= 2 }
+            robot.pursuiter.action { robot.pursuiter.runSpeed *= 1.25 }
             robot.pursuiter.follow(robot.driveTrain, telemetry = telemetry)
         }
 //
-        if (gamepad1.right_trigger.toDouble() == 1.0) {
+        if (gamepad1.right_trigger.toDouble() > 0.8) {
             robot.flicker.start(0.65)
         }
 //
@@ -202,12 +211,12 @@ class SecondBotTele : GenericOpModeBase() {
             //output values for robot movement
             robot.arm.run(wobble)
 
-            var wheelSpeeds = DriveTrain.Vector(hori, vert, turn).speeds()
+            var wheelSpeeds = MecanumDriveTrain.Vector(hori, vert, turn).speeds()
 
             wheelSpeeds = if (driveSpeed == DriveSpeeds.Normal) {
-                DriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = normalSpeed)
+                MecanumDriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = normalSpeed)
             } else {
-                DriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = slowSpeed)
+                MecanumDriveTrain.multiplySquare(speeds = wheelSpeeds, scalar = slowSpeed)
             }
 
             robot.driveTrain.start(wheelSpeeds)
@@ -226,6 +235,6 @@ class SecondBotTele : GenericOpModeBase() {
     }
 
     fun stopRobot() {
-        robot.driveTrain.start(DriveTrain.Vector(0.0, 0.0, 0.0).speeds())
+        robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.0, 0.0).speeds())
     }
 }

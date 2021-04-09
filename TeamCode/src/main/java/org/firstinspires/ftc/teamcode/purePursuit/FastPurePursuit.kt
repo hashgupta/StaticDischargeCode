@@ -12,7 +12,7 @@ import com.acmerobotics.roadrunner.util.Angle
 import com.acmerobotics.roadrunner.util.epsilonEquals
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.sign
@@ -34,7 +34,7 @@ class FastPurePursuit(val localizer: Localizer) {
     var runSpeed = 0.85
 
     private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.2)
-    private val headingCoeffs: PIDCoefficients = PIDCoefficients(0.9)
+    private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.2)
 
     private val axialController = PIDFController(translationalCoeffs)
     private val lateralController = PIDFController(translationalCoeffs, kStatic = kStatic)
@@ -53,7 +53,7 @@ class FastPurePursuit(val localizer: Localizer) {
     }
 
     // follow until path is complete
-    fun follow(drivetrain: DriveTrain, mecanum: Boolean = true, telemetry: Telemetry) {
+    fun follow(drivetrain: MecanumDriveTrain, mecanum: Boolean = true, telemetry: Telemetry) {
         runAction(0)
 
         var done = false
@@ -89,7 +89,7 @@ class FastPurePursuit(val localizer: Localizer) {
     }
 
     // returns whether the path is done
-    fun step(drivetrain: DriveTrain, mecanum: Boolean = true): Boolean {
+    fun step(drivetrain: MecanumDriveTrain, mecanum: Boolean = true): Boolean {
         localizer.update()
 
         val path = waypoints[index]

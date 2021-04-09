@@ -7,7 +7,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.Controllers.DriveTrain
+import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
 
 
@@ -19,11 +19,12 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
 
-const val ROBOT_RADIUS = 9.0
+
 
 @Config
-@TeleOp(name = "Localizer Accuracy", group = "tests")
+@TeleOp(group = "Opmodes for testing", name = "Localizer Accuracy")
 class LocalizerAccuracy : LinearOpMode() {
+    val ROBOT_RADIUS = 9.0
     @Throws(InterruptedException::class)
     override fun runOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
@@ -43,7 +44,7 @@ class LocalizerAccuracy : LinearOpMode() {
 
             vel.times(0.5)
 
-            drive.start(DriveTrain.Vector(vel.y, vel.x, vel.heading).speeds())
+            drive.start(MecanumDriveTrain.Vector(vel.y, vel.x, vel.heading).speeds())
 
             val packet = TelemetryPacket()
             FtcDashboard.getInstance().telemetry.addData("localizer", robot.localizer.poseEstimate)
