@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.robotConfigs
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
-import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
+import org.firstinspires.ftc.teamcode.purePursuit.PurePursuit
 
 class TestRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {
     // OpMode members
 
-    val pursuiter: FastPurePursuit
+    val pursuiter: PurePursuit
 
 
     // initialize robot
@@ -19,8 +19,6 @@ class TestRobot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: ()
         val lb = Motor("lb", 1120.0, 1.0, 2.95, hardwareMap)
         setDriveTrain(rf, rb, lf, lb)
 
-
-//        localizer = TwoWheelRevLocalizer(hardwareMap, "front", "side")
-        pursuiter = FastPurePursuit(localizer)
+        pursuiter = PurePursuit(localizer)
     }
 }

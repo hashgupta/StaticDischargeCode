@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.purePursuit
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.util.epsilonEquals
-import org.apache.commons.math3.linear.Array2DRowRealMatrix
-import org.apache.commons.math3.linear.LUDecomposition
 import kotlin.math.*
 
 abstract class Path {
@@ -23,12 +21,13 @@ abstract class Path {
     }
 
     override fun toString(): String {
-        return "start: " + start + ", " + "end: " + end
+        return "start: $start, end: $end, ${this.javaClass.simpleName}"
     }
 }
 
 class LinearPath(override val start: Pose2d, override val end: Pose2d) : Path() {
     override val length = end.vec() distTo start.vec()
+
     override fun getPointfromT(t: Double): Pose2d {
         val x = lerp(start.x, end.x, t)
         val y = lerp(start.y, end.y, t)
@@ -38,35 +37,12 @@ class LinearPath(override val start: Pose2d, override val end: Pose2d) : Path() 
 
     override fun findClosestT(position: Pose2d): Double {
         val v = end.vec().minus(start.vec())
-        val u = start.vec().minus(position.vec())
 
-        if (v.y epsilonEquals 0.0 && v.x epsilonEquals 0.0) {
+        if (v distTo Vector2d(0.0, 0.0) epsilonEquals 0.0) {
             throw Exception("cant have a linear path with same start and end x,y positions. Use turn path for this")
-        } else if (v.x epsilonEquals 0.0) {
-            return limit((position.y - start.y) / v.y, 0.0, 1.0)
-        } else if (v.y epsilonEquals 0.0) {
-            return limit((position.x - start.x) / v.x, 0.0, 1.0)
         }
-
-        val m = v.y / v.x
-
-
-
-        val x = (m*end.x + position.y + (position.x / m) - end.y) / (1/m + m)
-
-        return limit((x - start.x) / v.x, 0.0, 1.0)
-
-
-//        val t = if (v.norm() == 0.0 && u.norm() == 0.0) {
-//            0.5
-//        } else if (v.norm() == 0.0) {
-//            (position.heading - start.heading) / (end.heading - start.heading)
-//        } else if (u.dot(u) epsilonEquals 0.0) {
-//            0.0
-//        } else {
-//            -v.dot(u) / u.dot(u)
-//        }
-//        return limit(t, 0.0, 1.0)
+        val c = position.vec() - start.vec()
+        return limit((v.dot(c)) / (v.dot(v)), 0.0, 1.0)
     }
 }
 
@@ -87,97 +63,11 @@ class TurnPath(override val start: Pose2d, override val end: Pose2d) : Path() {
     }
 }
 
-class ArcPath(override val start: Pose2d, mid: Vector2d, override val end: Pose2d) : Path() {
-
-    lateinit var center: Vector2d
-    var radius: Double = 0.0
-    var endAngle: Double = 0.0
-    var beginAngle: Double = 0.0
-    var midAngle: Double = 0.0
-    override var length = 0.0
-
-    init {
-        fromThreePoints(start.vec(), mid, end.vec())
-        length = length()
-    }
-
-
-    override fun getPointfromT(t: Double): Pose2d {
-        val ang = angleFromT(t)
-        return Pose2d(center + Vector2d(cos(ang), sin(ang)).times(radius), lerpAngle(start.heading, end.heading, t))
-    }
-
-    override fun findClosestT(position: Pose2d): Double {
-        val angle = (position.vec() - center).angle()
-        return when {
-            angle < beginAngle -> {
-                0.0
-            }
-            angle < endAngle -> {
-                (angle - beginAngle) / (endAngle - beginAngle)
-            }
-            else -> {
-                1.0
-            }
-        }
-
-    }
-
-    private fun angleFromT(t: Double): Double {
-        return lerpAngle(beginAngle, endAngle, t)
-    }
-
-    fun length(): Double {
-        return (endAngle - beginAngle).absoluteValue * radius
-    }
-
-    fun fromThreePoints(ptBegin: Vector2d, ptMid: Vector2d, ptEnd: Vector2d) {
-        val denomMat = Array2DRowRealMatrix(arrayOf(
-                doubleArrayOf(ptBegin.x, ptBegin.y, 1.0),
-                doubleArrayOf(ptMid.x, ptMid.y, 1.0),
-                doubleArrayOf(ptEnd.x, ptEnd.y, 1.0)
-        ))
-        val hNum = Array2DRowRealMatrix(arrayOf(
-                doubleArrayOf(ptBegin.dot(ptBegin), ptBegin.y, 1.0),
-                doubleArrayOf(ptMid.dot(ptMid), ptMid.y, 1.0),
-                doubleArrayOf(ptEnd.dot(ptEnd), ptEnd.y, 1.0)))
-        val denom = (2 * LUDecomposition(denomMat).determinant)
-        val h = LUDecomposition(hNum).determinant / denom
-
-        val kNum = Array2DRowRealMatrix(arrayOf(
-                doubleArrayOf(ptBegin.x, ptBegin.dot(ptBegin), 1.0),
-                doubleArrayOf(ptMid.x, ptMid.dot(ptMid), 1.0),
-                doubleArrayOf(ptEnd.x, ptEnd.dot(ptEnd), 1.0)
-        ))
-
-
-        val k = LUDecomposition(kNum).determinant / denom
-
-        this.center = Vector2d(h, k)
-        radius = center distTo (ptBegin)
-        beginAngle = (ptBegin - center).angle()
-        midAngle = (ptMid - center).angle()
-        endAngle = (ptEnd - center).angle()
-    }
-
-    companion object {
-        fun isCollinear(start: Pose2d, mid: Vector2d, end: Pose2d): Boolean {
-            val denomMat = Array2DRowRealMatrix(arrayOf(
-                    doubleArrayOf(start.x, start.y, 1.0),
-                    doubleArrayOf(mid.x, mid.y, 1.0),
-                    doubleArrayOf(end.x, end.y, 1.0)
-            ))
-            val denom = (2 * LUDecomposition(denomMat).determinant)
-            return denom epsilonEquals 0.0
-        }
-    }
-}
-
 class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, startTangent: Double, val endTangent: Double) : Path() {
 
     override val length: Double
-    var xCoeffs: Coeffs
-    var yCoeffs: Coeffs
+    private var xCoeffs: Coeffs
+    private var yCoeffs: Coeffs
 
     init {
         val derivMagStrong = 2 * (start.vec() distTo end.vec())
@@ -199,7 +89,7 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
         return Pose2d(xPos, yPos, head)
     }
 
-    fun DerivFromT(t: Double): Vector2d {
+    private fun derivFromT(t: Double): Vector2d {
         val xPos = 3 * xCoeffs.a * (t * t) + 2 * xCoeffs.b * (t) + xCoeffs.c
 
         val yPos = 3 * yCoeffs.a * (t * t) + 2 * yCoeffs.b * (t) + yCoeffs.c
@@ -207,7 +97,7 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
         return Vector2d(xPos, yPos)
     }
 
-    fun SecondDerivFromT(t: Double): Vector2d {
+    private fun secondDerivFromT(t: Double): Vector2d {
         val xPos = 6 * xCoeffs.a * (t) + (2 * xCoeffs.b)
 
         val yPos = 6 * yCoeffs.a * (t) + (2 * yCoeffs.b)
@@ -241,8 +131,8 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
             }
 
 
-            upperT = limit(bestT  + range / 10.0, 0.0, 1.0)
-            lowerT = limit(bestT  - range / 10.0, 0.0, 1.0)
+            upperT = limit(bestT + range / 10.0, 0.0, 1.0)
+            lowerT = limit(bestT - range / 10.0, 0.0, 1.0)
             range = upperT - lowerT
         }
 
@@ -251,12 +141,12 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
     }
 
 
-    fun calculateCoeffs(start: Double, end: Double, startDeri: Double, endDeri: Double): Coeffs {
+    private fun calculateCoeffs(start: Double, end: Double, startDeri: Double, endDeri: Double): Coeffs {
         val c = startDeri
         val d = start
-        val AandB = end - c - d
-        val a = endDeri - (2 * AandB) - c
-        val b = AandB - a
+        val AplusB = end - c - d
+        val a = endDeri - (2 * AplusB) - c
+        val b = AplusB - a
         return Coeffs(a, b, c, d)
     }
 
@@ -282,9 +172,9 @@ class CubicSplinePath(override val start: Pose2d, override val end: Pose2d, star
     }
 
     private fun internalCurvature(t: Double): Double {
-        val deriv = DerivFromT(t)
+        val deriv = derivFromT(t)
         val derivNorm = deriv.norm()
-        val secondDeriv = SecondDerivFromT(t)
+        val secondDeriv = secondDerivFromT(t)
         return abs(secondDeriv.x * deriv.y - deriv.x * secondDeriv.y) / (derivNorm * derivNorm * derivNorm)
     }
 

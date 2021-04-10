@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.robotConfigs.TestRobot
 
 
 @Disabled
-@TeleOp(name = "Example Tele", group = "StaticDischarge")
+@TeleOp(name = "Example TeleOp", group = "StaticDischarge")
 class ExtraTele : OpMode() {
     // robot
     private lateinit var robot: TestRobot

@@ -34,24 +34,9 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoNormal
 
         grabber?.start(1.0)
         sleep(750)
-
-
-//        toAngle(Math.toRadians(160.0))
-//        while ( arm_motor.isBusy) {
-//
-//        }
-//        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
-//        run(0.0)
     }
 
     fun dropAuto() {
-
-
-//        toAngle(Math.toRadians(90.0))
-////        while ( arm_motor.isBusy) {
-////
-////        }
-////        arm_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
 
         run(-autoSpeed)
         sleep(1300)

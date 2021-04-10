@@ -134,11 +134,6 @@ abstract class RobotBase(val hardwareMap: HardwareMap, val telemetry: Telemetry,
 
     fun savePose() {
         PoseStorage.pose = this.localizer.poseEstimate
-//        val filename = "position.json"
-//        val file: File = AppUtil.getInstance().getSettingsFile(filename)
-//
-//        val data = this.localizer.poseEstimate.x.toString() + " " + this.localizer.poseEstimate.y.toString() + " " + this.localizer.poseEstimate.heading.toString()
-//        ReadWriteFile.writeFile(file, data)
     }
 
     fun loadPose() {

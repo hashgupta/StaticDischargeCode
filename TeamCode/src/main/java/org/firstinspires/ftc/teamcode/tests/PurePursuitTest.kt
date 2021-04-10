@@ -6,7 +6,7 @@ import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
 import org.firstinspires.ftc.teamcode.localizers.MockedLocalizer
-import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
+import org.firstinspires.ftc.teamcode.purePursuit.PurePursuit
 import org.firstinspires.ftc.teamcode.purePursuit.LinearPath
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -85,11 +85,11 @@ class PurePursuitTest {
     fun testPursuitPaths() {
 
         val localizer = MockedLocalizer()
-        val pursuiter = FastPurePursuit(localizer)
+        val pursuiter = PurePursuit(localizer)
 
         val pose = Pose2d(2.0, 2.0, Math.toRadians(175.0))
 
-        pursuiter.startAt(Pose2d(0.0, 0.0,0.0))
+        pursuiter.startAt(Pose2d(0.0, 0.0, 0.0))
         localizer.poseEstimate = pose
 //        pursuiter.spline(end = Pose2d(10.0, 10.0, 0.0), endTanAngle = Math.toRadians(-135.0))
         pursuiter.move(6.0, 7.8, 0.0)
@@ -99,7 +99,7 @@ class PurePursuitTest {
 
         println(pursuiter.waypoints)
         pursuiter.testStep()
-    //
+        //
 
 //        for (i in 0..100) {
 //            val point = pursuiter.waypoints[0].getPointfromT(i / 100.0)
@@ -111,19 +111,20 @@ class PurePursuitTest {
 
     @Test
     fun testPurePursuitMath() {
-//        val localizer = MockedLocalizer()
-//        localizer.poseEstimate = Pose2d(15.0, 13.0, Math.toRadians(180.0))
-//        val pursuiter = FastPurePursuit(localizer)
-//
-//        pursuiter.relative(10.0, 40.0, 0.0)
-//
-//        val target = Pose2d(-25.0, 23.0, Math.toRadians(180.0))
-//        if (BuildConfig.DEBUG && !pursuiter.waypoints.last().end.epsilonEquals(target)) {
-//            println(target - pursuiter.waypoints.last().end)
-//            error("Assertion failed")
-//        }
-        val path = LinearPath(Pose2d(0.0, 0.0, 0.0), Pose2d(10.0, 10.0, Math.toRadians(180.0)))
-        println(path.findClosestT(Pose2d(11.0, 11.0, 0.0)))
+        val localizer = MockedLocalizer()
+        localizer.poseEstimate = Pose2d(15.0, 13.0, Math.toRadians(180.0))
+        val pursuiter = PurePursuit(localizer)
+
+        pursuiter.relative(10.0, 40.0, 0.0)
+
+        val target = Pose2d(-25.0, 23.0, Math.toRadians(180.0))
+        if (!pursuiter.waypoints.last().end.epsilonEquals(target)) {
+            println(target - pursuiter.waypoints.last().end)
+            error("Assertion failed")
+        }
+        val path = LinearPath(Pose2d(0.0, 0.0, 0.0), Pose2d(10.0, 0.0, Math.toRadians(180.0)))
+        println(path.findClosestT(Pose2d(9.0, 5.0, 0.0)))
+
 
     }
 
@@ -131,7 +132,7 @@ class PurePursuitTest {
     fun testPurePursuitActions() {
         val localizer = MockedLocalizer()
         localizer.poseEstimate = Pose2d(15.0, 13.0, Math.toRadians(180.0))
-        val pursuiter = FastPurePursuit(localizer)
+        val pursuiter = PurePursuit(localizer)
 
         pursuiter.relative(10.0, 40.0, 0.0)
 
@@ -145,15 +146,6 @@ class PurePursuitTest {
     }
 
     fun speedTest() {
-//        var total = 0.0
-//
-//        val time = measureNanoTime {
-//            for (i in 1..1000) {
-//                pursuiter.testStep()
-//            }
-//        }
-//        total += time
-//
-//        print("Microseconds: "+total/(1000 * 1000))
+
     }
 }

@@ -11,17 +11,29 @@ class Intake(val motors: Array<Motor>, val speeds: Array<Double>) {
         OFF
     }
 
-    val currentMode = Mode.OFF
+    var currentMode = Mode.OFF
 
 
     fun run() {
-        if (currentMode == Mode.Forward) {
-            motors.zip(speeds).forEach { it.first.start(it.second) }
-        } else if (currentMode == Mode.Backward) {
-            motors.zip(speeds).forEach { it.first.start(-it.second) }
-        } else {
-            motors.forEach { it.start(0.0) }
+        when (currentMode) {
+            Mode.Forward -> {
+                motors.zip(speeds).forEach { it.first.start(it.second) }
+            }
+            Mode.Backward -> {
+                motors.zip(speeds).forEach { it.first.start(-it.second) }
+            }
+            else -> {
+                motors.forEach { it.start(0.0) }
+            }
         }
+    }
+
+    fun setForward() {
+        currentMode = Mode.Forward
+    }
+
+    fun setBackward() {
+        currentMode = Mode.Backward
     }
 
 

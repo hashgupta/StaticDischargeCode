@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.localizers
 
 import com.acmerobotics.roadrunner.util.NanoClock
 import com.qualcomm.robotcore.hardware.DcMotorEx
+import kotlin.math.abs
+import kotlin.math.sign
 
 
 /**
@@ -50,8 +52,8 @@ class Encoder @JvmOverloads constructor(private val motor: DcMotorEx, private va
         private const val CPS_STEP = 0x10000
         private fun inverseOverflow(input: Double, estimate: Double): Double {
             var real = input
-            while (Math.abs(estimate - real) > CPS_STEP / 2.0) {
-                real += Math.signum(estimate - real) * CPS_STEP
+            while (abs(estimate - real) > CPS_STEP / 2.0) {
+                real += sign(estimate - real) * CPS_STEP
             }
             return real
         }

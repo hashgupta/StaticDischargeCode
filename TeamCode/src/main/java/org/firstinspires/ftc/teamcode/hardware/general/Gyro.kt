@@ -1,3 +1,5 @@
+@file:Suppress("ControlFlowWithEmptyBody")
+
 package org.firstinspires.ftc.teamcode.hardware.general
 
 import com.acmerobotics.roadrunner.util.Angle

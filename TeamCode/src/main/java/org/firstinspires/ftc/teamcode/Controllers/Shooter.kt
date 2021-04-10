@@ -15,7 +15,7 @@ import kotlin.math.tan
 const val g = 386.088583 //  g in in/s^2
 
 class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: Double, val telemetry: Telemetry, val flicker: ServoNormal? = null) {
-     // flywheel shooter slip, MUST BE TUNED
+    // flywheel shooter slip, MUST BE TUNED
     //              ||
     //tunable stuff \/
     var flickerTimingMS = 225.0
@@ -32,15 +32,15 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
     }
 
-    fun aimShooter(pose: Pose2d, target: shootingGoal) {
+    fun aimShooter(pose: Pose2d, target: ShootingGoal) {
         //start up flywheel at desired velocity
         //use if using basic move commands without pure pursuit
         val position = pose.vec()
         val targetVector = Vector2d(target.x, target.y)
         val shotDistance = targetVector distTo position
         telemetry.addData("dist", shotDistance)
-        val net_height = target.height - shooterHeight
-        val requiredVelocity = sqrt(g / 2) * shotDistance / (cos(shooterAngle) * sqrt(shotDistance * tan(shooterAngle) - net_height))
+        val netHeight = target.height - shooterHeight
+        val requiredVelocity = sqrt(g / 2) * shotDistance / (cos(shooterAngle) * sqrt(shotDistance * tan(shooterAngle) - netHeight))
 
 
         // adjust slip for air resistance
@@ -57,7 +57,7 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
 
     }
 
-    fun turningTarget(position: Vector2d, target: shootingGoal): Double {
+    fun turningTarget(position: Vector2d, target: ShootingGoal): Double {
         val targetVector = Vector2d(target.x, target.y)
         val shootingHeadingVector = targetVector.minus(position)
 
@@ -69,9 +69,9 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
         //release chamber servo to let a ring into flywheel
         if (flicker != null) {
             flicker.start(0.7)
-            Thread.sleep(flickerTimingMS.toLong() - 20)
+            Thread.sleep(flickerTimingMS.toLong())
             flicker.start(0.9)
-            Thread.sleep(flickerTimingMS.toLong() + 20)
+            Thread.sleep(flickerTimingMS.toLong())
         }
         //dpad up clockwise
         //dpad down ccw
@@ -84,4 +84,4 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
 }
 
 
-data class shootingGoal(val x: Double, val y: Double, val height: Double)
+data class ShootingGoal(val x: Double, val y: Double, val height: Double)

@@ -30,7 +30,7 @@ class MecanumDriveTrain// initialize drive train
         lb.start(motion.lb)
     }
 
-    fun startFromRRPower(velocity: Pose2d, speed: Double) {
+    fun startFromPose(velocity: Pose2d, speed: Double) {
 
 
         val vert = velocity.x
@@ -87,10 +87,6 @@ class MecanumDriveTrain// initialize drive train
     }
 
     class Vector(hori: Double, vert: Double, turn: Double) : Direction(hori, vert, turn) {
-        // initialize speeds
-//         Device.checkRange(hori, -1, 1, "hori"),
-//         Device.checkRange(vert, -1, 1, "vert"),
-//         Device.checkRange(turn, -1, 1, "turn"))
 
         override fun speeds(): Square<Double> {
             val supers = super.speeds()

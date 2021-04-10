@@ -10,11 +10,11 @@ import org.firstinspires.ftc.teamcode.Controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoNormal
 import org.firstinspires.ftc.teamcode.localizers.TwoWheelRevLocalizer
-import org.firstinspires.ftc.teamcode.purePursuit.FastPurePursuit
+import org.firstinspires.ftc.teamcode.purePursuit.PurePursuit
 
 class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {
     // OpMode members
-    val pursuiter: FastPurePursuit
+    val pursuiter: PurePursuit
     val intake: Motor
     val roller: Motor
     val arm: Arm
@@ -35,7 +35,6 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         lb.device.direction = DcMotorSimple.Direction.REVERSE
 
         intake = Motor("intake", 288.0, 1.0, hardwareMap)
-//        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
         roller = Motor("under roller", 560.0, 0.5, hardwareMap)
 
 
@@ -45,10 +44,6 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         val grabber = ServoNormal("grabber", hardwareMap)
         grabber.start(0.75)
         arm = Arm(arm_motor = wobble, startAngle = Math.toRadians(130.0), grabber = grabber)
-
-
-//        val digitalTouch = hardwareMap.digitalChannel.get("touch")
-//        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
 
         flicker = ServoNormal("flicker", hardwareMap)
@@ -64,6 +59,6 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         driveTrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
         driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
 
-        pursuiter = FastPurePursuit(localizer)
+        pursuiter = PurePursuit(localizer)
     }
 }

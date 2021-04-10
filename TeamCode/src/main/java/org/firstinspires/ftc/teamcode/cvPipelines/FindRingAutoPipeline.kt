@@ -5,7 +5,7 @@ import org.opencv.imgproc.Imgproc
 import org.openftc.easyopencv.OpenCvPipeline
 
 
-class FindRingAutoPipeline() : OpenCvPipeline() {
+class FindRingAutoPipeline : OpenCvPipeline() {
 
     internal var yCbCrChan2Mat = Mat()
     var Cb = Mat()

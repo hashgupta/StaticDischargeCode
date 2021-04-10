@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.matchOpmodes
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import org.firstinspires.ftc.teamcode.Controllers.shootingGoal
+import org.firstinspires.ftc.teamcode.Controllers.ShootingGoal
 import org.firstinspires.ftc.teamcode.UltimateGoalPositions
 import org.firstinspires.ftc.teamcode.cvPipelines.RingPipeline
 import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
@@ -30,8 +30,12 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 
         robot = SparkyV2Robot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested }
         robot.pursuiter.startAt(UltimateGoalPositions.startLeftRed)
-        initCV(Side.Right)
+
+        setUpPipeline(right = true)
+        initCV()
         startCV()
+
+
         var analysis: RingPipeline.RingPosition = RingPipeline.RingPosition.NONE
 
         while (!isStarted) {
@@ -112,12 +116,12 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
             }
 //            RingPipeline.RingPosition.FOUR -> {
 
-                //knock over stack
+            //knock over stack
 
 //                robot.pursuiter.spline(end = Pose2d(-TILE_LENGTH + 5, -TILE_LENGTH * 1.6, PI), endTanAngle = PI)
 
 //                robot.pursuiter.move(Pose2d(-TILE_LENGTH + 20, -TILE_LENGTH * 1.6, PI))
-                // run intake backwards
+            // run intake backwards
 //                robot.pursuiter.action {
 //                    robot.intake.start(0.3)
 //                    robot.roller.start(-0.3)
@@ -149,7 +153,7 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 //                shootHighGoals(robot, shootingPositionHighGoal, 3)
 
 
-                // same thing for last ring
+            // same thing for last ring
 
 //                robot.pursuiter.action {
 //                        robot.intake.start(-0.9)
@@ -175,7 +179,6 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
         }
 
 
-
         /* PARK */
 
         robot.pursuiter.move(0.5 * TILE_LENGTH, -1 * TILE_LENGTH, 0.0)
@@ -193,32 +196,32 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 
 /* POWER SHOTS */
 fun shootPowerShots(robot: SparkyV2Robot, shootingPosition: Vector2d, angleAdjustment: Double) {
-        robot.pursuiter
-                .move(Pose2d(shootingPosition, angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerNearRed)))
-                .action {
-                    robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                            UltimateGoalPositions.powerNearRed)
-                    Thread.sleep(500)
-                    robot.shooter.shoot()
-                }
+    robot.pursuiter
+            .move(Pose2d(shootingPosition, angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerNearRed)))
+            .action {
+                robot.shooter.aimShooter(robot.localizer.poseEstimate,
+                        UltimateGoalPositions.powerNearRed)
+                Thread.sleep(500)
+                robot.shooter.shoot()
+            }
 
-        robot.pursuiter
-                .turnTo(angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerMidRed))
-                .action {
-                    robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                            UltimateGoalPositions.powerMidRed)
-                    Thread.sleep(500)
-                    robot.shooter.shoot()
-                }
+    robot.pursuiter
+            .turnTo(angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerMidRed))
+            .action {
+                robot.shooter.aimShooter(robot.localizer.poseEstimate,
+                        UltimateGoalPositions.powerMidRed)
+                Thread.sleep(500)
+                robot.shooter.shoot()
+            }
 
-        robot.pursuiter
-                .turnTo(angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerFarRed))
-                .action {
-                    robot.shooter.aimShooter(robot.localizer.poseEstimate,
-                            UltimateGoalPositions.powerFarRed)
-                    Thread.sleep(500)
-                    robot.shooter.shoot()
-                }
+    robot.pursuiter
+            .turnTo(angleAdjustment + robot.shooter.turningTarget(shootingPosition, UltimateGoalPositions.powerFarRed))
+            .action {
+                robot.shooter.aimShooter(robot.localizer.poseEstimate,
+                        UltimateGoalPositions.powerFarRed)
+                Thread.sleep(500)
+                robot.shooter.shoot()
+            }
 }
 
 fun shootHighGoals(robot: SparkyV2Robot, shootingPosition: Pose2d, rings: Int) {
@@ -228,7 +231,7 @@ fun shootHighGoals(robot: SparkyV2Robot, shootingPosition: Pose2d, rings: Int) {
     robot.pursuiter.move(shootingPosition)
 
     robot.pursuiter.action {
-        robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), shootingGoal(77.0, 0.0, 35.0))
+        robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(77.0, 0.0, 35.0))
         // first ring
         Thread.sleep(700)
         robot.shooter.shoot()
@@ -240,7 +243,7 @@ fun shootHighGoals(robot: SparkyV2Robot, shootingPosition: Pose2d, rings: Int) {
     }
 }
 
-fun dropFirstWobble(robot: SparkyV2Robot, goalZone:Pose2d) {
+fun dropFirstWobble(robot: SparkyV2Robot, goalZone: Pose2d) {
     robot.pursuiter
             .move(goalZone + Pose2d(-2.0, 5.0, -PI / 4))
             .action { robot.arm.dropAuto() }
@@ -249,10 +252,12 @@ fun dropFirstWobble(robot: SparkyV2Robot, goalZone:Pose2d) {
 fun getSecondWobble(robot: SparkyV2Robot) {
     robot.pursuiter
             .move(-1 * GenericOpModeBase.TILE_LENGTH, -2.4 * GenericOpModeBase.TILE_LENGTH, PI)
-            .action { robot.arm.run(0.75)
+            .action {
+                robot.arm.run(0.75)
                 Thread.sleep(300)
                 robot.arm.run(0.0)
-                robot.pursuiter.runSpeed *= 0.5}
+                robot.pursuiter.runSpeed *= 0.5
+            }
 
     robot.pursuiter
             .move(-1.6 * GenericOpModeBase.TILE_LENGTH, -2.4 * GenericOpModeBase.TILE_LENGTH, PI)

@@ -6,7 +6,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
 import org.firstinspires.ftc.teamcode.cvPipelines.FindRingAutoPipeline
-import org.firstinspires.ftc.teamcode.cvPipelines.Ring
 import org.firstinspires.ftc.teamcode.cvPipelines.RingPipeline
 import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
 import org.openftc.easyopencv.*
@@ -17,20 +16,25 @@ abstract class GenericOpModeBase : LinearOpMode() {
     lateinit var webcam: OpenCvCamera
 
 
-    internal var pipeline: OpenCvPipeline = RingPipeline() // set pipeline here, after creating it in pipelines folder
 
-    enum class Side {
-        Right,
-        Left
+    // set pipeline here, after creating it in pipelines folder
+    // change these lines with new pipelines later on
+    var pipeline: OpenCvPipeline = RingPipeline()
+
+
+    fun setUpPipeline(right: Boolean) {
+        (pipeline as RingPipeline).right = right
     }
 
-    fun initCV(side: Side) {
+
+
+
+
+
+    fun initCV() {
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)
-        // OR...  Do Not Activate the Camera Monitor View
-        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-        webcam.openCameraDevice()
         webcam.openCameraDevice()
 
         /*
@@ -38,17 +42,14 @@ abstract class GenericOpModeBase : LinearOpMode() {
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
-        (pipeline as RingPipeline).right = (side == Side.Right)
+
+
         webcam.setPipeline(pipeline)
     }
 
-    fun initCVNoWebcam(side: Side) {
+    fun initCVNoWebcam() {
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
         webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId)
-
-
-        // OR...  Do Not Activate the Camera Monitor View
-        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
         webcam.openCameraDevice()
 
@@ -57,7 +58,6 @@ abstract class GenericOpModeBase : LinearOpMode() {
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
-        (pipeline as RingPipeline).right = (side == Side.Right)
         webcam.setPipeline(pipeline)
     }
 
@@ -77,12 +77,8 @@ abstract class GenericOpModeBase : LinearOpMode() {
         const val TILE_LENGTH = Constants.tile_length
     }
 
-    fun AutoFindRings(gamepad: Gamepad, robot: RobotBase) {
+    fun autoFindRings(gamepad: Gamepad, robot: RobotBase) {
         pipeline = FindRingAutoPipeline()
-        val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)
-        // OR...  Do Not Activate the Camera Monitor View
-        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
         webcam.openCameraDevice()
         webcam.setPipeline(pipeline)
@@ -91,18 +87,22 @@ abstract class GenericOpModeBase : LinearOpMode() {
             robot.localizer.update()
             val rings = (pipeline as FindRingAutoPipeline).rings()
 
-            if (rings.size == 0) {
+            when (rings.size) {
+                0 -> {
 
-                robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.0, 0.5).speeds())
-            } else if (rings.size == 1) {
+                    robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.0, 0.5).speeds())
+                }
+                1 -> {
 
-                robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.75, rings[0].turnControl).speeds())
-            } else {
+                    robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.75, rings[0].turnControl).speeds())
+                }
+                else -> {
 
-                val sorted_rings = rings.sortedWith(compareBy<Ring> { it.distance })
-                val closest_ring = sorted_rings[0]
+                    val sortedRings = rings.sortedWith(compareBy { it.distance })
+                    val closestRing = sortedRings[0]
 
-                robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.75, closest_ring.turnControl * 2).speeds())
+                    robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.75, closestRing.turnControl * 2).speeds())
+                }
             }
         }
 

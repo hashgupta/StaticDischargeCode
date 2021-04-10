@@ -20,11 +20,11 @@ import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
  */
 
 
-
 @Config
 @TeleOp(group = "Opmodes for testing", name = "Localizer Accuracy")
 class LocalizerAccuracy : LinearOpMode() {
     val ROBOT_RADIUS = 9.0
+
     @Throws(InterruptedException::class)
     override fun runOpMode() {
 //        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

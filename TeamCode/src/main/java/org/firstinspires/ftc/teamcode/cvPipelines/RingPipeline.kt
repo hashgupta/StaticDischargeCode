@@ -5,7 +5,7 @@ import org.opencv.imgproc.Imgproc
 import org.openftc.easyopencv.OpenCvPipeline
 
 
-class RingPipeline() : OpenCvPipeline() {
+class RingPipeline : OpenCvPipeline() {
 
     internal var yCbCrChan2Mat = Mat()
     internal var avg: Double = 0.toDouble()
@@ -102,12 +102,16 @@ class RingPipeline() : OpenCvPipeline() {
                 region_pointB,
                 BLUE, 4)
 //
-        if (avg < FOUR_RING_THRESHOLD) {
-            position = RingPosition.FOUR
-        } else if (avg < ONE_RING_THRESHOLD) {
-            position = RingPosition.ONE
-        } else {
-            position = RingPosition.NONE
+        position = when {
+            avg < FOUR_RING_THRESHOLD -> {
+                RingPosition.FOUR
+            }
+            avg < ONE_RING_THRESHOLD -> {
+                RingPosition.ONE
+            }
+            else -> {
+                RingPosition.NONE
+            }
         }
 //
 //

@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.localizers
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.localization.Localizer
 
-class MockedLocalizer constructor() : Localizer {
+
+//Not meant for real use
+class MockedLocalizer : Localizer {
     private var _poseEstimate = Pose2d()
     override var poseEstimate: Pose2d
         get() = _poseEstimate
@@ -17,24 +19,4 @@ class MockedLocalizer constructor() : Localizer {
     override fun update() {
 
     }
-
-//    init {
-//
-//
-//    }
-
-//    fun getWheelPositions(): List<Double> {
-//
-//    }
-//
-//    fun getWheelVelocities(): List<Double>? {
-//
-//    }
-
-//    fun getExternalHeading(): Double {
-//        return gyro!!.measure() * 2 * PI
-//    }
-//    fun getExternalHeadingVelocity() : Double {
-//        return gyro!!.device.angularVelocity.zRotationRate.toDouble()
-//    }
 }

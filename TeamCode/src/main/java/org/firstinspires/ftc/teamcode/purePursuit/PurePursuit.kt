@@ -9,7 +9,6 @@ import com.acmerobotics.roadrunner.kinematics.Kinematics
 import com.acmerobotics.roadrunner.kinematics.TankKinematics
 import com.acmerobotics.roadrunner.localization.Localizer
 import com.acmerobotics.roadrunner.util.Angle
-import com.acmerobotics.roadrunner.util.epsilonEquals
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
@@ -18,18 +17,19 @@ import kotlin.math.ceil
 import kotlin.math.sign
 
 
-class FastPurePursuit(val localizer: Localizer) {
+class PurePursuit(val localizer: Localizer) {
     val waypoints: MutableList<Path> = mutableListOf()
     val actions: MutableList<Pair<Int, () -> Unit>> = mutableListOf()
     var index = 0
     var start: Pose2d
 
     @JvmField
-    var lookAhead = 7.5 //Look Ahead Distance, 5 is arbitrary, depends on application and needs tuning, inches
+    var lookAhead = 7.5 //Look Ahead Distance, 7.5 is arbitrary, depends on application and needs tuning, inches
 
-    private val translationalTol = 0.25 //half inch
+    private val translationalTol = 0.25 //quarter inch
     private val angularTol = Math.toRadians(0.2) // quarter degree angular tolerance
-    private val kStatic = 0.125 // 12.5% power regardless of distance, to overcome friction
+    private val kStatic = 0.10 // 10.0% power regardless of distance, to overcome friction
+
     @JvmField
     var runSpeed = 0.85
 
@@ -37,8 +37,8 @@ class FastPurePursuit(val localizer: Localizer) {
     private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.2)
 
     private val axialController = PIDFController(translationalCoeffs)
-    private val lateralController = PIDFController(translationalCoeffs, kStatic = kStatic)
-    private val headingController = PIDFController(headingCoeffs, kStatic = kStatic)
+    private val lateralController = PIDFController(translationalCoeffs)
+    private val headingController = PIDFController(headingCoeffs)
 
     private var lastPoseError = Pose2d()
 
@@ -101,7 +101,7 @@ class FastPurePursuit(val localizer: Localizer) {
         if (abs(poseError.x) < translationalTol && abs(poseError.y) < translationalTol &&
                 abs(poseError.heading) < angularTol) {
             // go to next waypoint
-            drivetrain.startFromRRPower(Pose2d(0.0, 0.0, 0.0), 0.0)
+            drivetrain.startFromPose(Pose2d(0.0, 0.0, 0.0), 0.0)
             runAction(index + 1)
             lastPoseError = Pose2d()
 
@@ -140,10 +140,8 @@ class FastPurePursuit(val localizer: Localizer) {
 
 
         if (mecanum) {
-//            val wheelVel = getVelocityFromTarget(target = target, currentPos = currentPos)
-//            drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
             val vel = getVelocityFromTarget(target, currentPos)
-            drivetrain.startFromRRPower(vel, runSpeed)
+            drivetrain.startFromPose(vel, runSpeed)
         } else {
             //TODO figure out how to make drivetrain more generic for tank and mecanum
 //            val wheelVel = getWheelVelocityFromTargetTank(target, currentPos)
@@ -205,8 +203,7 @@ class FastPurePursuit(val localizer: Localizer) {
 
 
         if (mecanum) {
-//            val wheelVel = getVelocityFromTarget(target = target, currentPos = currentPos)
-//            drivetrain.start(DriveTrain.Square(wheelVel[3], wheelVel[2], wheelVel[0], wheelVel[1]))
+
             val vel = getVelocityFromTarget(target, currentPos)
             println(vel)
 //            return vel
@@ -223,7 +220,7 @@ class FastPurePursuit(val localizer: Localizer) {
         this.start = start
     }
 
-    fun move(point: Pose2d): FastPurePursuit {
+    fun move(point: Pose2d): PurePursuit {
         if (waypoints.size > 0) {
             waypoints.add(LinearPath(waypoints.last().end, point))
         } else {
@@ -232,7 +229,7 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    fun relative(right: Double, forward: Double, turn: Double): FastPurePursuit {
+    fun relative(right: Double, forward: Double, turn: Double): PurePursuit {
 
         val basis = if (waypoints.size > 0) {
             waypoints.last().end
@@ -255,13 +252,13 @@ class FastPurePursuit(val localizer: Localizer) {
     }
 
 
-    fun move(x: Double, y: Double, heading: Double): FastPurePursuit {
+    fun move(x: Double, y: Double, heading: Double): PurePursuit {
         move(Pose2d(x, y, heading))
         return this
     }
 
 
-    fun turn(theta: Double): FastPurePursuit {
+    fun turn(theta: Double): PurePursuit {
         val last: Pose2d = if (waypoints.size == 0) {
             start
         } else {
@@ -271,7 +268,7 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    fun turnTo(theta: Double): FastPurePursuit {
+    fun turnTo(theta: Double): PurePursuit {
         val last: Pose2d = if (waypoints.size == 0) {
             start
         } else {
@@ -281,7 +278,7 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    fun action(action: () -> Unit): FastPurePursuit {
+    fun action(action: () -> Unit): PurePursuit {
 
         val candidate = actions.find { it.first == waypoints.size }
 
@@ -300,8 +297,7 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    fun spline(end: Pose2d, startTanAngle: Double, endTanAngle: Double): FastPurePursuit {
-//        val start = waypoints.last().end
+    fun spline(end: Pose2d, startTanAngle: Double, endTanAngle: Double): PurePursuit {
 
         val start = if (waypoints.size > 0) {
             waypoints.last().end
@@ -313,67 +309,12 @@ class FastPurePursuit(val localizer: Localizer) {
         return this
     }
 
-    fun arc(mid: Vector2d, end: Pose2d): FastPurePursuit {
-//        val start = waypoints.last().end
-
-//        throw Exception("Dont use this, I couldnt figure out how to make it work. It goes in a circle, and starts and ends correctly. But fails to go through mid point")
-
-        val start = if (waypoints.size > 0) {
-            waypoints.last().end
-        } else {
-            start
-        }
-
-        if (ArcPath.isCollinear(start, mid, end)) {
-            throw Exception("Arc Path with start = $start, " +
-                    "mid = $mid and end = $end at waypoint ${waypoints.size + 1} is collinear (the points are on a line), " +
-                    "so just make a line path through start and end")
-        }
-        waypoints.add(ArcPath(start, mid, end))
-
-        return this
-    }
-
-
-    fun spline(end: Pose2d, endTanAngle: Double): FastPurePursuit {
-        val startTan: Double =
-                if (waypoints.size > 0) {
-                    if (waypoints.last() is CubicSplinePath) {
-                        val path = waypoints.last() as CubicSplinePath
-                        path.endTangent
-                    } else {
-                        val lastPath = waypoints.last()
-                        val tangent = lastPath.getPointfromT(0.999).vec() - lastPath.getPointfromT(0.998).vec()
-                        if ((tangent.x epsilonEquals 0.0) && (tangent.y epsilonEquals 0.0)) {
-                            waypoints.last().end.heading
-                        } else {
-                            tangent.angle()
-                        }
-                    }
-                } else {
-                    (end.vec() - start.vec()).angle()
-                }
-        return spline(end, startTan, endTanAngle)
-    }
-
     fun getVelocityFromTarget(target: Pose2d, currentPos: Pose2d): Pose2d {
 
         val error = Kinematics.calculatePoseError(target, currentPos)
 
-        val velocity = errorToPower(error)
-//        velocity = Pose2d(velocity.x + sign(velocity.x) * kStatic, velocity.y + sign(velocity.y) * kStatic, velocity.heading + sign(velocity.heading) * kStatic)
-
-//        var wheelPow = MecanumKinematics.robotToWheelVelocities(velocity, Constants.trackwidth, Constants.wheelBase, lateralMultiplier = 1.0)
-//
-//        wheelPow = wheelPow.map { it + sign(it) * kStatic }
-//
-//        val wheelCopy = wheelPow.map {abs(it)}
-//
-//        if (wheelCopy.max() != null && wheelCopy.max()!! > 1) {
-//            wheelPow = wheelPow.map {it/wheelCopy.max()!!}
-//        }
-//
-//        return wheelPow
+        var velocity = errorToPower(error)
+        velocity = Pose2d(velocity.x + sign(velocity.x) * kStatic, velocity.y + sign(velocity.y) * kStatic, velocity.heading + sign(velocity.heading) * kStatic)
         return velocity
     }
 
