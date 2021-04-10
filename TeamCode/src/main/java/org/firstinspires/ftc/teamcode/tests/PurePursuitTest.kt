@@ -4,10 +4,10 @@ package org.firstinspires.ftc.teamcode.tests
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
+import org.firstinspires.ftc.teamcode.controllers.MecanumDriveTrain
 import org.firstinspires.ftc.teamcode.localizers.MockedLocalizer
-import org.firstinspires.ftc.teamcode.purePursuit.PurePursuit
-import org.firstinspires.ftc.teamcode.purePursuit.LinearPath
+import org.firstinspires.ftc.teamcode.purepursuit.LinearPath
+import org.firstinspires.ftc.teamcode.purepursuit.PurePursuit
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

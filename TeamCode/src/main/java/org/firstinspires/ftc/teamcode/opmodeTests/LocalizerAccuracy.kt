@@ -7,8 +7,8 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
+import org.firstinspires.ftc.teamcode.controllers.MecanumDriveTrain
+import org.firstinspires.ftc.teamcode.robotconfigs.SparkyV2Robot
 
 
 /**

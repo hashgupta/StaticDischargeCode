@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.matchOpmodes
+package org.firstinspires.ftc.teamcode.matchopmodes
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
-import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
-import org.firstinspires.ftc.teamcode.robotConfigs.TestRobot
+import org.firstinspires.ftc.teamcode.controllers.MecanumDriveTrain
+import org.firstinspires.ftc.teamcode.robotconfigs.TestRobot
 
 
 @Disabled

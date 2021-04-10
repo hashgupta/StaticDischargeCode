@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.matchOpmodes
+package org.firstinspires.ftc.teamcode.matchopmodes
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import org.firstinspires.ftc.teamcode.Controllers.ShootingGoal
+import org.firstinspires.ftc.teamcode.controllers.ShootingGoal
 import org.firstinspires.ftc.teamcode.UltimateGoalPositions
-import org.firstinspires.ftc.teamcode.cvPipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
+import org.firstinspires.ftc.teamcode.cv.RingPipeline
+import org.firstinspires.ftc.teamcode.robotconfigs.SparkyV2Robot
 import kotlin.math.PI
 
 

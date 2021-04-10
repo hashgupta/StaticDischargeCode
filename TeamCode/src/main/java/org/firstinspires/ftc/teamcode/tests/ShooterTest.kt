@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
-import org.firstinspires.ftc.teamcode.Controllers.ShootingGoal
+import org.firstinspires.ftc.teamcode.controllers.ShootingGoal
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.math.PI
@@ -39,7 +39,7 @@ class ShooterTest {
 
         val velocity = 2 * requiredVelocity * adjustedSlip
         val r = 2.0
-        val tpr = 28
+//        val tpr = 28
         val gr = 1.0
         var angularVelocity = velocity / (r * gr) //radians/s
         angularVelocity /= (2 * PI) // rev/s

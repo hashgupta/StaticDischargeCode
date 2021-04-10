@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.purePursuit
+package org.firstinspires.ftc.teamcode.purepursuit
 
 import kotlin.math.PI
 import kotlin.math.max

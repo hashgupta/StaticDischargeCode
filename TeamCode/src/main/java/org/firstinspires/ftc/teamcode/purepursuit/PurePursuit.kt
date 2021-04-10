@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.purePursuit
+package org.firstinspires.ftc.teamcode.purepursuit
 
 import com.acmerobotics.dashboard.canvas.Canvas
 import com.acmerobotics.roadrunner.control.PIDCoefficients
@@ -11,7 +11,7 @@ import com.acmerobotics.roadrunner.localization.Localizer
 import com.acmerobotics.roadrunner.util.Angle
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
-import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
+import org.firstinspires.ftc.teamcode.controllers.MecanumDriveTrain
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.sign

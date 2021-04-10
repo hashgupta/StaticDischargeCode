@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode.robotConfigs
+package org.firstinspires.ftc.teamcode.robotconfigs
 
 
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.Controllers.Arm
-import org.firstinspires.ftc.teamcode.Controllers.Shooter
+import org.firstinspires.ftc.teamcode.controllers.Arm
+import org.firstinspires.ftc.teamcode.controllers.Shooter
 import org.firstinspires.ftc.teamcode.hardware.general.Motor
 import org.firstinspires.ftc.teamcode.hardware.general.ServoNormal
 import org.firstinspires.ftc.teamcode.localizers.TwoWheelRevLocalizer
-import org.firstinspires.ftc.teamcode.purePursuit.PurePursuit
+import org.firstinspires.ftc.teamcode.purepursuit.PurePursuit
 
 class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive: () -> Boolean) : RobotBase(hardwareMap, telemetry, opModeActive) {
     // OpMode members

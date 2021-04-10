@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
-import org.firstinspires.ftc.teamcode.Controllers.ShootingGoal
+import org.firstinspires.ftc.teamcode.controllers.ShootingGoal
 
 const val tile_length = 24.0
 

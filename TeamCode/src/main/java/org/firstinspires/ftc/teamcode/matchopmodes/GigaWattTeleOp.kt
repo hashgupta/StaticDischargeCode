@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.matchOpmodes
+package org.firstinspires.ftc.teamcode.matchopmodes
 
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
-import org.firstinspires.ftc.teamcode.Controllers.ShootingGoal
-import org.firstinspires.ftc.teamcode.robotConfigs.SparkyV2Robot
+import org.firstinspires.ftc.teamcode.controllers.MecanumDriveTrain
+import org.firstinspires.ftc.teamcode.controllers.ShootingGoal
+import org.firstinspires.ftc.teamcode.robotconfigs.SparkyV2Robot
 import kotlin.math.abs
 
 @TeleOp(name = "GigaWatt TeleOp", group = "StaticDischarge")
@@ -192,7 +192,7 @@ class GigaWattTeleOp : GenericOpModeBase() {
 
         } catch (e: Exception) {
             telemetry.addData("Error", e.message)
-            telemetry.addData("info", e.stackTrace[0].toString())
+            telemetry.addData("Info", e.stackTrace[0].toString())
             telemetry.update()
 
         }

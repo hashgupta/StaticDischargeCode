@@ -1,20 +1,19 @@
-package org.firstinspires.ftc.teamcode.matchOpmodes
+package org.firstinspires.ftc.teamcode.matchopmodes
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.teamcode.Constants
-import org.firstinspires.ftc.teamcode.Controllers.MecanumDriveTrain
-import org.firstinspires.ftc.teamcode.cvPipelines.FindRingAutoPipeline
-import org.firstinspires.ftc.teamcode.cvPipelines.RingPipeline
-import org.firstinspires.ftc.teamcode.robotConfigs.RobotBase
+import org.firstinspires.ftc.teamcode.controllers.MecanumDriveTrain
+import org.firstinspires.ftc.teamcode.cv.FindRingAutoPipeline
+import org.firstinspires.ftc.teamcode.cv.RingPipeline
+import org.firstinspires.ftc.teamcode.robotconfigs.RobotBase
 import org.openftc.easyopencv.*
 
 abstract class GenericOpModeBase : LinearOpMode() {
 
 
     lateinit var webcam: OpenCvCamera
-
 
 
     // set pipeline here, after creating it in pipelines folder
@@ -25,10 +24,6 @@ abstract class GenericOpModeBase : LinearOpMode() {
     fun setUpPipeline(right: Boolean) {
         (pipeline as RingPipeline).right = right
     }
-
-
-
-
 
 
     fun initCV() {

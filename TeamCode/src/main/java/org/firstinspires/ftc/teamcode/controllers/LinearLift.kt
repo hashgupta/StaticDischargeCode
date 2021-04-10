@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Controllers
+package org.firstinspires.ftc.teamcode.controllers
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
