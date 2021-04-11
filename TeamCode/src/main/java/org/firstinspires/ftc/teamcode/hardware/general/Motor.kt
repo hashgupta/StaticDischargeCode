@@ -68,14 +68,8 @@ class Motor(private val name: String, // motor information
         var angularVelocity = velocity / (r * gr) //radians/s
         val angularVelocityRevS = angularVelocity / (2 * PI) // rev/s
         angularVelocity = angularVelocityRevS * tpr //ticks/s
-
-//        val dashboard = FtcDashboard.getInstance()
-//        val DashBoardtelemetry = dashboard.telemetry
         telemetry.addData("ticks/s speed", angularVelocity)
         telemetry.addData("actual ticks/s", device.velocity)
-//        DashBoardtelemetry.addData("ticks/s speed", angularVelocity)
-//        DashBoardtelemetry.addData("actual ticks/s", device.velocity)
-//        DashBoardtelemetry.update()
         device.velocity = angularVelocity
     }
 }

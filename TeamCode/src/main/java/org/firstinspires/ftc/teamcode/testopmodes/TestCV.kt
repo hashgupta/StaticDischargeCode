@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodeTests
+package org.firstinspires.ftc.teamcode.testopmodes
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.cv.RingPipeline

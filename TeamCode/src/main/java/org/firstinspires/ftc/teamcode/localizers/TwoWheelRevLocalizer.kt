@@ -24,6 +24,8 @@ import org.firstinspires.ftc.teamcode.hardware.general.Gyro
  * Note: this could be optimized significantly with REV bulk reads
  */
 
+const val lateralMultiplier = 1.0169
+
 class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralName: String, gyro: Gyro) : TwoTrackingWheelLocalizer(listOf(
         Pose2d(-2.25, LATERAL_DISTANCE, Math.toRadians(0.0)),  // lateral
         Pose2d(FORWARD_OFFSET, 2.0, Math.toRadians(90.0)))) { //front
@@ -33,7 +35,7 @@ class TwoWheelRevLocalizer(hardwareMap: HardwareMap, frontName: String, lateralN
 
     override fun getWheelPositions(): List<Double> {
         return listOf(
-                odometryEncoderTicksToInches(lateralEncoder.currentPosition.toDouble() * 1.0169),
+                odometryEncoderTicksToInches(lateralEncoder.currentPosition.toDouble() * lateralMultiplier),
                 odometryEncoderTicksToInches(frontEncoder.currentPosition.toDouble())
         )
     }

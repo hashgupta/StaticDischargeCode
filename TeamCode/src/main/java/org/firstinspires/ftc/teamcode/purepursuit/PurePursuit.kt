@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.purepursuit
 
-import com.acmerobotics.dashboard.canvas.Canvas
+
 import com.acmerobotics.roadrunner.control.PIDCoefficients
 import com.acmerobotics.roadrunner.control.PIDFController
 import com.acmerobotics.roadrunner.geometry.Pose2d
@@ -64,23 +64,10 @@ class PurePursuit(val localizer: Localizer) {
                 telemetry.addLine("running")
                 telemetry.addLine(localizer.poseEstimate.toString())
                 telemetry.addLine(waypoints[index].end.toString())
-//                telemetry.addLine(Kinematics.calculatePoseError(waypoints[index].end, localizer.poseEstimate).toString())
                 telemetry.update()
                 i = 0
             }
             i += 1
-
-//            val packet = TelemetryPacket()
-//
-//            val fieldOverlay: Canvas = packet.fieldOverlay()
-//            fieldOverlay.setStroke("#3F51B5")
-//            drawRobot(fieldOverlay, localizer.poseEstimate)
-//
-//            fieldOverlay.setStrokeWidth(1)
-//            fieldOverlay.setStroke("#4CAF50")
-//            drawSampledPath(fieldOverlay, waypoints[index])
-//
-//            FtcDashboard.getInstance().sendTelemetryPacket(packet)
 
             done = step(drivetrain, mecanum)
         }
@@ -387,31 +374,4 @@ class PurePursuit(val localizer: Localizer) {
                 headingCorrection
         )
     }
-}
-
-
-fun drawRobot(canvas: Canvas, pose: Pose2d) {
-    canvas.strokeCircle(pose.x, pose.y, Constants.robotLength)
-    val (x, y) = pose.headingVec().times(Constants.robotLength)
-    val x1 = pose.x + x / 2
-    val y1 = pose.y + y / 2
-    val x2 = pose.x + x
-    val y2 = pose.y + y
-    canvas.strokeLine(x1, y1, x2, y2)
-}
-
-fun drawSampledPath(canvas: Canvas, path: Path, resolution: Double = 2.0) {
-    val samples = ceil(path.length / resolution).toInt()
-    val xPoints = DoubleArray(samples)
-    val yPoints = DoubleArray(samples)
-    val dx: Double = 1.0 / samples
-    for (i in 0 until samples) {
-        val t = i * dx
-        val pose = path.getPointfromT(t)
-        val x = pose.x
-        val y = pose.y
-        xPoints[i] = x
-        yPoints[i] = y
-    }
-    canvas.strokePolyline(xPoints, yPoints)
 }

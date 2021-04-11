@@ -31,11 +31,8 @@ class GigaWattTeleOp : GenericOpModeBase() {
     private val normalSpeed = 0.95
     private val slowSpeed = 0.3
 
-
-    @JvmField
     var intakeRollerSpeed = 0.80
 
-    @JvmField
     var intakeMainSpeed = -0.90
 
     override fun runOpMode() {
