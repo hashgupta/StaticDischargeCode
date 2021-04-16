@@ -15,9 +15,10 @@ class ThreeWheelRevLocalizer(hardwareMap: HardwareMap, leftEncoderName: String, 
         Pose2d(-FORWARD_OFFSET, 0.0, Math.toRadians(90.0)), // back
         Pose2d(0.0, -LATERAL_DISTANCE / 2, Math.toRadians(180.0)))) { // lateral right
 
-    private val leftEncoder: DcMotorEx
-    private val verticalEncoder: DcMotorEx
-    private val rightEncoder: DcMotorEx
+
+    private val leftEncoder: DcMotorEx = hardwareMap.dcMotor[leftEncoderName] as DcMotorEx
+    private val verticalEncoder: DcMotorEx = hardwareMap.dcMotor[verticalEncoderName] as DcMotorEx
+    private val rightEncoder: DcMotorEx = hardwareMap.dcMotor[rightEncoderName] as DcMotorEx
 
     override fun getWheelPositions(): List<Double> {
         return listOf(
@@ -36,9 +37,4 @@ class ThreeWheelRevLocalizer(hardwareMap: HardwareMap, leftEncoderName: String, 
     }
 
 
-    init {
-        leftEncoder = hardwareMap.dcMotor[leftEncoderName] as DcMotorEx
-        verticalEncoder = hardwareMap.dcMotor[verticalEncoderName] as DcMotorEx
-        rightEncoder = hardwareMap.dcMotor[rightEncoderName] as DcMotorEx
-    }
 }

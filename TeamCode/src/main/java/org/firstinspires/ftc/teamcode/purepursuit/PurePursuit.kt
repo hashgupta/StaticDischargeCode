@@ -13,7 +13,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Constants
 import org.firstinspires.ftc.teamcode.controllers.MecanumDriveTrain
 import kotlin.math.abs
-import kotlin.math.ceil
 import kotlin.math.sign
 
 
@@ -31,7 +30,7 @@ class PurePursuit(val localizer: Localizer) {
     private val kStatic = 0.10 // 10.0% power regardless of distance, to overcome friction
 
     @JvmField
-    var runSpeed = 0.85
+    var runSpeed = 0.925
 
     private val translationalCoeffs: PIDCoefficients = PIDCoefficients(0.2)
     private val headingCoeffs: PIDCoefficients = PIDCoefficients(1.2)

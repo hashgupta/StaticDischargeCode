@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.robotconfigs.TestRobot
 
 @Disabled
 @TeleOp(name = "Example TeleOp", group = "StaticDischarge")
-class ExtraTele : OpMode() {
+class ExampleTele : OpMode() {
     // robot
     private lateinit var robot: TestRobot
 
@@ -36,7 +36,7 @@ class ExtraTele : OpMode() {
 
 
         try {
-//            //output values for robot movement
+            //output values for robot movement
             robot.driveTrain.start(MecanumDriveTrain.Vector(
                     hori * driveSpeed,
                     vert * driveSpeed,

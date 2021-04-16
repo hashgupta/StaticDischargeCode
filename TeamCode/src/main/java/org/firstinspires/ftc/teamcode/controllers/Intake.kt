@@ -36,5 +36,13 @@ class Intake(val motors: Array<Motor>, val speeds: Array<Double>) {
         currentMode = Mode.Backward
     }
 
+    fun off() {
+        currentMode = Mode.OFF
+    }
+
+    fun on(forward: Boolean = true) {
+        currentMode = if (forward) Mode.Forward else Mode.Backward
+    }
+
 
 }

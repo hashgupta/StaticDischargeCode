@@ -13,7 +13,7 @@ import org.openftc.easyopencv.*
 abstract class GenericOpModeBase : LinearOpMode() {
 
 
-    lateinit var webcam: OpenCvCamera
+    private lateinit var webcam: OpenCvCamera
 
 
     // set pipeline here, after creating it in pipelines folder

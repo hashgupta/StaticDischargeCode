@@ -68,8 +68,6 @@ class Motor(private val name: String, // motor information
         var angularVelocity = velocity / (r * gr) //radians/s
         val angularVelocityRevS = angularVelocity / (2 * PI) // rev/s
         angularVelocity = angularVelocityRevS * tpr //ticks/s
-        telemetry.addData("ticks/s speed", angularVelocity)
-        telemetry.addData("actual ticks/s", device.velocity)
         device.velocity = angularVelocity
     }
 }

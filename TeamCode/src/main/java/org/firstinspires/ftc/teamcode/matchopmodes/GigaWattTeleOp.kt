@@ -11,7 +11,7 @@ import kotlin.math.abs
 @TeleOp(name = "GigaWatt TeleOp", group = "StaticDischarge")
 class GigaWattTeleOp : GenericOpModeBase() {
     // robot
-    lateinit var robot: SparkyV2Robot
+    private lateinit var robot: SparkyV2Robot
 
     // speeds
     enum class DriveSpeeds {
@@ -21,19 +21,12 @@ class GigaWattTeleOp : GenericOpModeBase() {
 
     private var driveSpeed = DriveSpeeds.Normal
     private var lastTriggerRight = 0.0
-    private var IntakeOn = false
 
     private var previousGamepad1Y = false
 
 
-    private var IntakeBackwards = false
-
     private val normalSpeed = 0.95
     private val slowSpeed = 0.3
-
-    var intakeRollerSpeed = 0.80
-
-    var intakeMainSpeed = -0.90
 
     override fun runOpMode() {
         initRobot()
@@ -45,18 +38,18 @@ class GigaWattTeleOp : GenericOpModeBase() {
         stopRobot()
     }
 
-    fun initRobot() {
+    private fun initRobot() {
         //initialize and set robot behavior
         robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         robot.localizer.poseEstimate = Pose2d()
-//        robot.loadPose()
+        //robot.loadPose()
     }
 
-    fun startRobot() {
+    private fun startRobot() {
 
     }
 
-    fun loopRobot() {
+    private fun loopRobot() {
         robot.localizer.update()
 
         // get gamepad input
@@ -78,32 +71,22 @@ class GigaWattTeleOp : GenericOpModeBase() {
         // process input
         if (gamepad1.a) {
 
-            IntakeOn = true
+            robot.intake.on()
 
         } else if (gamepad1.b) {
 
-            IntakeOn = false
+            robot.intake.off()
         }
 
 
         if (gamepad1.right_bumper) {
-            IntakeBackwards = true
+
+            robot.intake.setBackward()
+
         } else if (gamepad1.left_bumper) {
-            IntakeBackwards = false
-        }
 
+            robot.intake.setForward()
 
-        if (IntakeOn) {
-            if (IntakeBackwards) {
-                robot.roller.start(-intakeRollerSpeed)
-                robot.intake.start(-intakeMainSpeed)
-            } else {
-                robot.roller.start(intakeRollerSpeed)
-                robot.intake.start(intakeMainSpeed)
-            }
-        } else {
-            robot.roller.start(0.0)
-            robot.intake.start(0.0)
         }
 
 
@@ -127,13 +110,11 @@ class GigaWattTeleOp : GenericOpModeBase() {
 
         if (gamepad2.left_trigger > 0.3 && gamepad2.a) {
 
-
             robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(70.0, 0.0, 32.25))
 
         } else if (gamepad2.left_trigger > 0.3) {
 
             robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(77.0, 0.0, 35.0))
-
 
         } else {
 
@@ -173,6 +154,8 @@ class GigaWattTeleOp : GenericOpModeBase() {
             //output values for robot movement
             robot.arm.run(wobble)
 
+            robot.intake.run()
+
             var wheelSpeeds = MecanumDriveTrain.Vector(hori, vert, turn).speeds()
 
             wheelSpeeds = if (driveSpeed == DriveSpeeds.Normal) {
@@ -196,7 +179,7 @@ class GigaWattTeleOp : GenericOpModeBase() {
 
     }
 
-    fun stopRobot() {
+    private fun stopRobot() {
         robot.driveTrain.start(MecanumDriveTrain.Vector(0.0, 0.0, 0.0).speeds())
     }
 }

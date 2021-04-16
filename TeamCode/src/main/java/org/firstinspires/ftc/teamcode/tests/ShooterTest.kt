@@ -17,7 +17,7 @@ class ShooterTest {
         val pose = Pose2d(0.0, 0.0, 0.0)
         val target = ShootingGoal(75.0, 0.0, 35.0)
         val shooterHeight = 8.0
-        val shooterAngle = Math.toRadians(30.0)
+        val shooterAngle = Math.toRadians(25.0)
         val slip = 1.000
 
         val g = 386.088583

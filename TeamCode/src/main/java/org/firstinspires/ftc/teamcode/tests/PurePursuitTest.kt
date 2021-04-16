@@ -145,7 +145,4 @@ class PurePursuitTest {
         }
     }
 
-    fun speedTest() {
-
-    }
 }

@@ -12,7 +12,7 @@ import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.tan
 
-const val g = 386.088583 //  g in in/s^2
+
 
 class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: Double, val telemetry: Telemetry, val flicker: ServoNormal? = null) {
     // flywheel shooter slip, MUST BE TUNED
@@ -21,6 +21,7 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
     var flickerTimingMS = 225.0
     var slip = 1.000
     val turnCorrection = PI - Math.toRadians(4.0)
+    val g = 386.088583 //  g in in/s^2
 
     init {
         //https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.4vkznp7wtsch
