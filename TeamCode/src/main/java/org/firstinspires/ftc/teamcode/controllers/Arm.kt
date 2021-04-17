@@ -8,7 +8,7 @@ import kotlin.math.PI
 
 class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoNormal?) {
     private val reduction = 0.30
-    private val autoSpeed = 0.75
+    private val autoSpeed = 0.90
 
     init {
         arm_motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
@@ -39,7 +39,7 @@ class Arm(val startAngle: Double, val arm_motor: Motor, val grabber: ServoNormal
     fun dropAuto() {
 
         run(-autoSpeed)
-        sleep(800)
+        sleep(600)
         run(0.0)
         grabber?.start(0.05)
 

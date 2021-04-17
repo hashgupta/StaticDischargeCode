@@ -90,9 +90,10 @@ class GigaWattTeleOp : GenericOpModeBase() {
         }
 
 
-        if ((gamepad2.right_trigger > lastTriggerRight || gamepad2.right_trigger > 0.99) && (gamepad2.right_trigger > 0.10)) {
+        if ((gamepad2.right_trigger > lastTriggerRight || (gamepad2.right_trigger > 0.99 && !gamepad2.a)) && (gamepad2.right_trigger > 0.10)) {
             robot.driveTrain.start(MecanumDriveTrain.Square(0.0, 0.0, 0.0, 0.0))
             robot.shooter.shoot()
+            lastTriggerRight = gamepad2.right_trigger.toDouble()
             return
         }
 
@@ -140,14 +141,9 @@ class GigaWattTeleOp : GenericOpModeBase() {
             robot.flicker.start(0.65)
         }
 
-
-
         lastTriggerRight = gamepad2.right_trigger.toDouble()
 
         previousGamepad1Y = gamepad1.y
-
-
-
 
         try {
 

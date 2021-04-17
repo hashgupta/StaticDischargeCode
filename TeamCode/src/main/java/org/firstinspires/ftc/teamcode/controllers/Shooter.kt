@@ -54,7 +54,7 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
             slip
         }
 
-        flywheel.setSpeed(2 * requiredVelocity * adjustedSlip, telemetry) // remove 2 times if using double flywheel, doesnt account for direction
+        flywheel.setSpeed(2 * requiredVelocity * adjustedSlip) // remove 2 times if using double flywheel, doesnt account for direction
 
     }
 
@@ -80,7 +80,7 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
     }
 
     fun stopWheel() {
-        flywheel.setSpeed(0.0, telemetry)
+        flywheel.setSpeed(0.0)
     }
 }
 

@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
-import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.hardware.type.Device
 import org.firstinspires.ftc.teamcode.hardware.type.Input
 import org.firstinspires.ftc.teamcode.hardware.type.Output
@@ -64,7 +63,7 @@ class Motor(private val name: String, // motor information
         device.zeroPowerBehavior = behavior
     }
 
-    fun setSpeed(velocity: Double, telemetry: Telemetry) { // in/s
+    fun setSpeed(velocity: Double) { // in/s
         var angularVelocity = velocity / (r * gr) //radians/s
         val angularVelocityRevS = angularVelocity / (2 * PI) // rev/s
         angularVelocity = angularVelocityRevS * tpr //ticks/s

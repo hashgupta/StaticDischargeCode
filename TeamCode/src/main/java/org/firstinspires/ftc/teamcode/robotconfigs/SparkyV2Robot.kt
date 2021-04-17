@@ -37,7 +37,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         val mainIntake = Motor("intake", 288.0, 1.0, hardwareMap)
         val roller = Motor("under roller", 560.0, 0.5, hardwareMap)
 
-        intake = Intake(arrayOf(mainIntake, roller), arrayOf(-0.8, 0.9))
+        intake = Intake(arrayOf(mainIntake, roller), arrayOf(-0.85, 0.85))
 
 
         val wobble = Motor("wobble", 1120.0, 0.75, hardwareMap)
