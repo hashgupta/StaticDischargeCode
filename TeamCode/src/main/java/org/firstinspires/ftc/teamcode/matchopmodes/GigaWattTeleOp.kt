@@ -111,11 +111,11 @@ class GigaWattTeleOp : GenericOpModeBase() {
 
         if (gamepad2.left_trigger > 0.3 && gamepad2.a) {
 
-            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(70.0, 0.0, 32.25))
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(70.0, 0.0, 32.50))
 
         } else if (gamepad2.left_trigger > 0.3) {
 
-            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(77.0, 0.0, 35.0))
+            robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(77.0, 0.0, 35.5))
 
         } else {
 

@@ -23,10 +23,10 @@ class PurePursuit(val localizer: Localizer) {
     var start: Pose2d
 
     @JvmField
-    var lookAhead = 7.5 //Look Ahead Distance, 7.5 is arbitrary, depends on application and needs tuning, inches
+    var lookAhead = 7.5 //Look Ahead Distance, 7.5 inches comes from tuning
 
     private val translationalTol = 0.25 //quarter inch
-    private val angularTol = Math.toRadians(0.2) // quarter degree angular tolerance
+    private val angularTol = Math.toRadians(0.2) // one-fifth degree angular tolerance
     private val kStatic = 0.10 // 10.0% power regardless of distance, to overcome friction
 
     @JvmField

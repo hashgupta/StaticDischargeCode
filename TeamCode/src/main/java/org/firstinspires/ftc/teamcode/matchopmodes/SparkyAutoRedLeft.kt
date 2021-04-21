@@ -14,7 +14,7 @@ import kotlin.math.PI
 class SparkyAutoRedLeft : GenericOpModeBase() {
 
     private lateinit var robot: SparkyV2Robot
-    private val shootingPositionHighGoal = Pose2d(x = -0.3 * TILE_LENGTH, y = UltimateGoalPositions.highGoalRed.y - 8.5, PI - Math.toRadians(2.5))
+    private val shootingPositionHighGoal = Pose2d(x = -0.3 * TILE_LENGTH, y = UltimateGoalPositions.highGoalRed.y - 7.0, PI - Math.toRadians(2.75))
     val shootingPositionPowerShots = Vector2d(x = -0.20 * TILE_LENGTH, y = UltimateGoalPositions.highGoalRed.y)
     val powerShotAngleAdjustment = Math.toRadians(-3.0)
 
@@ -122,19 +122,19 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
 
 //            get close to stack
 
-                robot.pursuiter.spline(end = Pose2d(-TILE_LENGTH + 15, -TILE_LENGTH * 1.8, PI), endTanAngle = PI*5/6, startTanAngle = PI)
+                robot.pursuiter.spline(end = Pose2d(-TILE_LENGTH + 15, -TILE_LENGTH * 2.5, PI/2), endTanAngle = PI, startTanAngle = PI)
 
                 //start intake
 
                 robot.pursuiter.action {
-                    robot.pursuiter.runSpeed = 0.35
+                    robot.pursuiter.runSpeed = 0.7
                     robot.intake.setForward()
                     robot.intake.run()
                 }
 
                 //run over rings
 
-                robot.pursuiter.spline(Pose2d(-TILE_LENGTH + 1, -TILE_LENGTH * 1.8, PI), PI*5/6, PI*3/4)
+                robot.pursuiter.spline(Pose2d(-TILE_LENGTH - 3, -TILE_LENGTH * 1.9, PI/2), PI, PI*1/2)
 
                 //turn off intake
 
@@ -231,7 +231,7 @@ fun shootHighGoals(robot: SparkyV2Robot, shootingPosition: Pose2d, rings: Int) {
 
 fun dropFirstWobble(robot: SparkyV2Robot, goalZone: Pose2d) {
     robot.pursuiter
-            .move(goalZone + Pose2d(-4.0, 5.0, -PI / 4))
+            .move(goalZone + Pose2d(-5.0, 5.0, -PI / 4))
             .action { robot.arm.dropAuto() }
 }
 
@@ -239,28 +239,28 @@ fun getSecondWobble(robot: SparkyV2Robot) {
     robot.pursuiter
             .move(-1.3 * GenericOpModeBase.TILE_LENGTH, -2.4 * GenericOpModeBase.TILE_LENGTH, PI)
             .action {
-                robot.arm.run(0.75)
-                Thread.sleep(150)
+                robot.arm.run(0.95)
+                Thread.sleep(120)
                 robot.arm.run(0.0)
-                robot.pursuiter.runSpeed *= 0.5
+                robot.pursuiter.runSpeed *= 0.7
             }
 
     robot.pursuiter
-            .move(-1.6 * GenericOpModeBase.TILE_LENGTH, -2.4 * GenericOpModeBase.TILE_LENGTH, PI)
+            .move(-1.65 * GenericOpModeBase.TILE_LENGTH, -2.4 * GenericOpModeBase.TILE_LENGTH, PI)
             .action {
 
                 robot.arm.grabAuto()
-                robot.pursuiter.runSpeed *= 2.0
+                robot.pursuiter.runSpeed *= 1/0.7
                 //buck it to the target zone
             }
 }
 
 fun dropSecondWobble(robot: SparkyV2Robot, goalZone: Pose2d) {
     robot.pursuiter
-            .move(goalZone + Pose2d(-15.0, 2.0, -Math.toRadians((10.0))))
+            .move(goalZone + Pose2d(-14.0, 2.0, -Math.toRadians((10.0))))
             .action {
                 robot.arm.dropTele()
-                Thread.sleep(500)
+                Thread.sleep(450)
             }
             .relative(0.0, -10.0, 0.0)
 }
