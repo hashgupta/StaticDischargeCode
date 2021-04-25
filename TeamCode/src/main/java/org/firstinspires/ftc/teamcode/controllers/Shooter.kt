@@ -19,7 +19,7 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
     //              ||
     //tunable stuff \/
     var flickerTimingMS = 225.0
-    var slip = 1.000
+    var slip = 1.04
     val turnCorrection = PI - Math.toRadians(4.0)
     val g = 386.088583 //  g in in/s^2
 
@@ -54,6 +54,9 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
             slip
         }
 
+        telemetry.addData("measured speed: ", flywheel.device.velocity)
+        telemetry.addData("target speed: ", 2 * requiredVelocity * adjustedSlip * flywheel.tpr / (flywheel.r * 2 * PI))
+
         flywheel.setSpeed(2 * requiredVelocity * adjustedSlip) // remove 2 times if using double flywheel, doesnt account for direction
 
     }
@@ -69,7 +72,7 @@ class Shooter(val flywheel: Motor, val shooterAngle: Double, val shooterHeight: 
     fun shoot() {
         //release chamber servo to let a ring into flywheel
         if (flicker != null) {
-            flicker.start(0.7)
+            flicker.start(0.65)
             Thread.sleep(flickerTimingMS.toLong())
             flicker.start(0.9)
             Thread.sleep(flickerTimingMS.toLong())

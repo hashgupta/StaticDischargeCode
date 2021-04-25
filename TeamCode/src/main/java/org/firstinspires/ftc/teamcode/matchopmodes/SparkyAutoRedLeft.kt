@@ -30,7 +30,7 @@ class SparkyAutoRedLeft : GenericOpModeBase() {
         robot = SparkyV2Robot(hardwareMap, telemetry) { opModeIsActive() && !isStopRequested }
         robot.pursuiter.startAt(UltimateGoalPositions.startLeftRed)
 
-        setUpPipeline(right = true)
+        setUpPipelineUltimateGoal(right = true)
         initCV()
         startCV()
 
@@ -217,7 +217,7 @@ fun shootHighGoals(robot: SparkyV2Robot, shootingPosition: Pose2d, rings: Int) {
     robot.pursuiter.move(shootingPosition)
 
     robot.pursuiter.action {
-        robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(77.0, 0.0, 35.35))
+        robot.shooter.aimShooter(Pose2d(0.0, 0.0, 0.0), ShootingGoal(77.0, 0.0, 35.5))
         // first ring
         Thread.sleep(500)
         robot.shooter.shoot()

@@ -42,7 +42,7 @@ class GigaWattTeleOp : GenericOpModeBase() {
         //initialize and set robot behavior
         robot = SparkyV2Robot(hardwareMap, telemetry) { true }
         robot.localizer.poseEstimate = Pose2d()
-        //robot.loadPose()
+        robot.loadPose()
     }
 
     private fun startRobot() {

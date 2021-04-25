@@ -21,7 +21,7 @@ abstract class GenericOpModeBase : LinearOpMode() {
     var pipeline: OpenCvPipeline = RingPipeline()
 
 
-    fun setUpPipeline(right: Boolean) {
+    fun setUpPipelineUltimateGoal(right: Boolean) {
         (pipeline as RingPipeline).right = right
     }
 

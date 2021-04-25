@@ -60,7 +60,7 @@ class SparkyV2Robot(hardwareMap: HardwareMap, telemetry: Telemetry, opModeActive
         localizer = TwoWheelRevLocalizer(hardwareMap, "lb", "lf", gyro)
 
         driveTrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
-        driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
+        driveTrain.setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
 
         pursuiter = PurePursuit(localizer)
     }

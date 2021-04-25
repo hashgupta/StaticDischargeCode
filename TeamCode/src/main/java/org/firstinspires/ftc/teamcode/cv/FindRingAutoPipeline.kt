@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.cv
 
+import android.util.Log
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
 import org.openftc.easyopencv.OpenCvPipeline
@@ -18,7 +19,7 @@ class FindRingAutoPipeline : OpenCvPipeline() {
          * Some color constants
          */
     val GREEN = Scalar(0.0, 255.0, 0.0)
-    val FocalLength = 481.0
+    val FocalLength = 360.0
     val ringWidth = 5.0
     val numerator = FocalLength * ringWidth
 
@@ -76,47 +77,41 @@ class FindRingAutoPipeline : OpenCvPipeline() {
         listofRings.clear()
 
         inputToCb(input)
-        Imgproc.threshold(Cb, thres, 90.0, 255.0, 2)
+        Imgproc.threshold(Cb, thres, 90.0, 255.0, 1)
         val contours = mutableListOf<MatOfPoint>()
 
-        Imgproc.findContours(thres, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE)
+        Imgproc.findContours(thres, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE)
 
         val contoursPoly = mutableListOf<MatOfPoint2f>()
         val boundRect = mutableListOf<Rect>()
-        for (i in contours.indices) {
-            contoursPoly[i] = MatOfPoint2f()
-            Imgproc.approxPolyDP(MatOfPoint2f(*contours[i].toArray()), contoursPoly[i], 3.0, true)
-            boundRect[i] = Imgproc.boundingRect(MatOfPoint(*contoursPoly[i].toArray()))
-        }
 
+        for (i in 0 until contours.size) {
+            contoursPoly.add(MatOfPoint2f())
+            Imgproc.approxPolyDP(MatOfPoint2f(*contours[i].toArray()), contoursPoly[i], 3.0, true)
+            boundRect.add(Imgproc.boundingRect(MatOfPoint(*contoursPoly[i].toArray())))
+        }
+//
         for (i in 0 until boundRect.size) {
 
             // draw green bounding rectangles on mat
 
 
-            if (boundRect[i].height > 10 && boundRect[i].width > boundRect[i].height * 3) {
+            if (boundRect[i].height > 5) {
                 Imgproc.rectangle(input, boundRect[i], GREEN)
                 val centerx = boundRect[i].x + boundRect[i].width / 2
 
-                val turnControl = (2 * centerx / cameraWidth) - 1
+                val turnControl = (centerx / cameraWidth) - 0.7
 
 
                 listofRings.add(Ring(numerator / boundRect[i].width, turnControl))
             }
         }
-
-
-//
-
-//
-
-//
-//
         return input
+
     }
 
     fun rings(): List<Ring> {
-        return listofRings
+        return listofRings.toMutableList()
     }
 }
 
